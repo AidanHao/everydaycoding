@@ -1,0 +1,21 @@
+ul li{
+    list-style: none;
+    
+}
+input{
+    border: none;
+    outline: none;
+}
+body{
+    margin-top: 0;
+    margin-left: 0;
+}
+h3{
+    text-align: center;
+}
+div{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 250px;
+}

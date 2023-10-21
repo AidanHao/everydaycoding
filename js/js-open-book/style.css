@@ -1,0 +1,110 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* 对齐方式 baseline基准线对齐 */
+    vertical-align: baseline;
+    /* 修改浏览器的渲染规则 */
+    /* 将容器声明成IE模型 */
+    box-sizing: border-box;
+}
+html{
+    height: 100%;
+}
+body{
+    /* vh可视窗口的高度 */
+    height: 100%;
+    /* Helvetica是个字体黑体 */
+    font:100%/1.25 Helvetica,arial,sans-serif;
+    /* 透视图 仿3D */
+    perspective: 1000px;
+    background-color: #75d8f1;
+    /* 线性渐变 */
+    background-image: linear-gradient(to bottom, #62f3f0, #fa01e9);
+}
+.p3d{
+    /* 设置3d效果,以3d的视锥查看 */
+    transform-style: preserve-3d;
+}
+.book{
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* transform: translateY(-150px); */
+    margin-top: -150px;
+    color: #fff;
+    /* 文字相关的css属性都是可以继承的 */
+    /* 对着x轴进行旋转*/
+    transform: rotateX(60deg);
+    /* -webkit前缀，谷歌内核，防止老版本的浏览器读不懂 */
+    /* -webkit-transform: rotateX(45deg); */
+    /* -moz前缀，火狐内核，防止老版本的浏览器读不懂 */
+    /* -moz-transform: rotateX(45deg); */
+    /* -o-欧朋浏览器 */
+    /* -o-transform: rotateX(45deg); */
+
+    /* 用户选择none,不准复制*/
+    user-select: none;
+}
+.front-cover{
+    /* 控制鼠标状态，move当鼠标挪上去的是一个十字架， */
+    cursor: move;
+    /* 旋转基点 x轴0,y轴50%*/
+    transform-origin:0 50%;
+    transform: rotateY(0deg);
+}
+.page{
+    width: 300px;
+    height: 300px;
+    /* em是相对单位，相对父容器的大小倍数的意思 */
+    padding: 1em;
+    /* 定位脱离文档流 */
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* 2个字节，1em相当于父容器的一个字节 */
+    text-indent: 2em;
+}
+.inside{
+    background-color: #d93e2b;
+}
+.outside{
+    background-color: #efe9e9;
+}
+.front-cover .outside{
+    background-image:url(./da.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: translateZ(3px);
+}
+.flip{
+    transform: rotateY(180deg);
+}
+.back-cover .outside{
+    transform: translateZ(-3px);
+}
+.back-cover .inside{
+    background-color: #d93e2b;
+}
+.card,
+.shadow{
+    width: 196px;
+    height: 132px;
+    position: absolute;
+    left: 60px;
+    top: 60px;
+    transform-origin: 0 100%;
+}
+.shadow{
+     /* 黑色且是半透明状态 */
+     background-color: rgba(0,0,0,0.5);
+}
+.card{
+    transform-origin: 0 100%;
+    transform: rotateX(0deg);
+    background-image: url(./ddd.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}

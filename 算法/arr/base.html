@@ -1,0 +1,55 @@
+<script>
+// var str = 'hello world';//声明了一个字符串字面量
+// var s = new String('hello');//得到的也是字符串 这个叫构造函数
+// //基本数据类型用函数没有意义
+// var num = 123
+// var n = new Number(123)
+
+// var flag = true
+// var f = new Boolean(true)
+// //基本数据类型特例没有函数可用
+// var u = undefined
+// var nu = null
+// //--------------------------------------------------------------------------
+// //引用类型
+// var arr = []
+// var arry = new Array(4).fill(1)//创建一个具有四个坑位，但是没有值的数组 .fill(1)往数组里面填满1
+
+// arr.forEach(function(item,index,arr){
+//     console.log(index,item)
+// })
+// for(var i = 0;i<arr.length;i++){
+//     console.log(arr[i])
+// }
+// var newrr = arr.map(function(item,index,arr){
+//     console.log(index,item)
+//     return item + '2'
+// })
+//二维数组
+var arrtwo = [
+    [1,2,3,43,5]
+    [1,2,3,44,5]
+    [1,2,3,45,5]
+    [1,2,3,46,5]
+    [1,2,3,47,5]
+]
+
+//遍历二维数组
+arrtwo.forEach(function(item,index,arr){
+    item.forEach(function(item2,index2,arr2){})
+})
+//时间复杂度 n^2   
+for(var i =0;i<arrtwo.length;i++)
+{
+    for(var j = 0;j<arrtwo[i].length;j++)
+    {
+        console.log(arrtwo[i][j])
+    }
+}
+
+//时间复杂度(时间) 空间复杂度(内存)
+var arr = []
+var pbj={}
+//创建了过多的数组，过多的字符串会提高空间复杂度
+//时间复杂度低一点好，鱼与熊掌不可兼得
+</script>

@@ -1,0 +1,58 @@
+<script>
+    var arr = []//定义一个空数组
+var arr1 = ['a','b','c']
+arr1[0]='a'//修改
+console.log(arr1.length)//数组的长度
+console.log(arr1[0])
+console.log(2 in arr1)//一个布尔值，判断数组里面有没有这个坑位
+console.log(arr1.includes('c'))//数组名.includes('元素')判断元素有没有在数组当中boolean
+arr1.push('e')//在arr数组尾部增加一个元素e
+console.log(arr1)
+arr1.pop()//删除数组最后的一个值
+arr1.unshift('hello')//在arr1数组前面加一个hello
+arr1.shift()//删除arr1数组的第一个元素
+arr.splice(2,0,'hello')//往某个下标加入值，第一个目标下标，第二个参数没有意义，第三个参数值
+arr.splice(2,1)//两个参数为删除，第一个参数表示从哪个下标开始，第二个参数表示删除几个
+for(i=0;i<arr1.length;i++)
+{
+    console.log(arr1[i])
+}
+//遍历语句，第一个参数为形参,数组值，第二个为下标,第三个数组名
+arr1.forEach(function(item,index,arr1){
+    console.log(item,index,arr1)
+});
+//map遍历方法 item是数组值,第二个为下标,第三个数组名 map可以有返回值,返回一个新的数组
+var newArr = arr1.map(function(item,i,arr1){
+return item + '1'
+})
+
+//用-对数组里的每个值拼接成一个字符串
+var s = arr1.join('-')
+console.log(s)
+//split把一个元素拆分成多个元素
+var array = s.split('')
+console.log(array)
+//indexOf判断数组里面有没有值并且找出下标,没找到就返回-1
+console.log(arr1.indexOf('b'))
+//从后往前找
+console.log(arr1.lastIndexOf('b'))
+//对数组进行反转,返回一个新数组
+var newa = arr1.reverse()
+console.log(newa)
+
+var arr2 = [3,5,7,1,2]
+//对数组进行排序()
+var newarr2 = arr2.sort(function(a,b){
+    //回调函数
+    return b - a//转变为倒叙a-b从前开始,b-a从后开始
+})
+console.log(newarr2)
+
+var arr3 = [10.,20,30]
+//把arr3数组的数据掏出来放在arr2里面
+var newarr3 = arr2.concat(arr3)
+//把arr2和arr3里面的数据放在一个新数组里面
+var newarr4 = [].concat(arr2,arr3)
+console.log(newarr3)
+console.log(newarr4)
+</script>

@@ -1,0 +1,238 @@
+body{
+    background-color:#78e08f;
+    margin: 0;
+}
+.container{
+    /* px像素 */
+    width: 232px;
+    height: 200px;
+    /* 绝对定位 */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* 平移 自身 */
+    transform: translate(-50%,-50%);
+}
+.ball{
+    width: 100px;
+    height: 100px;
+    border: 8px solid #000;
+    /* 圆角 */
+    border-radius: 50%;
+    background-color: #fff;
+    /* 相对定位属性，有这个子容器就直接参照父容器 */
+    /* 绝对和相对定位属性都能作为绝对定位的参考标准 */
+    position: relative;
+}
+.face{
+    width: 70px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 30px;
+}
+.eye{
+    width: 15px;
+    height: 14px;
+    border-bottom: 5px solid #000;
+    border-radius: 50%;
+    position: absolute;
+    
+}
+.eye-l{
+    left: 10px;
+}
+.eye-r{
+    right: 5px;
+}
+.mouth{
+    width: 30px;
+    height: 14px;
+    border-bottom: 5px solid #000;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: -5px;
+}
+/* 伪元素 */
+.face::before{
+    content: '';
+    width: 18px;
+    height: 8px;
+    border-radius: 50%;
+    background: #badc58;
+    position: absolute;
+    right: -8px;
+    top: 20px;
+}
+.face::after{
+    content: '';
+    width: 18px;
+    height: 8px;
+    border-radius: 50%;
+    background: #badc58;
+    position: absolute;
+    left: -5px;
+    top: 20px;
+}
+#l-ball{
+    /* 动画  名字 四秒 匀速 循环*/
+    animation: close 4s ease infinite;
+}
+@keyframes close{
+    0%{
+        transform: translate(0);
+    }
+    20%{
+        transform: translate(20px);
+    }
+    35%{
+        transform: translate(20px);
+    }
+    55%{
+        transform: translate(0);
+    }
+    100%{
+        transform: translate(0);
+    }
+}
+.face-l{
+    animation: face 4s ease infinite;
+}
+@keyframes face{
+    0%{
+        transform: translate(0) rotate(0);
+    }
+    10%{
+        transform: translate(0) rotate(0);
+    }
+    20%{
+        transform: translate(5px) rotate(-2deg);
+    }
+    28%{
+        transform: translate(0) rotate(0);
+    }
+    35%{
+        transform: translate(5px) rotate(-2deg);
+    }
+    50%{
+        transform: translate(0) rotate(0);
+    }
+    100%{
+        transform: translate(0) rotate(0);
+    }
+}
+.r-ball{
+    transform-origin: center bottom;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.face2{
+    width: 70px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 30px;
+
+}
+.eye2{
+    width: 15px;
+    height: 14px;
+    border-bottom: 5px solid #000;
+    border-radius:50%;
+    position: absolute;   
+}
+.eye2-l{
+    bottom: 5px;
+    left: -25px;
+    transform: rotate(180deg);
+    transform-origin: center center;
+}
+.eye2-r{
+    bottom: 5px;
+    left: 10px;
+    transform: rotate(180deg);
+    transform-origin: center center;
+}
+.mouth2{
+    width: 30px;
+    height: 14px;
+    border-bottom: 5px solid #000;
+    border-radius: 50%;
+    position: absolute;
+    left: -70px;
+    right: 0;
+    margin: 0 auto;
+    bottom: -10px;
+    transform-origin: center center;
+}
+/* 伪元素 */
+.face2::before{
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #badc58;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+}
+.face2::after{
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #badc58;
+    position: absolute;
+    left: -35px;
+    top: 20px;
+}
+#r-ball2{
+    /* 动画  名字 四秒 匀速 循环*/
+    animation: close2 4s ease infinite;
+}
+@keyframes close2 {
+    0%{
+        transform: rotate(0deg);
+    }
+    20%{
+        transform: rotate(0deg);
+    }
+    50%{
+        transform: rotate(0deg);
+    }
+    70%{transform: rotate(30deg);
+    }
+    80%{
+        transform: rotate(-10deg) translate(-25px);;
+    }
+    85%{
+        transform: rotate(-10deg) translate(-25px);;
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+#mouth2-movie
+{
+    animation: kiss 4s ease infinite;
+}
+@keyframes  kiss{
+    70%{
+        transform: rotate(0);
+    }
+    80%{
+        transform: rotate(10deg)translate(-18px);
+    }
+    85%{
+        transform: rotate(10deg)translate(-18px);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+    
+}
+    

@@ -1,0 +1,146 @@
+html{
+    background: rgb(248, 249, 249);
+    font-size: 10px;
+}
+body{
+    margin: 0;
+    /* rem相对单位，2rem相当于20px，相对于html中的font-size */
+    font-size: 2rem;
+    /* 弹性布局 */
+    display: flex;
+    /* 只有弹性布局才能加下面两个 */
+    /* 弹性主轴居中 */
+    justify-content: center;
+    /* 弹性竖直方向居中 */
+    align-items: center;
+    /* vh vie height视图高度,参考整个浏览器高度100vh = 100%屏幕高度 */
+    height: 100vh;
+}
+.clock{
+    width: 30rem;
+    height: 30rem;
+    border: 7px solid #ffebdb;
+    border-radius: 50%;
+    /* 上右下左 */
+    /* 边框阴影  x轴偏移量 y轴偏移量 阴影扩散范围  red green blue 透明度(1完全不透明，0完全透明)*/
+    box-shadow: -4px -4px 10px rgba(67,67,67,0.1),
+    inset 4px 4px 10px rgba(168,145,128,0.6),
+    inset -4px -4px 10px rgba(201,175,155,0.2),
+    4px 4px 10px rgba(68,145,128,0.6);
+    background-image: url('../../../../素材/da.png');
+    /* 让图片完美展示 */
+    background-size: 111%;
+    padding: 2rem;
+}
+.outer-clock-face{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    border: 1px solid #000;
+}
+.outer-clock-face::before,.outer-clock-face::after{ 
+    /* 伪元素一定要content，否则失效 */
+    content: '';
+    width: 10px;
+    height: 100%;
+    background: #ffff02;
+    position: absolute;
+    border-radius: 8px;
+    left:50%;
+    margin-left: -5px;
+    /* transform: translate(-5px); 自身缩进-5px*/
+}
+.outer-clock-face::after{
+    transform: rotate(90deg);
+    transform-origin: center center;
+}
+.marking{
+    width: 3px;
+    height: 100%;
+    background:#06f502;
+    position: absolute;
+    left:50%;
+    margin-left: -1.5px;
+    transform-origin: center center;
+}
+.marking-one{
+    transform:rotateZ(30deg);
+}
+.marking-two{
+    transform:rotateZ(60deg);
+}
+.marking-three{
+    transform:rotateZ(120deg);
+}
+.marking-four{
+    transform:rotateZ(150deg);
+}
+.inner-clock-face{
+    background-image: url('../../../../素材/ada.png');
+    background-size: 111%;
+    position: absolute;
+    top: 10%;
+    left:10%;
+    width: 80%;
+    height: 80%;
+    background-color: #ffebdb;
+    /* 层级提高 */
+    z-index: 2;
+    border-radius: 50%;
+}
+.inner-clock-face::before{
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #2616da;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+}
+.hand{
+    width: 50%;
+    height: 6px;
+    background: red;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    margin-top: -3px;
+    transform-origin: 100% 50%;
+    transform: rotate(90deg);
+
+}
+.hour-hand{
+    width: 30%;
+}
+.min-hand{
+    width: 40%;
+    height: 3px;
+    background: rgb(2, 242, 255);
+}
+.second-hand{
+    background: #b3b3b3;
+    width: 45%;
+    height: 2px;
+}
+
+
+
+
+
+
+
+ /* .outer-clock-face::after{
+    content: '';
+    width: 100%;
+    height: 10px;
+    background: #596235;
+    position: absolute;
+    border-radius: 8px;
+    top: 50%;
+    margin-top: -5px;
+}  */
