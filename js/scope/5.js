@@ -1,4 +1,4 @@
-var a = 1
+var a = 2
 function foo(){
 if(true){
     let a= 1

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JS强大的表现力 语言精粹 面向对象编程
+        //const关键字
+        //这个{}是对象字面量
+        //数据类型 简单数据类型 复杂（引用数据类型） typeof()可以获得数据的类型
+        const xhz = {
+            name:'小黑子',//键值对 key value
+            age:20,
+            hometown:'吉安',
+            inSingle:false
+
+        }
+        // 对象本质是？=属性+方法
+        const zs = {
+            name:'张三',//键值对 key value
+            age:18,
+            hometown:'南昌',
+            inSingle:true,
+            //定义一个形参，应该是对象
+            // sendFlower:function(receiver){
+                //在es6中可以这样表达
+                sendFlower(receiver){
+
+                // console.log(this);//对象方法内部this指向本身
+                receiver.receiveFlower(this);//this = zs
+            }
+        }
+        // 复杂，面向对象要能搞得定，一切特殊情况 ,设置模式 
+        // 送花 情商，码商
+        const myy= {
+            name:'美羊羊',
+            emotion:50,
+            age:17,
+            hometown:'大肥羊村',
+            inSingle:true,
+            receiveFlower(sender){
+                //es5
+                // console.log(this.name+"收到"+sender.name+"花")
+                // 模板字符串，命令式代码low
+                // es6 让代码更优雅
+                // 字符串模板(先编译再执行)${}表示一个变量的占位符,命令式代码变为表达式代码!!!，可读性更好
+                console.log(`${this.name}收到${sender.name}的花`)
+                if(this.emotion<80)
+                {
+                    console.log("本宫没心情,打出去")
+                }else{
+                    console.log('万达走一波')
+                }
+
+            }
+        }
+
+        //代理模式-------面试考
+        const xh = {
+            name:'小红',
+            hometown:'南昌',
+           //method  接口 Interface 
+            receiveFlower(sender){
+                // console.log("收到"+sender.name+"花") 
+                // 对代码进行重写
+                // if(sender.name==='张三'){
+                //     console.log('让我们在一起把')
+                // }
+                if(myy.emotion>=80){
+                myy.receiveFlower(sender)
+                }else{
+                    setTimeout(function(){
+                        myy.emotion=99
+                        myy.receiveFlower(sender)
+                    },2000)//定时器
+                }
+                
+            }
+        }
+    </script>
+</body>
+</html>
