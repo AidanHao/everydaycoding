@@ -37,3 +37,25 @@
         .weui-btn_primary
         .weui-btn_danger
         .weui-btn_info
+
+# 腾讯日二 
+# 跨镜电商超人
+
+- 调研一下市场,小孩玩具,义乌价格便宜 
+- translate AI 代码
+- 定价 openAI 定价（经济学家）
+- 写文案 openAI prompt engineer 提示词 工程师
+
+aigc 前端工程师初体验
+
+- AI应用
+    - 基于大模型 
+        OPENAI的达芬奇 擅长文本处理 
+    - 花销
+        tokens 算力
+        API_KEY
+    - prompt + openAi 接口调用
+    - 返回的数据是:JSON 继续业务
+AI应用
+- 提示词工程 + openai sdk + langchain + vue 吴恩达提示词工程课
+
