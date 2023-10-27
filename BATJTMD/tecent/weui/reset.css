@@ -1,0 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* 不同的浏览器margin不同，为了保持不同的浏览器体验一样 */
+    outline: 0 ;/* input a 聚焦时或者高亮时用 重置样式，让样式无差别*/
+    /* 把总大小变为content大小 */
+    /* box-sizing: border-box; 盒子模型方式切换*/
+}

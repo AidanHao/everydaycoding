@@ -1,0 +1,53 @@
+.page{
+    /* 手机滚屏阅读的常见操作！ */
+    /* 移动端的占满整个页面写法 */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* bfc属性，很重要,超出则滚动 */
+    overflow-y: auto;
+    /* 让滚动如丝般顺滑 css考点 和手touch粘合 手机端浏览器 */
+    /* 移动端浏览器内核前缀都是-webkit
+    overflow-scrolling在实验阶段
+     */
+    -webkit-overflow-scrolling: touch;
+    /* 把盒子模型设置为IE盒子模型 */
+    box-sizing: border-box;
+    z-index: 1;   
+}
+body{
+    /* 格式以--开始 */
+    --weui-BG-0:#111;
+    /* 方便统一更改 管理 利用 皮肤更换 */
+    --weui-FG-1:rgba(255,255,255,0.5)
+    --weui-BG-2:#191919;
+}
+.page,body{
+    /* weui技术很激进 css4的变量  */
+    background-color: var(--weui-BG-0);
+
+}
+body{
+    color: rgba(255,255,255,0.8);
+}
+.page__hd{
+    padding: 40px;
+}
+.page__title{
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400;
+}
+.page__desc{
+    margin-top: 4px;
+    /* 文字的背景颜色，新的变量,方便统一修改 */
+    color: var(--weui-FG-1);
+    text-align:left;
+    font-size: 14px;
+
+}
+.page__bd{
+    padding-bottom: 20px;
+}
