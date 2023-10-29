@@ -21,6 +21,7 @@ for(let i = 0 ;i<len ;i++) {
 
     stack.push(i)
 }
+return res
 
 
 

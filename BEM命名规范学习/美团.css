@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* 不同的浏览器margin不同，为了保持不同的浏览器体验一样 */
+    outline: 0 ;/* input a 聚焦时或者高亮时用 重置样式，让样式无差别*/
+    /* 把总大小变为content大小 */
+    /* box-sizing: border-box; 盒子模型方式切换*/
+}
+a{
+    text-decoration: none;/*text-decoration: none删除下划线
+ 在CSS中，使用text-decoration属性来定义段落文本的下划线、删除线和顶划线。none即为默认值，可以用这个属性值也可以去掉已经有下划线或删除线或顶划线的样式    */
+}
+body{
+    background-color: #44ef10;
+    letter-spacing: 1px;
+    /* letter-spacing 属性增加或减少字符间的空白（字符间距）。 */
+}
+.mt-object{
+    width:95%;
+    margin:10px auto;
+    background-color: white;
+    border-radius: 20px;
+}
+.mt-object__hd{
+    height:64px;
+    padding:0 15px;
+    display: flex;/*弹性布局*/
+    justify-content: space-between;
+    /* justify-content 属性定义浏览器如何沿着弹性容器的主轴和网格容器的行向轴分配内容元素之间和周围的空间。 */
+    align-items: center;
+}
+.mt-object__title{
+    font-size: 22px;
+    font-weight:bold;
+}
+.mt-object__allnext{
+    font-size: 19px;
+    color:gray;
+}
+.mt-object__bd{
+    height:84px;
+    display: flex;
+    justify-content: space-around;
+}
+.mt-object__item{
+    width:20%;
+    text-align: center;
+    line-height:2em;
+    color:black;
+    position: relative;
+}
+.mt__desc{
+    font-size: 14px;
+}
+.mt__status{
+    width:10px;
+    height:10px;
+    position: absolute;
+    top:-3px;
+    right:16px;
+    /* 圆角 */
+    border-radius: 50%;
+}
+.mt__status--on{
+    background-color: red;
+}

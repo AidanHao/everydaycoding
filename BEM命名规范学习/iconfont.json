@@ -1,0 +1,51 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "351743",
+      "name": "待付款",
+      "font_class": "daifukuan",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "577362",
+      "name": "时钟",
+      "font_class": "shizhong",
+      "unicode": "e74f",
+      "unicode_decimal": 59215
+    },
+    {
+      "icon_id": "2076345",
+      "name": "退款",
+      "font_class": "tuikuan",
+      "unicode": "e8ab",
+      "unicode_decimal": 59563
+    },
+    {
+      "icon_id": "2811146",
+      "name": "待收货",
+      "font_class": "daishouhuo",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "11521279",
+      "name": "待评价",
+      "font_class": "daipingjia",
+      "unicode": "e772",
+      "unicode_decimal": 59250
+    },
+    {
+      "icon_id": "35698756",
+      "name": "红点消息",
+      "font_class": "hongdianxiaoxi",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    }
+  ]
+}

@@ -7,3 +7,8 @@ function foo(a){
 
 }
 foo(3)
+// foo()
+//     function foo(){
+//      console.log(a)  
+//      var a =123  
+//      }

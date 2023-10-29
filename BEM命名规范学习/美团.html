@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美团实战</title>
+    <link rel="stylesheet" href="./美团.css">
+    <link rel="stylesheet" href="./iconfont.css">
+</head>
+<body>
+    <div class="mt-object">
+        <!-- 头部 -->
+        <div class="mt-object__hd">
+            <span class="mt-object__title">订单</span>
+            <span class="mt-object__allnext">全部> </span>
+        </div>
+        <!-- 身体 -->
+        <div class="mt-object__bd">
+            <!-- href="#"是指超链接的目标URL为#，代表当前页面。这种写法通常用于临时链接或者在javascript中使用。当点击包含href="#"的链接时，页面不会刷新，也不会跳转到其他页面，而是会执行与链接相关的javascript代码 -->
+            <!-- 待付款 -->
+            <a href="#" class="mt-object__item">
+                <span>
+                <span class="iconfont icon-daifukuan"></span>
+                <span class="mt__status"></span>
+                </span>
+                <p class="mt__desc">待付款</p>
+            </a>
+            <!-- 待收货 -->
+            <a href="#" class="mt-object__item">
+                <span>
+                <span class="iconfont icon-daishouhuo"></span>
+                <span class="mt__status"></span>
+                </span>
+                <p class="mt__desc">待收货</p>
+            </a>
+            <!-- 待使用 -->
+            <a href="#" class="mt-object__item">
+                <span>
+                <span class="iconfont icon-shizhong"></span>
+                <span class="mt__status"></span>
+                </span>
+                <p class="mt__desc">待使用</p>
+            </a>
+            <!-- 待评价 -->
+            <a href="#" class="mt-object__item">
+                <span>
+                <span class="iconfont icon-daipingjia"></span>
+                <span class="mt__status mt__status--on"></span>
+                </span>
+                <p class="mt__desc">待评价</p>
+            </a>
+            <!-- 退款/售后 -->
+            <a href="#" class="mt-object__item">
+                <span>
+                <span class="iconfont icon-tuikuan"></span>
+                <span class="mt__status"></span>
+                </span>
+                <p class="mt__desc">退款/售后</p>
+            </a>
+
+
+        </div>
+    </div>
+</body>
+</html>
