@@ -34,9 +34,9 @@
         以项目或者公司代号为开头，再加上组件名 大项目
     -差异
         国际命名规范!
-        .weui-btn_primary
-        .weui-btn_danger
-        .weui-btn_info
+        .weui-btn__primary
+        .weui-btn__danger
+        .weui-btn__info
 
 # 腾讯日二 
 # 跨镜电商超人

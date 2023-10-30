@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul li{
+            list-style: none;/*去掉无序的小点*/
+            width: 200px;
+            height: 100px;
+            float: left;
+        }
+        /* nth-child(数字)第几个子容器,先选中一堆，在去选几个 */
+        li:nth-child(1){
+            background-color: red;
+        }
+        li:nth-child(2){
+            background-color: rgb(6, 192, 233);
+        }
+        
+        li:nth-child(3){
+            background-color: rgb(163, 254, 7);
+        }
+        .text{
+            width: 100px;height: 150px;
+            background-color: rgb(233, 14, 241);
+            /* clear: both; */
+        }
+        ul{
+            display:table-cell;
+            /* BFC */
+            /* 用更强大的效果顶替 */
+             /* overflow:auto;超出就auto自适应/hidden隐/scroll滚动 */
+            /* display: flex;弹性布局 */
+        }
+        /* ul{
+            height: 100px;
+        } */
+        /* 伪元素 */
+        /* ul::after{
+            content: '';
+            clear: both;
+            display: block;
+            
+        } */
+        /* 尾标签之后，闭标签之前 */
+            /* 伪元素不定位出不来！ */
+            /* 伪元素不是块级，行内，行内块，要强行纳入进来 */
+        /* .clear{
+            clear: left;清理掉左浮动的效果 假设浮动是一个水流，阻断浮动,后面的正常浮动
+        } */
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <!-- <div class="clear"></div> -->
+        </ul>
+        <div class="text">Hello World</div>
+
+    </div>
+</body>
+</html>

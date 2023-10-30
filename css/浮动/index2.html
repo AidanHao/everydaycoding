@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* body{
+             text-align: center;控制非块级元素水平居中 
+        } */
+        *{
+            font-size: 0;/*能够取消行内块级元素的换行带来的间隔 */
+        }
+        div{
+            width: 100px;
+            height: 100px;
+            float: left;
+            /* display: inline-block;让块级元素变为行内块级元素 */
+        }
+        .item1{
+            background-color: blue;
+             /* float: left;浮动会让元素脱离文档流 */
+             /* margin: 0 auto;上右下左 */
+             display: inline-block;
+        }
+        .item2{
+            background-color: red;
+            /* float: left;只能让别人盖住 */
+        }
+        .item3{
+            background-color: green;
+            /* float: left;三个都浮动，能让三个元素在同一行 */
+        }
+    </style>
+</head>
+<body>
+    <div class="item1"></div>
+    <div class="item2"></div>
+    <div class="item3"></div>
+
+</body>
+</html>

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WEUI源码</title>
     <style>
+        body{
+            background-color: rgb(243, 255, 5);
+        }
         .weui-btn{
             position: relative;/*考虑全面,内部元素可以针对它相对定位*/
             display: block;
@@ -25,15 +28,28 @@
             user-select: none;/*考点，让无法选中,拒绝黏贴*/
             /* margin: 0 auto; */
         }
-        .weui-btn_primary{
+        .weui-btn__primary{
+            margin-top: 50px;
             background-color: green;
         }
+   
+        .weui-btn__secondary {
+            margin-top: 50px;
+            background-color: grey;
+        }
+        .weui-btn__danger{
+            margin-top: 50px;
+            background-color: red;
+        }
+
     </style>
 </head>
 <body>
     <!-- css 国际命名规范BEM weui-btn Block 如果组件有状态的话 给这个加_primary -->
     <!-- button 太复杂 会有一些提交表单等副作用 -->
     <!-- 让a吃软饭，不跳转，把工作做足 -->
-    <a href="javascript:;" class="weui-btn weui-btn_primary">主要操作</a>
+    <a href="javascript:;" class="weui-btn weui-btn__primary">主要操作</a>
+    <a href="javascript:;" class="weui-btn weui-btn__secondary">次要操作</a>
+    <a href="javascript:;" class="weui-btn weui-btn__danger">危险操作</a>
 </body>
 </html>
