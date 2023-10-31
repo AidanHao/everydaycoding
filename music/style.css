@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.music__head{
+    position: relative;/*自己家的事情自己干*/
+    height: 303px;
+    overflow: auto;/*BFC容器,解决子容器存在margin top会把父容器带下来的bug*/
+}
+.music__head .bg{
+    width: 100%;
+    /* 一般浏览器识别不出小数 */
+    height: 303px;
+    background-image: url('./IMG20210929191114.jpg');
+    background-size: 100% 100%;/*保证背景x轴一样长，y轴一样高*/
+    filter: blur(10px);/*做虚化*/
+    position: absolute;
+    z-index: -1;
+    
+}   
+.music__head-title{
+    margin: 45px 0;
+    color: #fff;
+    padding: 0 40px;/*内边距*/
+}
+.back{
+    float: left;
+    
+}
+.title{
+    text-align: center;
+    font-size: 12px;
+}
+.music__body{
+    width: 100%;
+    height: calc(100vh - 130px);/*calc()计算 - 左右两边加空格*/
+    position: absolute;
+    top: 130px;   
+    background-color: #fff;
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+}
+.body-pic{
+    height: 283px;
+    width:257px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -39px;
+    box-shadow: 0 0 20px rgb(48, 49, 48);
+}
+/* 这个容器下的img */
+.body-pic img{
+    height: 100%;
+}
+.body-desc{
+    margin-top: 280px;
+    text-align: center;
+}
+.name{
+    font-size: 42px;
+    font-weight: bold;
+}
+.author{
+    margin-top: 33px;
+}
