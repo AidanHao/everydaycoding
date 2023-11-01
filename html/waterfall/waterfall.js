@@ -39,7 +39,6 @@ function getChildElement(parent, content) {
   }
 
   return contentArr
-  console.log(contentArr);
 }
 
 

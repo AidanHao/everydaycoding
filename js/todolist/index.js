@@ -2,25 +2,7 @@
 var input =document.getElementById('list-input')
 var ul = document.getElementById('list')
 var oldlength=0;
-// onkeyup监听事件
-// input.onkeyup=function(e){
-//     // 三个等号表示同一种数据类型且相等
-//     // 将input中的值添加到li中
-//     if(e.keyCode === 13){
-//     // 生成li结构
-//     var todoList = `
-//         <li>
-//         <input type="checkbox" >
-//         <span> ${input.value} </span>
-//         </li>
-        
-//     ` 
-//     // 将li添加到ul中
-//     ul.insertAdjacentHTML('afterbegin',todoList)
-//     }
-    
-    
-// }
+
 var todoItem = []
 input.onkeyup=function(e){
     if(e.keyCode===13){
