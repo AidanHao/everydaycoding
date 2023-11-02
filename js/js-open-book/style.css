@@ -104,7 +104,7 @@ body{
 .card{
     transform-origin: 0 100%;
     transform: rotateX(0deg);
-    background-image: url(./ddd.png);
+    background-image: url(./ada.png);
     background-repeat: no-repeat;
     background-size: cover;
 }

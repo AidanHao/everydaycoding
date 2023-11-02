@@ -69,3 +69,93 @@
 .author{
     margin-top: 22px;
 }
+.body-line{
+    position: relative;
+    margin-top: 43px;
+    background: gray;
+    height: 2px;
+    width: 226px;
+    /* 子容器继承100%父容器可用的空间 */
+    margin-left: 82px;
+    border-radius: 50px;
+    /* 超出部分隐藏 */
+    /* overflow: hidden; */
+}
+.body-line__bar{/*进度条*/
+    width: 50%;
+    height: 4px;
+    /* linear-gradient 线性渐变 */
+    background: linear-gradient(-170deg,#ae2323,#ce00f2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 单个color修饰文字 */
+    color: #fff;
+    position: absolute;
+    top: -1px;
+    border-radius: 15px;
+}
+.body-line__lefttext{
+    width: 20px;
+    height: 6px;
+    font-size: 7px;
+    font-family: SourceHanSansCN;
+    font-weight: bold;
+    color: #9EA0AD;
+    line-height: 25px;
+    float: left;
+}
+.body-line__righttext{
+width: 20px;
+height: 6px;
+font-size: 7px;
+font-family: SourceHanSansCN;
+font-weight: bold;
+color: #9EA0AD;
+line-height: 25px;
+float: right;
+
+}
+.body-play{
+    clear: both;
+    position: relative;
+    /* display: flex; */
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+        
+}
+.iconfont{
+    position: absolute;
+    top: 44px;
+
+
+}
+.icon-suijibofang{
+    left: 72px;
+}
+.icon-shangyishoushangyige{
+    left: 116px;
+}
+.icon-24gf-playCircle{
+    top:30px;
+    left: 164px;
+}
+.icon-xiayigexiayishou{
+    left: 241px;
+}
+.icon-xihuan{
+    left: 295px;
+}
+.body-model{
+    clear: both;
+    position: relative;
+}
+.icon-yinzhi{
+    top: 80px;
+    left: 72px;
+}
+.icon-yinzhishengji{
+    top: 80px;
+    left: 295px;
+}
