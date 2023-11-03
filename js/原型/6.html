@@ -1,0 +1,36 @@
+<!-- <script>
+    Ground.prototype.lastName = '小'
+    function Ground(){
+
+    }
+    var ground = new Ground()
+    Father.prototype = ground
+    function Father(){
+        this.name = '小小'
+    }
+    var father = new Father()
+    Son.prototype = father
+    function Son(){
+        this.hobbit = 'Coding'
+    }
+    var son = new Son()
+
+    // console.log(son.name)
+    console.log(son.lastname)
+
+</script> -->
+<script>
+    //构造函数原型中的this也是执行这个实例化
+    Person.prototype = {
+        name:'baibai',
+        sayName:function(){
+            console.log(this.name)
+        }
+    }
+    function Person(){
+        this.name = 'heihei'
+    }
+    var p = new Person()
+    p.sayName()
+
+</script>

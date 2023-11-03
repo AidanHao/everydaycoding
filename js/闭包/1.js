@@ -24,4 +24,4 @@ for(var j = 0; j < arr.length; j++){
 
 // 让答案为0到9的另一个方法就是闭包
 //自执行函数
-(function(){console.log(123)})()
+// (function(){console.log(123)})()

@@ -19,10 +19,10 @@
 }
 body{
     /* 格式以--开始 */
-    --weui-BG-0:#01f8f4;
+    --weui-BG-0:rgb(17, 241, 253);
     /* 方便统一更改 管理 利用 皮肤更换 */
-    --weui-FG-1:rgba(255,255,255,0.5)
-    --weui-BG-2:#191919;
+    --weui-FG-1:rgb(0, 0, 0);
+    --weui-BG-2:rgb(17, 241, 253);
 }
 .page,body{
     /* weui技术很激进 css4的变量  */
@@ -30,15 +30,21 @@ body{
 
 }
 body{
-    color: rgba(255,255,255,0.8);
+    color: rgba(7, 2, 2, 0.8);
 }
 .page__hd{
+    margin-top: 10px;
     padding: 40px;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(13, 193, 13); 
+    
 }
 .page__title{
     text-align: left;
     font-size: 20px;
     font-weight: 400;
+    
 }
 .page__desc{
     margin-top: 4px;
@@ -46,7 +52,7 @@ body{
     color: var(--weui-FG-1);
     text-align:left;
     font-size: 14px;
-
+    
 }
 .page__bd{
     padding-bottom: 20px;

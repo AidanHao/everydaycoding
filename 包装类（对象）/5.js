@@ -50,3 +50,4 @@ if(test.length==6)
 }
 
 console.log(test.sign)////new String(test).sign 
+//对象中访问我们不存在的值，也会new一个但是不会删除

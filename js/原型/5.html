@@ -1,0 +1,22 @@
+<script>
+    Person.prototype.name = '小莫'
+    function Person(){
+        // new执行原理
+        // 第一步创建this
+        // 第二步执行构造的正常步骤
+        // 第三步将this的隐式原型等于构造函数的显式原型
+        // 第四步返回这个this
+        //var this = {
+        //让this的隐式原型等于构造函数的显式原型
+        //    __proto__ :Person.prototype
+        // }
+
+    }
+    var p = new Person();
+    //函数的原型，简称原型
+    //对象的原型，不能简称[prototype]
+    console.log(p)//__proto__对象的原型，谷歌浏览器这样的,其他浏览器我们为了区分就要__proto__
+    //函数实例化没有
+    //对象一定有对象原型
+
+</script>
