@@ -22,3 +22,4 @@ function Person(name,age,sex){
     return that
 }
 let p1 = Person('小五',18,'boy')
+console.log(p1)

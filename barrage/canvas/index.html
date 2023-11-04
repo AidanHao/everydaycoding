@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- dom结构->html结构 -->
+    <!-- canvas需要闭合标签 -->
+    <!-- 媒体标签可以直接设置宽高，并且不需要加单位 -->
+    <!-- 画布，自带了一些方法 -->
+    <canvas id="canvas" width="300" height="300">
+
+    </canvas>
+    <script>
+        // 画布没有文档流的规则，得依靠坐标
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");/*创建一个2d的画布*/
+        //整一些文字
+        ctx.font = '30px sans-serif';
+        ctx.fillText('今天，你写文章了嘛？',10,100)//填充文本 内容 点的位置（x,y）
+        ///ctx.stroke描绘没有填充色的内容
+        ctx.strokeText('我要写三篇',10,200)
+
+
+
+
+        // ctx.beginPath();//开始
+        // ctx.arc(50,50,40,0,Math.PI*2)//画曲线，弧度
+        // ctx.stroke()
+        // 被萨尔曲线
+
+
+
+
+
+
+
+        // // 路径的开始
+        // ctx.beginPath();
+        // // moveTO 50,50是起始位置
+        // ctx.moveTo(50,50)
+        // //lineTo 目标位置
+        // ctx.lineTo(200,50)
+        // ctx.lineTo(200,200)
+        // ctx.closePath();//闭合路径,闭合三个点
+        // ctx.stroke()//绘制,描绘一下，之前是临摹
+        // ctx.fill()//为封闭的图形填充颜色
+
+
+        // ctx.fillStyle = "green"
+        // ctx.fillRect(10,10,100,50)
+        // ctx.strokeRect(10,70,100,50)
+        // 这个相当于尺子,坐标
+        // 前面两个x,y坐标第一个点，第二个点的坐标
+        // ctx.fillRect(10,10,55,50)
+        // console.log(ctx);
+
+    </script>
+</body>
+</html>

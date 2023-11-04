@@ -11,8 +11,18 @@
 // var result = str.replace(/[a-zA-Z1-9]/g,'')/*g表示全局匹配*/
 // console.log(result)
 
-//seach()
+//match()
 
-var str = 'a12b4cou/'
-var result = str.match(/\d/g)
+// var str = 'a12b4cou/'
+// var result = str.match(/\d/g)
+// console.log(result)
+
+//exec匹配项目
+// var str = 'abcou'
+// var result = /[a-z]/g.exec(str)
+// console.log(result)
+
+//search()
+var str = 'abco4u'
+var result = str.search(/[1-9]/)
 console.log(result)
