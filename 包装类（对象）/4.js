@@ -8,12 +8,15 @@
     // let this = {
     // name:name,
     // }
-    //最后 return this
+    // 最后 return this
 
-    //
+    
 // }
 // let p = new Person('海军',18,'boy')
 // console.log(p)
+
+
+
 function Person(name,age,sex){
     var that = {}
     that.name = name

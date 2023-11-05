@@ -16,4 +16,6 @@ Car.prototype={
 }//这样设置的对象是后天你生成的，与先天的还是有点区别
 var car1 = new Car('浪鸽','green')
 var car2 = new Car('犄角','pink')
-console.log(car1.name)
+car1.name = '宝马'
+console.log(car2.name)
+console.log(car1)
