@@ -220,19 +220,23 @@ body{
 {
     animation: kiss 4s ease infinite;
 }
-@keyframes  kiss{
+/* @keyframes  kiss{
     70%{
         transform: rotate(0);
     }
     80%{
-        transform: rotate(10deg)translate(-18px);
+        transform: rotate(0deg)translate(-18px);
     }
     85%{
-        transform: rotate(10deg)translate(-18px);
+        transform: rotate(0deg)translate(-18px);
     }
     100%{
         transform: rotate(0deg);
-    }
-    
-}
-    
+    } */
+
+  
+
+
+  
+
+  
