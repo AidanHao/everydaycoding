@@ -10,7 +10,7 @@ function fb(n){
 
 }
 
-console.log(fb(10));
+console.log(fb(5));
 //fb(5)=fb(4)+fb(3)
 //fb(4) = fb(3)+fb(2)
 //fb(3)=fb(2)+fb(1)
