@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 后端的代码负责获取数据库的数据传给前端 -->
+<body>
+    <ul id="ul">
+        <!-- <li>html</li>
+        <li>css</li>
+        <li>js</li> -->
+    </ul>
+
+    <!-- <script>
+        let arr = ['html', 'css', 'js'];
+        for(let i =0;i<arr.length;i++){
+            let li = document.createElement('li')//创建一个结构
+            li.innerHTML = arr[i]//innerHTML设置li结构里面的内容，往开标签和比标签里面赋值
+            document.getElementById('ul').appendChild(li)//appendChild添加子节点
+        }
+    </script> -->
+    <script>
+        // ejs模板 模板拼接语法 m、模板语法
+        let template = `
+        <ul>
+            <% for(let i = 0; i < arr.length; i++){ %>
+            <li><%= arr[i] %></li>
+        <% } %>
+        </ul>
+        `
+        function compile(tel){
+            let evalExpr = /<%(.+?)%>/g
+            tel = tel.replace(evalExpr, '**')
+            return tel
+        }
+
+        console.log(compile(template))
+    </script>
+</body>
+</html>
