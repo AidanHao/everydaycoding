@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <form onsubmit="send()">
+        <div>
+        label让账户与输入框聚焦
+        <label for="user">账户</label>
+        <input type="text" id="user">
+        </div>
+        <div>
+        <label for="">密码</label>
+        <input type="text" id="passworld">
+        </div>
+        <button type="submit">提交</button>
+        
+    </form>
+    <script>
+        function send(){
+            console.log(122);
+        }
+    </script> -->
+    <button id="btn">提交</button>
+    <script>
+        let btn = document.getElementById('btn');
+        
+        function send() {
+        console.log('已提交');        
+    }
+        //addEventListener会把this指向你绑定的对象
+        btn.addEventListener('click', debounce(send,1000))
+
+        function debounce(fn,delay) {
+            
+            let timer;
+            let _this = this
+            return function() {
+                //arguments
+                // let args = arguments
+                if(timer)clearTimeout(timer);//clearTimeout(timer);掐灭定时器
+              timer =   setTimeout(()=>{
+                    fn(this,...args)
+                },delay)
+            }
+            
+        }
+    </script>
+</body>
+</html>
