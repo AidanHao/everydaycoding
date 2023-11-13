@@ -40,7 +40,7 @@
             let _this = this
             return function() {
                 //arguments
-                // let args = arguments
+                let args = arguments
                 if(timer)clearTimeout(timer);//clearTimeout(timer);掐灭定时器
               timer =   setTimeout(()=>{
                     fn(this,...args)

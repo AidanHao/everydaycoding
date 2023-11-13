@@ -4,14 +4,15 @@ let num = 12//number
 let flag = false //boolean
 let und = undefined //undefined
 let nul = null //null
-let big  = 1232n //big integer  big number用于存2**53以上或者2**-53以下
+let big  = 1232n //big integer  big number用于存2**53-1以下或者2**-53以上
 let s = Symbol('hello') //Symbol不参与逻辑运算
 
 
-let obj = {}
-let arr = []
-let fn = function (){}
-let date = new Date()
+let obj = {}//对象
+let arr = []//数组
+let fn = function (){}//函数
+let date = new Date()//时间
+let regex = /模式/;//正则
 
 
 //判断类型
@@ -27,6 +28,7 @@ let date = new Date()
 // console.log(typeof(arr));//object 在typeof的眼里，所以引用类型都是对象object 判断不了引用类型
 // console.log(typeof(fn));//function typeof只能判断function
 // console.log(typeof(date));//object
+// console.log(typeof(regex));//object
 
 
 

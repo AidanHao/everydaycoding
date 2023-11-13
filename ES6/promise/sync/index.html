@@ -1,0 +1,28 @@
+<!-- 异步概念 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 异步，同一时间内，发生多件事情 -->
+    <script>
+        function a(){
+            setTimeout(() => {
+                console.log('做菜做完了');
+            }, 1000);
+        }
+        a()
+        //对于v8引擎来回，b函数几乎补耗时，忽略不计太快了
+        //从上往下，先把能瞬间执行的执行掉，再回过头来运行需要耗时的，提高效率 这就是异步
+        //多进程,如果一个一秒，一个0.5s总时间是1秒，同时进行的
+        function b(){
+            console.log('冯总在看美女');
+        }
+        b()
+        //先做菜，再看美女
+    </script>
+</body>
+</html>

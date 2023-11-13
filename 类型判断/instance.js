@@ -18,15 +18,15 @@ let date = new Date()
 // console.log(fn instanceof Function);
 // console.log(date instanceof Date);
 // console.log(str instanceof String);//判断不了原始类型
-console.log(arr instanceof Object)//
+// console.log(arr instanceof Object)
 
-function test(obj){
-    if(obj instanceof Object)
-    {
-        return obj.name
-    }
-}
-test([5])
+// function test(obj){
+//     if(obj instanceof Object)
+//     {
+//         return obj.name
+//     }
+// }
+// test([5])
 //instanceof会顺着隐式原型往上找,直到找到了 obj.__proto__===Object.prototype一步步找obj.__proto__.__proto__===Object.prototype
 
 
