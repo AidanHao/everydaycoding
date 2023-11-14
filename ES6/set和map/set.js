@@ -9,11 +9,12 @@
 // }
 
 //set没有符合表达
-// let set = new Set([1,2,3,4,5])//接收的参数是数组
+// var set = new Set([1,2,3,4,5])//接收的参数是数组
 // console.log(set);
-// // console.log(set[0]);读不到值，不能用传统对象和数组的方法来读取值,下标对我们一点用没有
+// console.log(set[0]);//读不到值，不能用传统对象和数组的方法来读取值,下标对我们一点用没有
 // console.log(set.keys());
 // console.log(set.values());
+// console.log(set.size);
 
 
 //类数组，长得像数组，但是用的是花括号
@@ -28,34 +29,29 @@
 // console.log(set.size);
 
 
-//数组去重 能去字符串，数字，不能去对象，函数
+// //数组去重 能去字符串，数字，不能去对象，函数
 // var arr = [1,2,3,2,1,4,'a','a']
 
-// var unique = (arr)=>[...new Set(arr)]//相当于加了花括号和return
+// // var unique = (arr)=>[...new Set(arr)]//相当于加了花括号和return
 
 // function unique(arr){
 //     // return Array.from(new Set(arr))
 
 //     // return [...new Set(arr)]
 
-//     // let s = new Set(arr)
-//     // let result = Array.from(s)//把一个类数组转换为数组
-//     // return result
+//     let s = new Set(arr)
+//     let result = Array.from(s)//把一个类数组转换为数组
+//     return result
 // }
 // console.log(unique(arr));
 
 
 
-let set = new Set([1,2,3]);
-
-
-
-
-
-//entries()即返回键名又返回键值
-// for(let item of set.entries() ){
-//     console.log(item);
-// }
+let set = new Set([1,2,3,'a']);
+// entries()即返回键名又返回键值
+for(let item of set.entries() ){
+    console.log(item);
+}
 
 
 

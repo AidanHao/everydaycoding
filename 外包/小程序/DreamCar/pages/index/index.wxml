@@ -1,0 +1,14 @@
+<!-- 微信提供了功能丰富的组件 -->
+<!-- swiper轮播图  -->
+<swiper 
+    indicator-dots="{{true}}"
+    class="section hero white"
+
+>
+    <swiper-item>
+        1
+    </swiper-item>
+    <swiper-item>
+        2   
+    </swiper-item>
+</swiper>

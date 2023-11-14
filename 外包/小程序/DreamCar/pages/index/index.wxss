@@ -1,0 +1,32 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #aaa;
+}
+/*单屏类型section*/
+.section
+{
+    height: 100vh;
+}
+/*hero风格主题*/
+.hero{
+
+}
+/*负责设置色系 白色背景*/
+.white{
+    background:white;
+}
+
+.userinfo-avatar {
+  overflow: hidden;
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.usermotto {
+  margin-top: 200px;
+}

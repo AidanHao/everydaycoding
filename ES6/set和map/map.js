@@ -16,12 +16,12 @@ let map = new Map([
 ])
 let obj = {a:1}
 map.set(obj,'hello')//key是一个对象，value是一个字符串，用箭头给你表达sa
-// map.get('name')//读到map里面key为name的值
-//引用数据类型引用的是地址,类型相等，引用地址相等，值相等，才叫相等
-// console.log(map.get(obj));
+map.get('name')//读到map里面key为name的值
+// 引用数据类型引用的是地址,类型相等，引用地址相等，值相等，才叫相等
+console.log(map.get(obj));
 map.forEach((item,index,map)=>{
-console.log(item,index);
+console.log(map);
 })
 
-//解构 还是一个二维数组！！
-console.log([...map]);
+// //解构 还是一个二维数组！！
+// console.log([...map]);
