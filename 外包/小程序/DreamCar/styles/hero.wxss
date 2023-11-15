@@ -1,0 +1,27 @@
+.hero{}
+.hero image{
+  height: 38.2vh;
+}
+.hero.content{
+  padding-top: 10%;
+}
+.hero .content.centered{
+  text-align: center;
+}
+/* 只要用rpx小程序会帮我们解决适配 */
+.hero .sub-header{
+  font-size: 32rpx;
+  text-transform: uppercase;
+  letter-spacing: 6rpx;
+  margin-bottom: 16rpx;
+  color: rgba(0,0,0,0.85);
+}
+.hero .header{
+  font-size: 72rpx;
+  font-weight: bold;
+  margin: 0 12% 16rpx;
+}
+.hero .description{
+  padding: 0 12%;
+  margin-bottom: 64rpx;
+}

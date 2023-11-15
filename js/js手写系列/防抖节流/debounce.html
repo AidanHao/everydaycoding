@@ -28,7 +28,7 @@
     <script>
         let btn = document.getElementById('btn');
         
-        function send() {
+        function send(e) {
         console.log('已提交');        
     }
         //addEventListener会把this指向你绑定的对象
@@ -43,7 +43,7 @@
                 let args = arguments
                 if(timer)clearTimeout(timer);//clearTimeout(timer);掐灭定时器
               timer =   setTimeout(()=>{
-                    fn(this,...args)
+                    fn.call(this,...args)
                 },delay)
             }
             
