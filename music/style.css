@@ -120,6 +120,7 @@ float: right;
     clear: both;
     position: relative;
     /* display: flex; */
+    width: 100px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
