@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">新歌速递</button>
+    <ul id = 'ul'>
+
+    </ul>
+
+    <script>
+        const btn = document.getElementById("btn");
+        btn.addEventListener("click",()=>{
+            //朝网易云的服务器的后端代码发一个http请求
+            //不是谁的可以发请求，会有白名单,
+            //网页爬虫，服务器爬虫
+            //我们爬的数据是非vip的数据
+            //装一个JSONvue插件
+
+            //XMLHttpRequest 是 js中封装的一个构造函数 创建一个可以发请求的实例对象
+            let xhr = new XMLHttpRequest()
+            //这是已经定义好的open方法,做请求的准备工作!
+            //'GET','POST'两种常见的请求类型 第二个参数你朝哪里要  第三个参数写true 或者false 控制这个请求是异步（需要耗一定时间）还是同步！ true是开启异步，false开启同步
+            // xhr.open('GET','http://192.168.31.45:3000/top/song?type=7',true)
+            xhr.open('GET','http://u.ronki.moe:3000/top/song?type=7',true)
+
+            xhr.onreadystatechange = ()=>{//接收响应，是一个函数，用来监听后端的响应有没有发送回来！
+                // console.log(xhr.responseText);//这个就是后端的响应！
+                //在网络当中是一个
+                //onreadystatechange 有一个等待的时间,为0请求还没有发出来，刚刚创建一个请求示例对象， 1 是准备好了， 2 已经send了 3已经接收到响应体, 4 是已经解析完成
+                //http的状态码一定要滚瓜烂熟 协调前端
+                if(xhr.readyState === 4 && xhr.status === 200){//xhr.readyState
+                    console.log(JSON.parse(xhr.responseText));//转为一个对象
+                    let result = JSON.parse(xhr.responseText);
+                    result.data.forEach(song => {
+                        // console.log(song.name);
+                        let li = document.createElement("li");
+                        li.innerHTML = song.name;
+                        document.getElementById('ul').appendChild(li)//appendChild()添加子元素！
+                    });
+                }
+            }
+            xhr.send();//请求发送出去
+
+        })
+        //包装成一个函数
+    </script>
+</body>
+</html>
