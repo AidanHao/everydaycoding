@@ -21,6 +21,12 @@
             .then(data => data.json())
             .then(res=>{
                 console.log(res);
+                res.data.forEach(song => {
+                        // console.log(song.name);
+                        let li = document.createElement("li");
+                        li.innerHTML = song.name;
+                        document.getElementById('ul').appendChild(li)//appendChild()添加子元素！
+                    });
             })
             //原生js的方法
         }

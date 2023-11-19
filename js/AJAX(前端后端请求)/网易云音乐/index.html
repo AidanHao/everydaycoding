@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4336570_8povdk6dvq.css">
+    <link rel="stylesheet" href="网易云.css">
+</head>
+<body>
+    <div class="wyy-obj__head">
+        <a href="#"><span class="iconfont icon-xiangzuojiantou wyy__back wyy__back"></span></a>
+        <div class="wyy__title">
+        <span class="iconfont icon-a-Property1wangyiyunyinle "></span>
+        <span class="wyy__titlefont">网易云音乐</span>
+        </div>
+    </div>
+    <div class="wyy-obj__body">
+        <div class="wyy__username"> <input type="text" id="username" placeholder="登录邮箱"></div>
+        <div class="wyy__password"><input type="password" id="password" placeholder="密码"></div>
+        <div class="wyy__submit"> <button id="submit">登录</button> </div>
+        <div class="wyy__repassworld"><a href="#">重设密码</a></div>
+    </div>
+    <ul id = 'ul'>
+
+    </ul>
+    <script>
+        let use = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        let btn = document.getElementById('submit');
+        btn.addEventListener('click', function(){
+            
+            //  fetch(`http://192.168.31.45:3000/login?username=${use}&password=${password}`)
+            // .then(response=>
+            //  {
+            //     if(response.ok){
+            //         alert('登录成功')
+            //     }else{
+            //         alert('登录失败')
+            //     }
+            //  })
+             fetch('http://u.ronki.moe:3000/top/song?type=7')
+            .then(response=>response.json())
+            .then(res=>{
+                console.log(res);
+                res.data.forEach(song => {
+                        // console.log(song.name);
+                        let li = document.createElement("li");
+                        li.innerHTML = song.name;
+                        document.getElementById('ul').appendChild(li)//appendChild()添加子元素！
+                    });
+            })
+            console.log('已提交');
+        })
+    </script>
+</body>
+</html>

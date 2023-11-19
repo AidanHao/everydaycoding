@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.wyy-obj__head{
+    line-height: 60px;
+    
+}
+.wyy__back{
+    float: left;
+
+}
+.wyy__title{
+   display: flex;/*弹性布局*/
+   justify-content: center;
+   align-items: center;
+}
+.icon-a-Property1wangyiyunyinle{
+    color: red;
+}
+.wyy__titlefont{
+    font-size: 20px;
+    font-weight: bolder;
+}
+.wyy-obj__head{
+    padding: 10px;
+}
+input{
+    padding-left: 10px;
+    border: none;
+    height: 40px;
+    width: 200px;
+    border-radius: 8px;
+    background-color: rgb(215, 210, 210);
+    outline: none;
+}
+button{
+    height: 40px;
+    width: 200px;
+    border-radius: 18px;
+    background-color: gold;
+    border: none;
+}
+.wyy__username{
+    margin-top: 10px;
+    display: flex;/*弹性布局*/
+    justify-content: center;
+    align-items: center;
+}
+.wyy__password{
+    margin-top: 20px;
+    display: flex;/*弹性布局*/
+    justify-content: center;
+    align-items: center;
+}
+.wyy__submit{
+    margin-top: 20px;
+    display: flex;/*弹性布局*/
+    justify-content: center;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+    color: inherit; /*取消文字颜色高亮  */
+}
+.wyy__repassworld{
+    margin-top: 20px;
+    display: flex;/*弹性布局*/
+    justify-content: center;
+    align-items: center;
+}

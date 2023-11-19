@@ -1,4 +1,8 @@
-
+function num([a = 2,b = 3]){
+    console.log(a);//输出：1
+    console.log(b);//输出：3
+}
+num([1])
 
 // let {toString: num} = 666;
 // console.log( num === Number.prototype.toString) //输出：true
