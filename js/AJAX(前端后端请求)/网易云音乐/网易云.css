@@ -69,3 +69,27 @@ a{
     justify-content: center;
     align-items: center;
 }
+.wyy-obj__foot{
+    display: none;
+    border-radius: 50%;
+    width: 180px;
+    background:linear-gradient(rgb(0, 26, 255),rgb(5, 244, 232));
+    position: fixed;
+    left: 50%;
+    top: 15%;
+    text-align: center;
+    transform: translateX(-50%)
+}
+.icon-zhengque{
+    color: rgb(8, 225, 8);
+    font-size: 40px;
+}
+.wyy__show{
+    font-size: 20px;
+    position: fixed;
+    left: 50%;
+    top: 30%;
+    text-align: center;
+    transform: translateX(-50%)
+
+}
