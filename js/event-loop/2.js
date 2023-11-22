@@ -1,0 +1,21 @@
+console.log('starting');
+setTimeout(()=>{
+    console.log('settimeout');
+    setTimeout(()=>{
+        console.log('inner');
+    })
+    console.log('end');
+},1000)
+new Promise((resolve,reject)=>{
+    console.log('promise');
+    resolve()
+})
+.then(()=>{
+    console.log('then');
+})
+.then(()=>{
+    console.log('then2');
+})
+.then(()=>{
+    console.log('then3');
+})

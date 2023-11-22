@@ -1,7 +1,7 @@
-// let a = 1
-// let b = a
-// a = 2
-// console.log(b);
+let a = 1
+let b = a
+a = 2
+console.log(b);
 //b是原始数据类型，存在调用栈当中，会直接取到a的值存到b中
 
 

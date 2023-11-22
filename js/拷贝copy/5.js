@@ -6,7 +6,9 @@ let obj = {
         type:'coding'
     }
 }
-
+var copyobj = deepCopy(obj)
+obj.type = 'running'
+console.log(copyobj);
 //换一个地址
 //这个如果对象存在循环引用就会爆栈
 function deepCopy(obj) {
