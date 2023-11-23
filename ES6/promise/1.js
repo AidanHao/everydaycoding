@@ -4,15 +4,16 @@
 // b()
 // }
 
-//a的词法作用域在全局
+// // a的词法作用域在全局
 // function a(){
-//     setTimeout(()=>{console.log('呵真');
+//     setTimeout(()=>{
+//     console.log('我是a');
 //     b()//作用域  这里叫回调
 // },1000)
 // }
 // function b(){
 //     setTimeout(() => {
-//         console.log('10某地');
+//         console.log('这里是回调b');
 //     }, 2000);
     
 // }
@@ -22,7 +23,7 @@
 // //解释回调！
 // function a(cb){
 //     setTimeout(()=>{console.log('呵真');
-//     cb()//作用域  这里叫回调
+//     b()//作用域  这里叫回调
 // },1000)
 // }
 // function b(){
@@ -35,18 +36,18 @@
 
 
 //坑！a执行完了就是执行完了！
-function a(cb){
+function a(b){
     let age =19//b调用不了age
-    setTimeout(()=>{console.log('呵真');
-    cb()//作用域  这里叫回调
+    setTimeout(()=>{
+        console.log('我是a');
+    b()//作用域  这里叫回调
 },1000)
 }
 function b(){
     console.log(age);
     setTimeout(() => {
-        console.log('10某地');
+        console.log('我是b');
     }, 2000);
-    
 }
 a(b)
 

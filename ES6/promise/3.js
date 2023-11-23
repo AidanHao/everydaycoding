@@ -1,10 +1,40 @@
+// function a(){
+//     return new Promise(
+//         (resolve,reject) =>{
+//     setTimeout(()=>{
+//         console.log('a');
+//         resolve('yes')
+//         // reject('no')
+//     },1000)
+// }
+//     )
+// }
+// function b(){
+//     return new Promise(
+//         (resolve,reject)=>{
+//     setTimeout(()=>{
+//         console.log('b');
+//         resolve()
+//         // reject('no')
+
+//     },1500)
+// })
+// }
+// function c() {
+//     console.log('c');
+// }
+// a().then((res) => {
+//     console.log(res);
+//     c()
+// })
+
+
 function a(){
     return new Promise(
         (resolve,reject) =>{
     setTimeout(()=>{
         console.log('a');
-        resolve('yes')
-        // reject('no')
+        reject('no')
     },1000)
 }
     )
@@ -14,8 +44,7 @@ function b(){
         (resolve,reject)=>{
     setTimeout(()=>{
         console.log('b');
-        resolve()
-        // reject('no')
+        reject('no')
 
     },1500)
 })
@@ -23,15 +52,6 @@ function b(){
 function c() {
     console.log('c');
 }
-// a().then((res) => {
-//     console.log(res);
-//     c()
-// })
-
-
-
-/*
-//
 //a和b都要成功运行，.then根据最快完成执行的运行！用于优化代码！比如在接口当中，用race就可以直接拿最快的接口
 Promise.race([a(),b()]).then(c)
 //catch负责兜底
@@ -39,7 +59,6 @@ Promise.race([a(),b()]).then(c)
     console.log(err);
 })
 //只要race里面的参数只要有一个resolve运行就执行
-*/
 
 
 /*
