@@ -29,11 +29,11 @@
 // console.log(a.valueOf);//转不了[Function: valueOf]
 
 //valueOf只堆包装类有用
-// let a = new String('123')
-// console.log(a.valueOf());//123
+let a = new String('123')
+console.log(a.valueOf());//123
 
-// let b = new Number(123);
-// console.log(b.valueOf());//123
+let b = new Number(123);
+console.log(b.valueOf());//123
 
 // console.log(Number({}));//NaN
 
