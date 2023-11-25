@@ -4,9 +4,10 @@
 
 // 转字符串 toString
 
-// let a = {}
-// console.log(a.toString());//[object Object]
-// Object.prototype.toString.call(a)//[object Object]
+let a = {}
+console.log(String({}));//[object Object]
+console.log(a.toString());//[object Object]
+console.log(Object.prototype.toString.call(a))//[object Object]
 //返回一个可以代表这个对象的字符串、
 
 // let arr = [1,1,2,2]
@@ -18,7 +19,7 @@
 // let time = new Date()
 // console.log(time.toString());//Tue Nov 21 2023 19:53:24 GMT+0800 (GMT+08:00)
 
-// console.log(String({}));//[object Object]
+
 
 // var fn = function () {}
 // console.log(fn.toString());//function () {}
@@ -28,12 +29,12 @@
 // let a = {}
 // console.log(a.valueOf);//转不了[Function: valueOf]
 
-//valueOf只堆包装类有用
-let a = new String('123')
-console.log(a.valueOf());//123
+// //valueOf只堆包装类有用
+// let a = new String('123')
+// console.log(a.valueOf());//123
 
-let b = new Number(123);
-console.log(b.valueOf());//123
+// let b = new Number(123);
+// console.log(b.valueOf());//123
 
 // console.log(Number({}));//NaN
 

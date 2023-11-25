@@ -14,6 +14,7 @@
    display: flex;/*弹性布局*/
    justify-content: center;
    align-items: center;
+   transform: translateX(-16px);
 }
 .icon-a-Property1wangyiyunyinle{
     color: red;
@@ -36,7 +37,7 @@ input{
 }
 button{
     height: 40px;
-    width: 200px;
+    width: 210px;
     border-radius: 18px;
     background-color: gold;
     border: none;
@@ -60,6 +61,7 @@ button{
     align-items: center;
 }
 a{
+    float: left;
     text-decoration: none;
     color: inherit; /*取消文字颜色高亮  */
 }

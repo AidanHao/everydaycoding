@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hidden{
+            display: none!important;
+        }
+        .award_users{
+            border: 1px;
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center{
+            width: 100px;
+            margin: 10px auto;
+            background-color: red;
+            color: white;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div id="loading" class="hidden">抽奖中...</div>
+        <button id="btn">抽奖</button>
+    </div>
+    <div class="award_users hidden">
+        <table>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>手机号</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>1</th>
+                    <th>张三</th>
+                    <th>15478869541</th>
+                </tr>
+            </tbody>
+            
+        </table>
+        <div class="center close ">关闭，再抽</div>
+    </div>
+    
+    <script>
+        let isPickking = false
+        const btn = document.querySelector('#btn');
+        const loading = document.querySelector('#loading');
+        const awardUsers = document.querySelector('.award_users')
+        const close = document.querySelector('.close')
+        function doAward(){
+            if(isPickking)return;
+                isPickking = true;
+                // this.setAttribute('disabled', 'disabled');
+                this.classList.add('hidden')
+                loading.classList.remove('hidden')
+                
+
+                setTimeout(()=>{
+                    isPickking = false
+                    this.classList.remove('hidden')
+                    loading.classList.add('hidden')
+                    awardUsers.classList.remove('hidden')
+                },1000)
+            
+        }
+        btn.addEventListener("click", doAward)
+        close.addEventListener('click',function() {
+            awardUsers.classList.add('hidden')
+        })
+    </script>
+</body>
+</html>
