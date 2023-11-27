@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 所以框架是为了提高你的开发效率 -->
+    <div id="app">你好</div>
+    <!-- template不是不存在的, 是html5中存在的标签 里面会放一个#document-fragment 这个叫文档碎片 -->
+    <!-- 文档碎片可以说是一个没有意义的标签 -->
+    <!-- 这段代码被js当字符串读走了 -->
+    <template id="tel">
+        <div>
+            <h1>你好 {{message}}</h1>
+            <h2>{{count}}</h2>
+            <!-- @click就会添加点击事件 -->
+            <button @click = "add">+1</button>
+            <br>
+            <button @click = "del">-1</button>
+        </div>
+    </template>
+    
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // Vue 不要写箭头函数,不然this会指向全局window
+        // Vue 以数据来驱动页面的开发的框架
+        Vue.createApp({
+            // template叫做模板
+            template:'#tel',
+            // data直接把函数交给Vue
+            // data 在Vue叫数据源
+            data:function(){
+                return {
+                    message:'进击的巨人',
+                    count:'1'
+                }
+            },
+            // method 放函数,key为函数名,value为函数体
+            methods:{
+                add:function(){
+                    // this代表Vue的实例对象,本来应该写this.data.count,刘禹锡保姆给你消除掉了
+                    // 会帮你更新一个Dom结构,这样就能让页面随着数据的变化而变化 这个就叫:响应式数据
+                    // 只需要改数据源data里面的东西
+                    this.count++
+                },
+                del:function(){
+                    this.count--
+                }
+            }
+        }).mount('#app')
+        // mount 挂载
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <template id="my-app">
+        <div>{{ msg }}</div>
+        <!-- 假如我们在某些情况下不能挖坑{{}} -->
+        <!-- v-text 叫指令 挖标签只在开标签和闭标签中用 -->
+        <!-- 只能转换为文本 -->
+        <div v-text="msg"></div>
+        <div v-text="info"></div>
+
+        <div>{{info}}</div>
+        <!-- v-html 指令 当字符串中有html标签的时候要把它转换为页面的标识符使用 -->
+        <!-- 能识别html标识符 -->
+        <div v-html="info"></div>
+    </template>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template: '#my-app',
+            data(){
+                return {
+                    msg:'hello world',
+                    // 我们希望把<h1>识别为标签
+                    info:'<h1>这是一个富文本</h1>'
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

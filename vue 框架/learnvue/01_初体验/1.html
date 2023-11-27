@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <h2>hello world</h2> -->
+    </div>
+    <!-- CDN 服务器上的资源 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- <script>
+        //获取Dom结构
+        let app = document.getElementById("app");
+        // 子Dom结构
+        let create = document.createElement("h2")
+        h2.innerHTML = "Hello world"
+        //塞进去
+        app.appendChild(create)
+
+    </script> -->
+    <script>
+        // Vue支持我们把html放到js里面写，我们再页面中添加数据就变简单多了@
+        const msg = '你好'
+        const tel = {
+            template:`<h2>${msg}</h2>`
+        }
+        // app 就是 new vue 的实例对象
+        const app = Vue.createApp(tel)
+        // mount 叫挂载 是Vue身上的方法,不用获取Dom结构
+        app.mount('#app')
+    </script>
+</body>
+</html>

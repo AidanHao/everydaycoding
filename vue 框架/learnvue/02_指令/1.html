@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <template id="my-app">
+        <!-- 类似ES6当中的字符串模板-->
+        <h1>{{message}} -- {{message}}</h1>
+        <h2>{{count * 2}}</h2>
+        <!-- 不能再{{}}这个坑位里面啥都写,虽然能写js语句 -->
+        <h2>{{message.split(' ').reverse().join('')}}</h2>
+        <h1>{{getReverse()}}</h1>
+
+        <h2>{{emo ? '难过':'开心'}}</h2>
+        <button @click = 'change'>切换心情</button>
+    </template>
+    <!-- 直接操作Dom结构,对于浏览器来说,性能开销更大一点 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            // 这是js中允许的写法
+            data(){
+                return {
+                    message:'hello 艾伦',
+                    count:100,
+                    emo:false,
+                }
+            },
+            methods:{
+                getReverse(){
+                    return this.message.split(' ').reverse().join('')
+                },
+                change(){
+                   this.emo = !this.emo
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

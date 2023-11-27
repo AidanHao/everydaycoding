@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        你好
+       
+    </div>
+    <!-- 为什么一闪而过,因为浏览器先加载的是原来的内容,再被替换掉,不用获取Dom结构了 -->
+    <!-- 用这个script表达html -->
+    <!-- type设置成x-template 里面写html会认为是模板 -->
+    <!-- 好处，往html里面塞值就变简单了 -->
+    <script type="x-template" id="template">
+        <div>
+            <div>
+                <h2>{{message}}</h2>
+            </div>
+        </div>
+    </script>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // document.getElementById('template')
+        Vue.createApp({
+            template:'#template',
+            // 一定要写data,这是Vue里面封装好的
+            data:function(){
+                // 能绕过data里面返回的对象,弄成在任意地方里面都访问到
+                return {
+                    // 这个里面能随便定义key值
+                    message:'Hello World'
+                }
+            }
+        }).mount('#app')
+        // 把Dom结构里面的东西重新赋值成一个新的东西，原来的东西就没了
+    </script>
+</body>
+</html>

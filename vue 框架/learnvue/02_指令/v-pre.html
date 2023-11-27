@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <template id="my-app">
+        <!-- 告诉Vue这里是不需要你来识别的地方,特殊情况的时候,比如正好用{{}}装字符串的时候 -->
+        <h2 v-pre>{{message}}</h2>
+        <!-- v-cloak -->
+        <!-- 会在vue没有编译完成的时候,是不显示的 -->
+        <!-- vue把你的代码当成字符串读走之后,又把字符串重新生成成html再挂载在页面上,这个过程叫编译 -->
+       <!--     /* 其实template就是字符串，然后最终被vue转成dom结构，还要读取变量值，这个过程称之为编译，然后挂载在html上进行渲染，
+        如果代码量很多，编译很久就可以看到效果，没有编译完之前不会出现，让打开页面时某个页面没有东西，但是人家的dom结构生成了 */ -->
+        <h2 v-cloak>{{message}}</h2>
+    </template>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template: '#my-app',
+            data(){
+                return {
+                    message:'hello world'
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>
