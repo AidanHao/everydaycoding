@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    <style>
+        .active{
+            color: red;
+        }    
+        </style>
+</head>
+<body>
+    <!-- v-bind的基本使用 -->
+    <div id="app"></div>
+
+    <template id="my-app">
+        <!-- 绑定类名class也是使用v-bind
+        动态绑定类名
+        类名名称会变的情况 -->
+        <div :class="classname">牛气冲天</div>
+        <!-- 动态绑定类名：对象语法 -->
+        <!-- isActive 是ture 或者 false 决定这个是否给它添加 -->
+        <div :class="{'active':isActive}">虎虎生威</div>
+        <button @click="change">改变</button>
+        <!-- 下面是不同的应对场景 -->
+        <div :class="{'active':isActive,'title':true}">好好好</div>
+        <div class="lang" :class="classname">你是懂我的</div>
+        <div class="baobao" :class="classObj">舔狗一只</div>
+        <div class="baby" :class="getClass()">不要再舔啦</div>
+        <!-- 变量就不用加引号了 -->
+        <div :class="['active','fei',classname]">沸羊羊纯爱战士</div>
+        <div :class="['mei',isActive?'active':'']">美羊羊</div>
+        <div :class="['heihei',{'active':isActive}]">谢谢你，沸羊羊</div>
+
+
+
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            data(){
+                return {
+                    classname:'username',
+                    isActive:true,
+                    classObj:{
+                        active:true,
+                        title:true,
+                    },
+
+                }
+            },methods:{
+                change:function(){
+                    this.isActive = !this.isActive;
+                },
+                getClass:function(){
+                    return 'donot'
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

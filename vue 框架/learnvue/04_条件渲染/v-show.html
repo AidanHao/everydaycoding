@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    <style>
+        .active{
+            color: red;
+        }    
+        </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <template id="my-app">
+        <!-- v-show同样能够控制Dom结构的展示与消失 -->
+        <!-- v-show和v-if的区别，v-show是在样式的角度添加display:none，v-if让它不加载，需要频繁的加载用v-show -->
+        <!-- 用v-if如果频繁出现，要重复加载，性能开销更多 -->
+        <!-- 无关重要的可以用v-show，靠权限来控制的，不能用v-show会出大事！！ -->
+        <h2 v-show="isShow">hello,world</h2>
+        <button @click="change">切换</button>
+
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            data(){
+                return {
+                    isShow:true,
+                    count:0,
+                }
+            },methods:{
+                change(){
+                    this.isShow = !this.isShow;
+                    this.count++
+                    
+                },
+            }
+    }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

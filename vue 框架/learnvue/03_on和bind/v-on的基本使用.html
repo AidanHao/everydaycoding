@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    <style>
+        .active{
+            color: red;
+        }    
+        </style>
+</head>
+<body>
+    <!-- v-bind的基本使用 -->
+    <div id="app"></div>
+
+    <template id="my-app">
+        <!-- v-bind只能绑定属性,v-on绑定事件 -->
+        <button v-on:click="handle">按钮</button>
+
+        <button @click="add">{{count}}</button>
+
+        <div @click="handle" @mouseenter="enter"  style="width: 100px;height: 100px;border: 1px solid #000;"></div>
+        <div @="{click:handle, mouseenter:enter}"  style="width: 100px;height: 100px;border: 1px solid #000;"></div>
+
+        <!-- 存在事件参数e 写成函数调用或者函数名都行 -->
+        <!-- 需要使用参数，写成自己调用，事件参数写成$event -->
+        <!-- 不写$event会导致事件参数e使用不了 -->
+        <button @click="handleclick($event,'阿远',20)">按钮</button>
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            data(){
+                return {
+                    count:0
+                }
+            },methods:{
+                handle(){
+                    console.log('点了button');
+                },
+                add(){
+                    this.count++
+                },enter(){
+                    console.log('鼠标移入');
+                },
+                handleclick(e,name,age){
+                    console.log(e,name,age);
+                    
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

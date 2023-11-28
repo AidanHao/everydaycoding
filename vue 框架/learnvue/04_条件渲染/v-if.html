@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    <style>
+        .active{
+            color: red;
+        }    
+        </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <template id="my-app">
+        <!-- v-if直接让它消失，或者出现，标签都消失 直接把它的Dom结构剔除掉了-->
+        <!-- v-if成立了 ，v-else一定不成立，反之 -->
+        <!-- v-if和v-else一定要放在兄弟标签上，同级标签 -->
+        <h2 v-if="count == 0">hello,world</h2>
+        <h2 v-else-if="count == 2">これは自由ですね</h2>
+        <h2 v-else>你好，世界</h2>
+        <button @click="change">切换</button>
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            data(){
+                return {
+                    isShow:false,
+                    count:0,
+                }
+            },methods:{
+                change(){
+                    // this.isShow = !this.isShow;
+                    this.count++
+                    if(this.count >2){
+                        this.count = 0
+                    }
+                },
+            }
+    }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

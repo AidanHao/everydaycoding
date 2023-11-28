@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+</head>
+<body>
+    <!-- v-bind的基本使用 -->
+    <div id="app"></div>
+
+    <template id="my-app">
+        <!-- 里面只能叫模板，本质是字符串，Vue会在里面找指令，并且转义， -->
+
+        <!-- <h2 v-text="msg"></h2> -->
+
+        <!-- v-bind 用来绑定src 格式v-bind:src = "变量名" 如果没有这个变量会被识别为字符串 -->
+        <!-- 引入地址都可以用v-bind 用来放引用的地址的变量 -->
+        <img v-bind:src="imgUrl" alt="">
+        <a v-bind:href="link">百度一下</a><br>
+        <a :href="link">百度两下</a>
+
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            data(){
+                return {
+                    msg:'hello',
+                    imgUrl:'./ai2.png',
+                    link:'https://www.baidu.com',
+                }
+            },
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

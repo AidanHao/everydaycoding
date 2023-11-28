@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    <style>
+        .active{
+            color: red;
+        }    
+        </style>
+</head>
+<body>
+    <!-- v-bind的基本使用 -->
+    <div id="app"></div>
+
+    <template id="my-app">
+        <!-- 行内style权重更高 -->
+        <!-- 在vue中，允许font-size=》fontSize 允许驼峰 -->
+        <div :style="{color:fontcolor,fontSize:fontsize}">好好好</div>
+        <div :style='styleObj'>喜羊羊</div>
+        <!-- 对象所以的样式都会被添加 -->
+        <div :style="[styleObj,styleObj2]">慢羊羊</div>
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {
+            template:'#my-app',
+            data(){
+                return {
+                    fontcolor:'blue',
+                    fontsize:'50px',
+                    styleObj:{
+                        color:'green',
+                        fontWeight:'bolder',
+                        fontSize:'30px',
+                    },
+                    styleObj2:{
+                        fontSize:'50px',
+                        background:'red'
+                    }
+
+                }
+            },methods:{
+                change:function(){
+                    this.isActive = !this.isActive;
+                },
+                getClass:function(){
+                    return 'donot'
+                }
+            }
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>
