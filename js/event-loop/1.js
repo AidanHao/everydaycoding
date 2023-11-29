@@ -7,7 +7,7 @@ setTimeout(()=>{
 },1000)
 let b = 2
 // for循环是由我们CPU说要耗时的，v8眼里它是不耗时的
-for(let i = 0;i<10000;i++)
+for(let i = 0;i<5;i++)
 {
     console.log(b);
 }

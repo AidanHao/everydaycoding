@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+
+    </div>
+
+    <template id="my-app">
+       <h2>
+        今天温度:{{temp}}℃
+       </h2>
+       <h3>建议穿:{{suggestion}}</h3>
+       <button @click="add">+</button>
+       <button @click="lower">-</button>
+
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {  
+            
+            template:'#my-app',
+            data(){
+                return{
+                    temp:50,
+                    suggestion:'夹克'
+                }
+            },
+            // 在Vue里面能用computed实现的都能用watch实现，反之也一样
+            // 区别就一点，computed计算属性有缓存，优化更好
+            watch:{
+                temp:{
+                    // 让temp立即执行
+                    // handler不能乱写，处理函数
+                    handler:function(newVal,oldVal){
+                        if(newVal>=30)
+                    {
+                        this.suggestion='短袖'
+                    }else if(newVal<=0)
+                    {
+                        this.suggestion='羽绒服'
+                    }else
+                    {
+                        this.suggestion='夹克'
+                    }
+                    }
+                    // immediate为true就是让它temp立即执行
+                    ,immediate:true
+                }
+
+                //侦听器，侦听...
+                // 要侦听谁，就把谁拿下来当key值,
+                // 帮助我们监听数据源
+                // temp:function(newVal , oldVal){
+                //     // 会帮你拿到变更前的值，和变更后的值
+                //     console.log(newVal, oldVal);
+                    // if(newVal>=30)
+                    // {
+                    //     this.suggestion='短袖'
+                    // }else if(newVal<=0)
+                    // {
+                    //     this.suggestion='羽绒服'
+                    // }else
+                    // {
+                    //     this.suggestion='夹克'
+                    // }
+                // }
+            },
+            methods:{
+                add(){
+                    this.temp+=5
+                    // this.jud()
+                },
+                lower(){
+                    this.temp-=5
+                    // this.jud()
+                },
+                jud(){
+                    if(this.temp>=20){
+                        this.suggestion = '短袖'
+                    }else if(this.temp<=0)
+                    {
+                        this.suggestion = '军大衣'
+                    }else{
+                        this.suggestion='夹克'
+                    }
+                }
+            }
+
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+
+    </div>
+
+    <template id="my-app">
+       <h2>
+        今天温度:{{temp}}℃
+       </h2>
+       <h3>建议穿:{{suggestion}}</h3>
+       <button @click="add">+</button>
+       <button @click="lower">-</button>
+
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {  
+            
+            template:'#my-app',
+            data(){
+                return{
+                    temp:10,
+                    // suggestion:'夹克'
+                }
+            },
+            computed:{
+               
+                // 这个叫计算属性，计算属性里面的函数，和数据源一样，函数名直接充当了数据源的使用，
+                // 挡temp发生变化时，这个suggestion会自动调用一遍
+                suggestion(){
+                    //  响应式执行，当它依赖的数据源发生变更时，它就会执行
+                    let res = '夹克'
+                    if(this.temp>50)
+                    {res = '裤衩'
+                    }else if(this.temp>=20&&this.temp<=50)
+                    {
+                        res = '短袖'
+                    }else if(this.temp<=0)
+                    {
+                        res = '军大衣'
+                    }else{
+                        res='夹克'
+                    }
+                    return res
+                }
+
+            },
+            methods:{
+                add(){
+                    this.temp+=5
+
+                    // this.jud()
+                    
+                },
+                lower(){
+                    this.temp-=5
+                    // this.jud()
+                },
+                jud(){
+                    if(this.temp>=20){
+                        this.suggestion = '短袖'
+                    }else if(this.temp<=0)
+                    {
+                        this.suggestion = '军大衣'
+                    }else{
+                        this.suggestion='夹克'
+                    }
+                }
+            }
+
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>

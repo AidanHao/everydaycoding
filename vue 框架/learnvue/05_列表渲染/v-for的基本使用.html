@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+
+    </div>
+
+    <template id="my-app">
+        <h2>歌曲列表</h2>
+        <ul>
+            <!-- 这个item就代表数组里面的每一项 -->
+            <!-- <li v-for="item in songs">{{item}}</li> -->
+            <!-- item是数组中的每一项，index是下标 -->
+            <!-- v-for="(item, index) in songs" v-if="item.flag"以前是可以这样写的，现在不行 -->
+            <!-- 官方不建议v-for 和 v-if 同时出现再一个Dom结构,导致效率大大降低 -->
+            <!-- 每次都加上:key="唯一值" 性能问题 打唯一标识 放到里面去 -->
+            <li v-for="(item, index) in songs":key="index" > {{index+1}} -- {{item}}
+                <a href="#" @click="del(index)">x</a>
+            </li>
+
+        </ul>
+    </template>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const App = {  
+            // 要把我们需要传递的html结构传给Vue，再由Vue转达给Html
+            // vue是响应式的
+            template:'#my-app',
+            data(){
+                return{
+                    songs:[
+                        '只因你太美',
+                        '等你下课',
+                        '说话不哭',
+                        '晴天',
+                        '告白气球'
+                    ]
+                }
+            },methods:{
+                del(index){
+                    // 删除页面，F5刷新
+                    this.songs.splice(index,1)
+                    // console.log('');
+                },
+            }
+
+        }
+        Vue.createApp(App).mount('#app')
+    </script>
+</body>
+</html>
