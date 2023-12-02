@@ -40,5 +40,6 @@ npm run dev
 - devtool 
 - 数据 MVVM思想 
     - ref 响应式 使用ref包装数据能实时刷新
+- Laf 
 
 

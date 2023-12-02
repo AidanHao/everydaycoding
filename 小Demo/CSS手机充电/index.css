@@ -1,0 +1,190 @@
+/* 全局样式 */
+.phone{
+    margin: 20px auto;
+    width: 375px;
+    height: 765px ;
+    background: url("./手机背景图.jpg");
+    background-size: cover;
+    box-sizing: border-box;
+    padding-top: 16px;
+}
+.screen{
+    width: 330px;
+    height: 657px;
+    margin: 0 auto;
+    background: #000;
+    border-radius: 45px 45px 0 0;
+    position: relative;
+}
+.screen .number{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    color: #fff;
+}
+/* 电量充电动画的大盒子 */
+.screen .ascending{
+    width: 100%;
+    height: 100%;
+    background: #050807;
+    border-radius: 45px 45px 0 0;
+    position: relative;
+}
+/* 框选电脑显示区域 */
+.screen .circle{
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 7%;
+    left: 50%;
+    margin-left: -150px;
+}
+/* 伪元素设置电量周围颜色 */
+.circle::before{
+    content: "";
+    width: 200px;
+    height: 200px;
+    background-color: #4dff03;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 42% 38% 63% 49%/45%;
+}
+/* 伪元素设置电量周围圆 */
+.circle::after{
+    content: "";
+    width: 178px;
+    height: 178px;
+    background-color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+}
+/* 设置向上泡泡的基本样式 */
+.screen .bubble{
+    width: 20px;
+    height: 20px;
+    background-color: #4dff03;
+    border-radius: 100%;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+/* 设置冒泡底座的基本样式 */
+.bubble-home{
+    width: 100px;
+    height: 40px;
+    background-color: #4dff03;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -50px;
+    border-radius: 100px 100px 0 0;
+}
+/* 调试滤镜 */
+.screen .ascending{
+    /* 设置动画容器的对比度 */
+    filter: contrast(15);
+}
+.screen .circle{
+    /* 设置电量周围颜色的模糊度 */
+    filter: blur(8px);
+}
+.screen .bubble{
+    filter: blur(5px);
+}
+/* 设置旗袍底座的模糊度 */
+.screen .bubble-home{
+    filter: blur(8px);
+}
+/* 添加动画 */
+.screen .ascending{
+    animation: animation1 5s linear infinite;
+}
+/* 动画整体设置色相差 */
+@keyframes animation1{
+    0%{
+        filter: contrast(15) hue-rotate(0);
+    }
+    100%{
+        filter: contrast(15) hue-rotate(360deg);
+    }
+}
+
+.screen .circle{
+    animation: animation2 5s linear infinite;
+}
+/* 设置电量周围的旋转 */
+@keyframes animation2{
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.screen .bubble{
+    animation: animation3 5s ease-in-out infinite;
+}
+/* 设置小气泡上升的动画 */
+@keyframes animation3{
+    0%{
+        bottom: 0;
+    }
+    100%{
+        bottom: calc(80% - 170px);
+    }
+}
+/* 设置小气泡（位置 大小 动画时长 动画延迟） */
+.bubble:nth-child(1){
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    animation-duration: 5s;
+    animation-delay: 1s;
+}
+.bubble:nth-child(2){
+    width: 20px;
+    height: 20px;
+    left: 49%;
+    animation-duration: 4s;
+    animation-delay: 2s;
+}.bubble:nth-child(3){
+    width: 20px;
+    height: 20px;
+    left: 48%;
+    animation-duration: 3s;
+    animation-delay: 2s;
+}.bubble:nth-child(4){
+    width: 20px;
+    height: 20px;
+    left: 52%;
+    animation-duration: 2s;
+    animation-delay: 3s;
+}.bubble:nth-child(5){
+    width: 20px;
+    height: 20px;
+    left: 51%;
+    animation-duration: 1s;
+    animation-delay: 5s;
+}.bubble:nth-child(6){
+    width: 20px;
+    height: 20px;
+    left: 53%;
+    animation-duration: 3s;
+    animation-delay: 3s;
+}

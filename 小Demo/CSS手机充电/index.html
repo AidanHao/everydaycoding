@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="phone">
+        <div class="screen">
+            <div class="number">68.6%</div>
+            <div class="ascending">
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble-home"></div>
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 添加js实现数字上涨 -->
+    <script>
+        let num = 686
+        const timeId = setInterval(()=>{
+            num+=1
+            if(num>=1000)
+            {
+                window.clearInterval(timeId)
+            }
+            document.querySelector(".number").innerHTML=(num/10)+'%'
+        },500)
+        // 设置0.5s数组上涨0.1%
+    </script>
+</body>
+</html>
