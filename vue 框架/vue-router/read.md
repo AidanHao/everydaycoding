@@ -23,3 +23,5 @@ vite叫构建工具
 public 放项目公用的
 
 npm install vue-router@4安装路由 @4代表第四版
+
+cli 又叫脚手架
