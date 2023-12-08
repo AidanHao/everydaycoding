@@ -1,0 +1,7 @@
+/* 职责：引入tailwind */
+/* 基础 */
+@tailwind base;
+/* 组件 */
+@tailwind components;
+/* 工具类 */
+@tailwind utilities;
