@@ -1,6 +1,8 @@
 <template>
-    <div class="header">
+    
+    <div class="header" >
         <div class="content-wrapper">
+            <div class="bg" style="background-image: url(http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg);"></div>
             <div class="avatar">
                 <img src="http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg">
             </div>
@@ -12,25 +14,31 @@
                 <div class="description">蜂鸟专送/38分钟送达</div>
                 <div class="surport">
                     <!-- 出现一个稍稍有点复杂的东西 组件：当可以复用的时候，当具有独立的特性或者功能的时候 -->
-                    <!--  -->
+                    <!-- 引入一个组件 -->
+                    <!-- <support-icon/> -->
+                    <!-- 父组件给子组件传值 -->
+                    <SupportIcon :size="1" :type="0"/>
                     <span class="text">在线支付满28减5</span>
                 </div>
             </div>
             <div class="support-count">
                 <span class="count">5个</span>
-                <i class="iconfont">></i>
+                <i class="iconfont icon-youjiantou"></i>
             </div>
         </div>
         
         <div class="bulletin-wrapper">
-
+            
         </div>
     </div>
 </template>
 
 <script>
+import SupportIcon from "@/components/support/Support-icon.vue"
     export default {
-        
+        components:{
+            SupportIcon
+        }
     }
 </script>
 
@@ -39,6 +47,7 @@
 @import '@/common/style/variable.less';
 @import '@/common/style/mixin.less';
     .header {
+        position: relative;
         background:@color-background-ss;
         .content-wrapper{
             position: relative;
@@ -86,6 +95,7 @@
                     align-items: center;
                     .text{
                         font-size: @fontsize-small-s;
+                        margin-left: 4px;
                     }
                 }
             }
@@ -111,6 +121,17 @@
                     margin-left: 2px;
                 }
             }
+        }
+        .bg{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            
+            background-size: 100% 100%;
+            z-index: -1;
+            filter: blur(10px);
         }
     }
 </style>
