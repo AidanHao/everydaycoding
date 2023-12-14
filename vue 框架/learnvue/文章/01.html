@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <template id="tel">
+        <div>
+            <div><h3>数字：{{number}}</h3></div>
+            <button @click="add">+</button>
+            <button @click="minus">-</button>
+        </div>
+    </template>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            template:'#tel',
+            data:function(){
+                return {
+                    number:1
+                }
+            },
+            methods:{
+                add:function(){
+                    this.number++;
+                },
+                minus:function(){
+                    this.number--;
+                }
+            }
+            }
+        ).mount('#app')
+    </script>
+</body>
+</html>
