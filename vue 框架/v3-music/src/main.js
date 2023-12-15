@@ -3,5 +3,8 @@ import { createApp } from 'vue'
 import './tailwind.css'
 // import './style.css'吗
 import App from './App.vue'
+import router from './router'
 
-createApp(App).mount('#app')
+createApp(App)
+.use(router)
+.mount('#app')
