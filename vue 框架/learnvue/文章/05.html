@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <template id="tel">
+        <div :class="classname">
+            我真的红温了
+        </div>
+        <div :class={'active':true}>
+            我红温了
+        </div>
+        <div :class={'active':false}>
+            我没有红
+        </div>
+    </template>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            template:'#tel',
+            data:function(){
+                return {
+                    classname:'active',
+                    fontcolor:'red'
+
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

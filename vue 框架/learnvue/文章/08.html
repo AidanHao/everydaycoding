@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <template id="tel">
+        <div :style="[setStyle1,setStyle2]">我是文字1</div>
+        <div :style="[setStyle1]">我是文字2</div>
+    </template>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            template:'#tel',
+            data:function(){
+                return {
+                    setStyle1:{
+                        color:'blue',
+                        fontSize:'100px'
+                    },
+                    setStyle2:{
+                        fontWeight:'bold'
+                    }
+    
+
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
