@@ -20,7 +20,7 @@
             <!-- v-for="(item, index) in songs" v-if="item.flag"以前是可以这样写的，现在不行 -->
             <!-- 官方不建议v-for 和 v-if 同时出现再一个Dom结构,导致效率大大降低 -->
             <!-- 每次都加上:key="唯一值" 性能问题 打唯一标识 放到里面去 -->
-            <li v-for="(item, index) in songs":key="index" > {{index+1}} -- {{item}}
+            <li v-for="(item, index) in songs":key="index" > {{index+1}} -- {{item}}--
                 <a href="#" @click="del(index)">x</a>
             </li>
 
