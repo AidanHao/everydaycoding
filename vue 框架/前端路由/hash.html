@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 加 # 号 就是hash模式 -->
+    <ul>
+        <li>
+            <a href="#/home">首页</a>
+        </li>
+        <li>
+            <a href="#/about">关于</a>
+        </li>
+    </ul>
+
+    <!-- 放一个代码片段 -->
+    <div id="routeView">
+
+    </div>
+
+    <script>
+        const routes = [
+            {
+                path:'#/home',
+                component:'首页页面内容'
+            },
+            {
+                path:'#/about',
+                component:'About page'
+            }
+        ]
+        
+        // js有一个hashChange事件 解决了如何知道url改变了
+        window.addEventListener('DOMContentLoaded',onHashChange)// DOMContentLoaded 会在页面加载完毕就会自动触发一次
+        window.addEventListener('hashchange',onHashChange)
+
+        function onHashChange(){
+            const routeView = document.getElementById('routeView')
+            console.log(location.hash);//location就是描述整个url路径里面的情况 hostname就是域名
+            routes.forEach((item,index)=>{
+                if(item.path==location.hash){
+                    //innerHTML会重置容器内的内容，重新赋值
+                    routeView.innerHTML=item.component
+                }
+            })
+        }
+    </script>
+
+</body>
+
+</html>
