@@ -1,5 +1,9 @@
 import { createWebHistory,createRouter } from 'vue-router'
 import Home from '../views/Home.vue'
+import HomeBody from '../views/HomeChild/Home-Body.vue'
+import HomeContact from '../views/HomeChild/Home-Contact.vue'
+import HomeZore from '../views/HomeChild/Home-Zore.vue'
+import Self from '../views/Self.vue'
 
 const routes = [
     {
@@ -9,7 +13,31 @@ const routes = [
     {
         path:'/home',
         component:Home,
-        children:[]
+        children:[
+            {
+                path:'/home',
+                redirect:'/home/homeBody'
+            },
+
+            {
+            path:'homeBody',
+            component:HomeBody
+            },
+
+            {
+                path:'homeContact',
+                component:HomeContact
+            },
+            {
+                path:'homeZore',
+                component:HomeZore  
+            }
+
+        ]
+    },
+    {
+        path:'/self',
+        component:Self
     }
 ]
 //定义一个变量调用createRouter

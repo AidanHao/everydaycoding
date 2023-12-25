@@ -1,237 +1,97 @@
 <template>
     <div class="project-qq">
         <div class="qq-head">
-            <div class="showhead">
-                <span class="headtext"></span>
-            </div>
+            <router-link to="../self">
+                <div class="showhead">
+                    <span class="headtext"></span>
+                </div>
+            </router-link>
+
             <div class="showname">Aidan</div>
             <div class="showadd">+</div>
         </div>
 
+        <router-view></router-view>
 
 
-        <div class="qq-body">
-            <ul class="body-info">
-                <li v-for="(item, index) in communication">
-                    <div class="oneinfo">
-                        <div class="body-showhead">
-                            <img :src='item.img' alt="" class="oneimg">
-                        </div>
-                        <div class="body-showname">
-                            <div class="body-name">
-                                {{ item.name }}
-                            </div>
-                            <div class="lastinfo">
-                                {{ item.lastinfo }}
-                            </div>
-                        </div>
+        <div class="qq-foot">
 
-                    </div>
-                </li>
-            </ul>
+            <router-link to="./homeBody" @click="toone">
+
+                <div class="foot-info foot-chil" :class="{workon:isone()}">
+                    <i class="iconfont icon-xiaoxi-zhihui"></i>
+                    <div class="inof-text ">消息</div>
+                </div>
+            </router-link>
+
+            <router-link to="./homeContact" @click="totwo">
+                <div class="foot-contact foot-chil" :class="{workon:istwo()}">
+                    <i class="iconfont icon-lianxiren"></i>
+                    <div class="inof-text ">联系人</div>
+                </div>
+            </router-link>
+
+            <router-link to="./homeZore" @click="tothree">
+                <div class="foot-zone foot-chil" :class="{workon:isthree()}">
+                    <i class="iconfont icon-dongtai"></i>
+                    <div class="inof-text ">动态</div>
+                </div>
+            </router-link>
+
+
         </div>
 
-
-
-
-
-
-        <div class="qq-foot">这里是foot</div>
     </div>
-    <router-view></router-view>
 </template>
 
 <script>
+import { isVNode } from 'vue';
+
 export default {
     data() {
         return {
-            communication: [
-                {
-                    img: '../public/vue.jpg',
-                    name: '小小',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶'
-                },
-                {
-                    img: '../public/vue2.jpg',
-                    name: '班级群',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue3.jpg',
-                    name: '幸福的一家人',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue4.jpg',
-                    name: '同学群',
-                    time: '昨天21:00',
-                    lastinfo: '班长：明天不要迟到'
-                },
-                {
-                    img: '../public/vue5.jpg',
-                    name: '小明同学',
-                    time: '昨天21:00',
-                    lastinfo: '小明同学：吃饭了嘛'
-                }, {
-                    img: '../public/vue.jpg',
-                    name: '小小',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue2.jpg',
-                    name: '班级群',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue3.jpg',
-                    name: '幸福的一家人',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue4.jpg',
-                    name: '同学群',
-                    time: '昨天21:00',
-                    lastinfo: '班长：明天不要迟到'
-                },
-                {
-                    img: '../public/vue5.jpg',
-                    name: '小明同学',
-                    time: '昨天21:00',
-                    lastinfo: '小明同学：吃饭了嘛'
-                }, {
-                    img: '../public/vue.jpg',
-                    name: '小小',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue2.jpg',
-                    name: '班级群',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue3.jpg',
-                    name: '幸福的一家人',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue4.jpg',
-                    name: '同学群',
-                    time: '昨天21:00',
-                    lastinfo: '班长：明天不要迟到'
-                },
-                {
-                    img: '../public/vue5.jpg',
-                    name: '小明同学',
-                    time: '昨天21:00',
-                    lastinfo: '小明同学：吃饭了嘛'
-                }, {
-                    img: '../public/vue.jpg',
-                    name: '小小',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue2.jpg',
-                    name: '班级群',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue3.jpg',
-                    name: '幸福的一家人',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue4.jpg',
-                    name: '同学群',
-                    time: '昨天21:00',
-                    lastinfo: '班长：明天不要迟到'
-                },
-                {
-                    img: '../public/vue5.jpg',
-                    name: '小明同学',
-                    time: '昨天21:00',
-                    lastinfo: '小明同学：吃饭了嘛'
-                }, {
-                    img: '../public/vue.jpg',
-                    name: '小小',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue2.jpg',
-                    name: '班级群',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue3.jpg',
-                    name: '幸福的一家人',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue4.jpg',
-                    name: '同学群',
-                    time: '昨天21:00',
-                    lastinfo: '班长：明天不要迟到'
-                },
-                {
-                    img: '../public/vue5.jpg',
-                    name: '小明同学',
-                    time: '昨天21:00',
-                    lastinfo: '小明同学：吃饭了嘛'
-                }, {
-                    img: '../public/vue.jpg',
-                    name: '小小',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue2.jpg',
-                    name: '班级群',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue3.jpg',
-                    name: '幸福的一家人',
-                    time: '昨天20:01',
-                    lastinfo: '小下：我们截个图'
-                },
-                {
-                    img: '../public/vue4.jpg',
-                    name: '同学群',
-                    time: '昨天21:00',
-                    lastinfo: '班长：明天不要迟到'
-                },
-                {
-                    img: '../public/vue5.jpg',
-                    name: '小明同学',
-                    time: '昨天21:00',
-                    lastinfo: '小明同学：吃饭了嘛'
-                },
+            jud: 1,
 
-            ]
+        }
+    }, 
+    methods: {
+        toone(){
+            this.jud = 1
+        },
+        totwo(){
+            this.jud = 2
+        },
+        tothree(){
+            this.jud = 3
+        },
+        isone(){
+            if(this.jud == 1)return true
+            return false
+        },
+        istwo(){
+            if(this.jud == 2)return true
+            return false
+        },
+        isthree(){
+            if(this.jud==3)return true
+            return false
         }
     }
-
 }
 </script>
 
 <style scoped>
+
+* {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+
 .project-qq {
     height: 100vh;
+    display: hidden;
 }
 
 .qq-head {
@@ -267,44 +127,40 @@ export default {
     }
 }
 
-.qq-body {
-    height: 80%;
-    overflow: auto;
-    .body-info {
-        list-style: none;
-
-        .oneinfo {
-
-            margin-top: 5px;
-            height: 60px;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            .lastinfo{
-                    font-size: 10px;
-                }
-
-            .body-showhead {
-                height: 50px;
-                width: 50px;
-                border-radius: 50%;
-                background-color: #fff;
-                margin-left: 2px;
-                overflow: hidden;
-
-                .oneimg {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-
-    }
-
-}
 
 .qq-foot {
+
+    
+    position: fixed;
+    bottom: 0;
+    /* .foot-info {
+         color: rgb(0, 98, 255); 
+    } */
+
     height: 10%;
-    background-color: #ec0f0f;
+    background-color: #fff;
+    opacity: 0.9;
     border-radius: 5px;
-}</style>
+    display: flex;
+    justify-content: center;
+    
+    .foot-chil {
+        color: #0c0c0c;
+        margin-top: 10px;
+        padding: 0 45px 0 45px;
+        text-align: center;
+
+        .iconfont {
+
+            font-size: 30px;
+        }
+
+        .inof-text {
+            font-size: 15px;
+        }
+    }
+   .workon{
+    color: #37cdfb;
+   }
+}
+</style>
