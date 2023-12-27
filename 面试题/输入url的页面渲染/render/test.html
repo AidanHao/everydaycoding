@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        /* .a .b.c{
+
+        }
+         在生成CSSOM树 的时候下面的方式更加优雅 类名不冲突就可以啦 
+        .c{
+
+        } */
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="name">Tom </div>
+        <div class="age">18</div>
+    </div>
+    <script>
+        //树大致长这样，最low的解释
+        let node={
+            tag:'div',
+            id:'app',
+            class:'',
+            // 甚至会有坐标
+            x:0,
+            y:0,
+            children:[
+                {
+                    tag:'div',
+                    class:'name',
+                    id:'',
+                    text:'Tom'
+                },
+                {
+                    tag:'div',
+                    class:'age',
+                    text:'18'
+                }
+            ]
+        }
+    </script>
+</body>
+</html>

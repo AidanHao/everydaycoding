@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">hello</div>
+    <script>
+        //执行这段代码会执行四次回流，其实真实情况是只发生了一次回流，老版本才是四次
+        //浏览器在执行js的时候，会维护一个渲染队列，
+        //只要windows 能使用inner.width
+
+        //这样写了就会执行四次回流，因为我们每次写完样式都要读取我们写的属性，会强制浏览器回流刷新，会导致渲染队列强制执行掉
+        let app = document.getElementById('app')
+        app.style.position = 'relative'
+        app.style.width = '100px'
+        console.log(app.offsetWidth);//相比clientWidth会含边框 inner.width是window独有的
+        app.style.height = '200px'
+        console.log(app.offsetHeight);
+        app.style.left = '10px'
+        console.log(app.offsetLeft);
+        app.style.top = '10px'
+        console.log(app.offsetTop);
+
+        //这里回流一次
+        //app.style.cssText='width:100px;height:100px;position:relative;left:10px;top:10px'//或者你拿着这四个数据在css里面用一个类名提前写好，这样你就可以给这个容器加上这个类名来实现只一次回流，
+
+
+    </script>
+</body>
+</html>
