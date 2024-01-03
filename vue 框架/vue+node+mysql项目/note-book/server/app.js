@@ -1,0 +1,29 @@
+
+const Koa = require('koa')
+const app = new Koa()
+const user = require('./routes/user.js')//这个地址就相当于抛出的东西，赋值给了user
+const bodyParser = require('koa-bodyparser')//让koa能解析post参数
+
+//主要逻辑
+// const main = (ctx)=>{
+//     // 向前端反馈
+//     if(ctx.url == '/login'){
+//         ctx.body = '登录成功'
+//     }else if(ctx.url=='/register')
+//     {
+//         ctx.body='注册成功'
+//     }
+// }
+
+//调用bodyParser
+app.use(bodyParser())
+
+//必须.routes调用,允许所有请求方法
+app.use(user.routes(),user.allowedMethods())
+
+
+
+// 3000表示3000端口
+app.listen(3000,()=>{
+    console.log('项目已启动');
+})
