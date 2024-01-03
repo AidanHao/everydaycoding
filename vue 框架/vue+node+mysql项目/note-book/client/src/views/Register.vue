@@ -63,8 +63,10 @@
 
     const onSubmit = ()=>{
         // 发请求，将state.username,state.password传给后端
-
         console.log(state.username,state.password);
+        
+
+
     }
     const login = ()=>{
         router.push('/login')

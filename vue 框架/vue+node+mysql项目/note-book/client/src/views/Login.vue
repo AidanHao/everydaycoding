@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+// setup 是组合式api
     // v-model双向绑定
     // 最新写法,引入reactive 或者 ref
     // reactive 会把引用类型的数据变为响应式
@@ -46,6 +47,7 @@
     import {reactive} from 'vue'
     // 这个是hooks
     import { useRouter } from 'vue-router'
+    import axios from '../api'//引入我们封装好的axios，为什么没花括号，因为我们是默认抛出的
 
     const router = useRouter()//这个router就相当与之前this.$router
     const state = reactive({//将对象变成响应式
@@ -53,10 +55,20 @@
         password:'',
     })
 
-    const onSubmit = ()=>{
+    const onSubmit = async()=>{
         // 发请求，将state.username,state.password传给后端
-
+        //发请求的手段fetch xhr axios
         console.log(state.username,state.password);
+
+        const res = await axios.post('/login',{
+            username: state.username,
+            password: state.password
+        })//后端定义的方法,前面已经封装好了前面的地址
+        console.log(res);//这里会报错，浏览器有保护机制，只要两个网络部同源网络，浏览器就会给你截止掉
+
+        //保存用户信息
+        sessionStorage.setItem('userInfo',JSON.stringify(res.data))//使用json将对象转为字符串，存储在session当中，session只能存字符串
+        router.push('/noteClass')//跳转到首页页面
     }
     const register = ()=>{
         router.push('/register')

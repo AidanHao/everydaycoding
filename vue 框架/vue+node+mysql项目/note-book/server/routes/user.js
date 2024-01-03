@@ -5,6 +5,7 @@ const {userLogin} = require('../controllers/mysqlControl.js')//我们直接解�
 
 
 //定义接口
+//这里是登录接口
 // 登录请求 一般用post 也可以用get 本质上没有区别 post里面可以接n个参数，但是get的参数是有限的
 router.post('/login',async (ctx)=>{
     // ctx.body = 'login success'、
@@ -48,6 +49,13 @@ router.post('/login',async (ctx)=>{
     // ctx.body = 'login success'//会覆盖try catch中的内容
 })
 
+//定义注册接口
+router.post('/register',async (ctx)=>{
+   // 拿到前端传过来的username和password,nickname 
+   //在数据库校验是否username 是否存在，如果不存在
+   //往数据库中植入一条新的数据
+    
+})
 
 //common js 规范 抛出 node里面要这样用
 module.exports = router

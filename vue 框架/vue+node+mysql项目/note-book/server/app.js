@@ -4,6 +4,9 @@ const app = new Koa()
 const user = require('./routes/user.js')//这个地址就相当于抛出的东西，赋值给了user
 const bodyParser = require('koa-bodyparser')//让koa能解析post参数
 
+const cors = require('koa2-cors')//解决跨域问题，告诉浏览器允许跨域
+app.use(cors())//cors是函数体，要调用
+
 //主要逻辑
 // const main = (ctx)=>{
 //     // 向前端反馈
