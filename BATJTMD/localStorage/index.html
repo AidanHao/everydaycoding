@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStorage</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h2>localStorage</h2>
+        <p></p>
+        <ul class="plates">
+            <li>Loading tapas...</li>
+        </ul>
+        <form class="add-items">
+            <!-- required 是一个提示，当用户没有输入内容的时候，会提示用户输入内容 -->
+            <input type="text" name="item" placeholder="Item Name" required>
+            <input type="submit" value="+ Add Item">
+        </form>
+    </div>
+
+
+    <script>
+        //  这是属于html5的考点 
+        // window.localStorage.setItem('name', 'batman')
+        const addItems = document.querySelector('.add-items')
+        const itemsList = document.querySelector('.plates')
+        const items = JSON.parse(localStorage.getItem('items')) || []
+        function addItem(e) {
+            // 属于事件对象，这个e是事件对象，再事件里面就能获得
+            e.preventDefault();//阻止浏览器表单的默认行为
+            // 组织todos 结构
+            const item = {
+                text: this.querySelector('[name=item]').value,
+                done: false
+            }
+            // console.log(item);
+            items.push(item)
+            // DOM 更新的业务逻辑
+            populateList(items.itemsList)
+            this.reset();//清空表单
+            // 序列化一下JSON.stringify(items)
+            localStorage.setItem('items', JSON.stringify(items))
+
+        }
+
+
+        function populateList(plates = [], platesList) {
+            // map 将原数组返回一个新数组，callback return 一个新数组
+            // join 吧数组转换成字符串
+            platesList.innerHTML = plates.map((plate, i) => {
+                return `
+            <li>
+                <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''}>
+                <label for="item${i}">${plate.text}</label>
+            </li>
+        `
+            }).join('')
+        }
+        addItems.addEventListener('submit', addItem)
+        // 父元素上绑定事件，事件委托
+
+        itemsList.addEventListener('click', toggleDone)//事件冒泡 事件监听会再每一个人上，缺点是每个元素都要事件监听，开销大，事件有一个冒泡机制
+        window.onload = function () {
+            populateList(items, itemsList)
+        }
+        function toggleDone(e) {
+            console.log(e.target.nodeName);//这里会输出两个,e是事件对象，this 是事件绑定的元素 会打印label
+            // return
+
+            if (e.target.nodeName === 'INPUT') {
+                // 处理input checkbox 处理
+                console.log(e.target);
+                // console.log(e.target);
+                const el = e.target;
+                const index = el.dataset.index;
+                console.log(index);
+                items[index].done = !items[index].done;
+                localStorage.setItem('items', JSON.stringify(items));
+                populateList(items, itemsList);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
