@@ -8,6 +8,8 @@ import { Button, Form, Field, CellGroup } from 'vant';
 import 'vant/lib/index.css';
 //引入路由
 import router from './router';
+//引入vant的icon
+import { Icon } from 'vant';
 
 
 
@@ -20,4 +22,5 @@ app.use(router)
 app.use(Form);
 app.use(Field);
 app.use(CellGroup)
+app.use(Icon)
 app.mount('#app')

@@ -53,6 +53,9 @@
     import {reactive} from 'vue'
     // 这个是hooks
     import { useRouter } from 'vue-router'
+    import axios from '../api'
+
+    import { showSuccessToast, showFailToast } from 'vant';
 
     const router = useRouter()//这个router就相当与之前this.$router
     const state = reactive({//将对象变成响应式
@@ -61,10 +64,19 @@
         nickname:'',
     })
 
-    const onSubmit = ()=>{
+    const onSubmit = async()=>{
         // 发请求，将state.username,state.password传给后端
-        console.log(state.username,state.password);
-        
+        // console.log(state.nickname,state.username,state.password);
+        const data = await axios.post('/register',{
+            username: state.username,
+            password: state.password,
+            nickname: state.nickname
+        })
+        // console.log(data);
+        showSuccessToast(data.msg);
+        setTimeout(()=>{
+            router.push('/login')
+        },1500)
 
 
     }

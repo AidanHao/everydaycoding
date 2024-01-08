@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
     {
+        path:'/',
+        redirect:'/noteClass'
+    }
+    ,
+    {
         path: '/login',
         name: 'login',
         component: () => import('../views/Login.vue'),
@@ -23,8 +28,15 @@ const routes = [
         meta:{
             title:'笔记分类'
         }
-
-    }
+    },
+    {
+        path: '/noteList',
+        name: 'noteList',
+        component: () => import('../views/NoteList.vue'),
+        meta:{
+            title:'笔记列表'
+        }
+    },
 ]
 const router = createRouter({
     history: createWebHistory(),

@@ -171,9 +171,9 @@ export default {
     background-color: #fff;
     opacity: 0.9;
     border-radius: 5px;
-    width: 80vw;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 100vw;
+    /* padding-left: 10%;
+    padding-right: 10%; */
     padding-top: 4.2%;
     display: flex;
     justify-content: space-between;

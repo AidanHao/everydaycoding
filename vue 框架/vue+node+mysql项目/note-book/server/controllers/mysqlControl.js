@@ -21,7 +21,7 @@ const allService = {
                 if(err){
                     reject(err)
                 }else{
-                    //连接成功了就执行sql语句 这个query与我们定义的不是一个而是自带的
+                    //连接成功了就执行sql语句 这个query与我们定义的不是一个而是自带的 values 就一一写入倒sql
                     connection.query(sql,values,(err,rows)=>{
                         if(err){
                             reject(err)
@@ -40,10 +40,26 @@ const allService = {
 
 //登录
 const userLogin = (username,password) => {
-    let _sql = `select * from users where username="${username}" and password = "${password}"; `
+    let _sql = `select * from users where username="${username}" and password="${password}"; `
     return allService.query(_sql)//返回的是一个promise对象
 }
+
+//注册校验 查询
+const userFind = (username)=>{
+    let _sql = `select * from users where username="${username}";`
+    return allService.query(_sql)
+    
+}
+
+//注册成功，植入数据
+const userRegister = (values)=>{//values = [username,password,nickname]要写成整体就用数组
+    let _sql = `insert into users set username=?,password=?,nickname=?;`
+    return allService.query(_sql,values)//value必须要和sql语句中的顺序一一对应上
+}
+
 //抛出这个函数
 module.exports ={
-    userLogin
+    userLogin,
+    userFind,
+    userRegister,
 }

@@ -18,9 +18,9 @@ axios.interceptors.response.use(res=>{//res代表response响应体
         if(res.data.code!=='8000'){//逻辑性错误
             // 只要是body返回的值，外面一定会包裹一层data
             showFailToast(res.data.msg);
-            // return Promise.reject(res)//reject是可以这样用的，当你只要用到reject时就这么干 
+            return Promise.reject(res)//reject是可以这样用的，当你只要用到reject时就这么干 
             // Promise.reject(res)
-            return res.data
+            // return res.data
         }else{
             //封装的地方不要写业务逻辑
             //登录成功
