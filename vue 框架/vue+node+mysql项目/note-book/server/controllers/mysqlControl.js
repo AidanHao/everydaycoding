@@ -57,9 +57,23 @@ const userRegister = (values)=>{//values = [username,password,nickname]要写成
     return allService.query(_sql,values)//value必须要和sql语句中的顺序一一对应上
 }
 
+//根据类型查找笔记
+const findNodeListByType = (note_type)=>{
+    let _sql = `select * from note where note_type="${note_type}";`
+    return allService.query(_sql)//执行这个sql语句
+}
+
+//根据id找数据
+const findNodeDetailById = (id)=>{
+    let _sql=`select * from note where id="${id}";`
+    return allService.query(_sql)
+}
+
 //抛出这个函数
 module.exports ={
     userLogin,
     userFind,
     userRegister,
+    findNodeListByType,
+    findNodeDetailById,
 }

@@ -1,28 +1,15 @@
 <template>
     <div class="note-list">
-        <ul>
-            <li>
+        <ul v-if="state.noteList.length">
+            <li v-for="item in state.noteList" :key="item.id" @click="goNoteDetail(item.id)">
                 <div class="img">
-                    <img src="https://tx-free-imgs2.acfun.cn/kimg/EJjM1y8qPQoFYWNmdW4SBWltYWdlGi02OTc0NDIyNF9jYWMxNThjZmVkMTQ0NWU3ODZiNmZjOGJmZmQ4ODY1Zi5wbmc.png" alt="">
+                    <img :src="item.head_img" alt="">
                 </div>
-                <p class="time">2023/05/20</p>
-                <p class="title">今天去吃了猪脚饭</p>
-            </li>
-            <li>
-                <div class="img">
-                    <img src="https://tx-free-imgs2.acfun.cn/kimg/EJjM1y8qPQoFYWNmdW4SBWltYWdlGi02OTc0NDIyNF9jYWMxNThjZmVkMTQ0NWU3ODZiNmZjOGJmZmQ4ODY1Zi5wbmc.png" alt="">
-                </div>
-                <p class="time">2023/05/20</p>
-                <p class="title">今天去吃了猪脚饭啊啊啊啊啊啊啊啊啊啊</p>
-            </li>
-            <li>
-                <div class="img">
-                    <img src="https://tx-free-imgs2.acfun.cn/kimg/EJjM1y8qPQoFYWNmdW4SBWltYWdlGi02OTc0NDIyNF9jYWMxNThjZmVkMTQ0NWU3ODZiNmZjOGJmZmQ4ODY1Zi5wbmc.png" alt="">
-                </div>
-                <p class="time">2023/05/20</p>
-                <p class="title">今天去吃了猪脚饭</p>
+                <p class="time">{{ item.c_time }}</p>
+                <p class="title">{{ item.title }}</p>
             </li>
         </ul>
+        <p class="empty" v-else>当前分类下还没有文字哦</p>
     </div>
 </template>
 
@@ -38,11 +25,11 @@
 // onBeforeMount(()=>{
 //     console.log('onBeforeMount');
 // })
-onMounted(()=>{
-    // console.log('onMounted',document.querySelector('.note-list') );
-    //页面加载中发请求，拿到当前分类的数据
+// onMounted(()=>{
+//     // console.log('onMounted',document.querySelector('.note-list') );
+//     //页面加载中发请求，拿到当前分类的数据
     
-})
+// })
 // // 卸载的时候一般会干一些清除定时器的操作
 
 // onUnmounted(()=>{
@@ -50,6 +37,44 @@ onMounted(()=>{
 // })
 
 // updata有点类似computed监听器一样
+
+
+import { onMounted,reactive } from 'vue';
+// useRoute 是vue封装的当前路由的详情，更加方便获取参数router包含了route
+import {useRouter,useRoute} from 'vue-router'
+import axios  from '../api';
+// import { reactive } from 'vue';//引入数据源
+
+const router = useRouter()
+const route = useRoute()//当前路由详情
+// console.log(router);//_value表示这个属性是私有的属性
+// console.log(router.currentRoute.value);
+// console.log(route.query.title);
+const state = reactive({
+    noteList:[]
+})
+
+
+// await放在全局是可以的因为setup已经给你封装好了
+onMounted(async()=>{
+    //页面加载中发请求，拿到当前分类的数据
+    const {data} = await axios.post('/findNodeListByType',{
+        note_type:route.query.title
+    })
+    // console.log(data);
+     state.noteList = data
+    
+})
+const goNoteDetail = (id)=>{
+    // 最好再向后端请求一下数据
+    router.push({
+        path:'/noteDetail',
+        query:{
+            id
+        }
+    })
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -77,6 +102,7 @@ onMounted(()=>{
             img{
                 width: 100%;
                 // width: 2rem;
+                height: 4rem;
                 border-radius: 0.27;
             }
             .time{
@@ -94,6 +120,9 @@ onMounted(()=>{
                 text-overflow: ellipsis;    
             }
         }
+    }
+    .empty{
+        color: rgb(7, 206, 241);
     }
 }
 </style>

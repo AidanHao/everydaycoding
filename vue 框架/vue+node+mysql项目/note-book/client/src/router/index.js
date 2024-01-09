@@ -37,6 +37,14 @@ const routes = [
             title:'笔记列表'
         }
     },
+    {
+        path: '/noteDetail',
+        name: 'noteDetail',
+        component: () => import('../views/noteDetail.vue'),
+        meta:{
+            title:'笔记详情'
+        }
+    }
 ]
 const router = createRouter({
     history: createWebHistory(),
