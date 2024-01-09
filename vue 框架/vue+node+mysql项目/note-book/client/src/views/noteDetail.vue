@@ -21,6 +21,7 @@
 import axios  from '../api';
 import { onMounted,reactive } from 'vue';
 import {useRouter,useRoute} from 'vue-router'
+
 const router = useRouter()
 const route = useRoute()//当前路由详情
 
@@ -33,10 +34,9 @@ const state = reactive({
 
 onMounted(async()=>{
     //页面加载中发请求，拿到当前分类的数据
-    const {data} = await axios.post('/findNodeDetailById',{
+    const {data} = await axios.post('/findNoteDetailById',{
         id:route.query.id
-    })
-    console.log(data);
+    })  
     // console.log(data);
      state.noteDetail = data
     

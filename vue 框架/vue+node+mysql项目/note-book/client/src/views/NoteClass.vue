@@ -6,7 +6,7 @@
                     <van-icon name="wap-nav" />
                 </div>
                 <div>
-                    <van-icon name="edit" />
+                    <van-icon name="edit" @click="goPublish"/>
     
                     <van-icon name="like-o" />
    
@@ -70,6 +70,9 @@ const router = useRouter() // 这个就是之前抛出来的router
     const goNoteList = (title)=>{
       // query 参数会以？的形式拼在url后面
       router.push({path:'/noteList',query:{'title':title}})
+    }
+    const goPublish = ()=>{
+      router.push('/notePublish')
     }
 </script>
 

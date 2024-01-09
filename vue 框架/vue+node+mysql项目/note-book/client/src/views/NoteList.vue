@@ -9,7 +9,7 @@
                 <p class="title">{{ item.title }}</p>
             </li>
         </ul>
-        <p class="empty" v-else>当前分类下还没有文字哦</p>
+        <p class="empty" v-else>当前分类下还没有文章哦</p>
     </div>
 </template>
 
@@ -58,7 +58,7 @@ const state = reactive({
 // await放在全局是可以的因为setup已经给你封装好了
 onMounted(async()=>{
     //页面加载中发请求，拿到当前分类的数据
-    const {data} = await axios.post('/findNodeListByType',{
+    const {data} = await axios.post('/findNoteListByType',{
         note_type:route.query.title
     })
     // console.log(data);

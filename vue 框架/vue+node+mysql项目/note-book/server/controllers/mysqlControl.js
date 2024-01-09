@@ -58,15 +58,21 @@ const userRegister = (values)=>{//values = [username,password,nickname]要写成
 }
 
 //根据类型查找笔记
-const findNodeListByType = (note_type)=>{
+const findNoteListByType = (note_type)=>{
     let _sql = `select * from note where note_type="${note_type}";`
     return allService.query(_sql)//执行这个sql语句
 }
 
 //根据id找数据
-const findNodeDetailById = (id)=>{
+const findNoteDetailById = (id)=>{
     let _sql=`select * from note where id="${id}";`
     return allService.query(_sql)
+}
+
+//发布笔记
+const notePublish = (values)=>{
+    let _sql = `insert into note set note_content=?,title=?,head_img=?,note_type=?,nickname=?,userId=?,c_time=?,m_time=?;`
+    return allService.query(_sql,values)
 }
 
 //抛出这个函数
@@ -74,6 +80,7 @@ module.exports ={
     userLogin,
     userFind,
     userRegister,
-    findNodeListByType,
-    findNodeDetailById,
+    findNoteListByType,
+    findNoteDetailById,
+    notePublish,
 }
