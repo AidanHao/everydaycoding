@@ -1,10 +1,11 @@
 <!-- App.vue -->
 <script setup>
-import Rate from './components/Rate.vue'//这里就是子组件的引入
-import JHead from './components/JHead.vue'
+//这里就是子组件的引入
+import JHead from './components/Jhead.vue'
 import JMain from './components/JMain.vue'
 import JSide from './components/JSide.vue'
 import JAdver from './components/JAdver.vue'
+import Item from './components/Item.vue'
 </script>
 
 <template>
