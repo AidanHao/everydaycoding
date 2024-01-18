@@ -1,0 +1,1 @@
+<view class="song"><image src="{{a}}" mode=""></image><view class="desc">{{b}}</view><view class="flex-box"><view class="price">￥{{c}}</view><view class="market-price">￥{{d}}</view></view></view>

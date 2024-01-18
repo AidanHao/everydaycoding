@@ -1,0 +1,1 @@
+<view class="content"><navigator url="/pages/about/about">去关于页面</navigator><image class="logo" src="/static/logo.png" bindtap="{{a}}"></image><view class="text-area"><text class="title" bindtap="{{c}}">{{b}}</text><text>{{d}}</text></view><view class="name"><text>{{e}}</text></view><song wx:if="{{f}}" u-i="636e2926-0" bind:__l="__l" u-p="{{f}}"/></view>
