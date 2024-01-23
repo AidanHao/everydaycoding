@@ -5,7 +5,7 @@
 			<!-- 将内容填充到名为content的插槽当中 -->
 			<template v-slot:content>
 				<view class="search">
-					<uni-search-bar @confirm="search" @input="input" placeholder="歌曲"></uni-search-bar>
+					<uni-search-bar  placeholder="歌曲"></uni-search-bar>
 				</view>
 			</template>
 		</wyheader>

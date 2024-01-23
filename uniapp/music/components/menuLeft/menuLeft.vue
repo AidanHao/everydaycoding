@@ -1,5 +1,8 @@
 <template>
 	<view class="menu-left" :class="isShow?'show':'hide'">
+		<view class="head">
+			
+		</view>
 		<!-- 用户info -->
 		<view class="menu-hd">
 			<view class="user-info">
@@ -41,7 +44,7 @@ const hideMenu = ()=>{
 <style lang="scss" scoped>
 .menu-left{
 	position: fixed;
-	top: 0;
+	top: 80rpx;
 	z-index: 9999;
 	width: 620rpx;
 	height: 100%;
