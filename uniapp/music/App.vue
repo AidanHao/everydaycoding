@@ -12,6 +12,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	/*每个页面公共css */
+	@import url("https://at.alicdn.com/t/c/font_4416313_3xnok1nkake.css");
 </style>

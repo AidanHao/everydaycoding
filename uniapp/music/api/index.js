@@ -23,3 +23,18 @@ export const apiGetRecommendList = ()=>{
 		method:'GET'
 	})
 }
+
+// 获取推荐歌曲的数据
+export const apiGetRecommendSongs = ()=>{
+	return uni.request({
+		url:baseUrl + '/recommend/songs',
+		method:'GET'
+	})
+}
+// 雷达歌单
+export const apiGetpersonalizedList = ()=>{
+	return uni.request({
+		url:baseUrl + '/personalized?limit=6',
+		method:'GET'
+	})
+}
