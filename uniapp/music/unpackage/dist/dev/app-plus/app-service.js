@@ -2828,17 +2828,33 @@ if (uni.restoreGlobal) {
     return vue.openBlock(), vue.createElementBlock("view", null, " 播客 ");
   }
   const PagesPlayPlay = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$2], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/play/play.vue"]]);
+  const apiGetUserInfo = (uid) => {
+    return uni.request({
+      url: `${baseUrl}/user/detail`,
+      method: "GET",
+      data: {
+        uid
+      }
+    });
+  };
   const _sfc_main$4 = {
     __name: "mine",
     setup(__props) {
       const store2 = useStore();
       const isLogin = vue.computed(() => {
-        return store2.loginState;
+        return store2.state.loginState;
       });
       const login = () => {
         uni.reLaunch({
           url: "/pages/login/login"
         });
+      };
+      onLoad(() => {
+        getUserInfo();
+      });
+      const getUserInfo = async () => {
+        const res = await apiGetUserInfo("store.state.userId");
+        formatAppLog("log", "at pages/mine/mine.vue:110", res);
       };
       return (_ctx, _cache) => {
         const _component_wyheader = resolveEasycom(vue.resolveDynamicComponent("wyheader"), __easycom_0);
@@ -2851,7 +2867,7 @@ if (uni.restoreGlobal) {
             needBox: false
           }, {
             content: vue.withCtx(() => [
-              vue.createElementVNode("view", null, " 我的音乐 ")
+              vue.createElementVNode("view", null, "我的音乐")
             ]),
             _: 1
             /* STABLE */
@@ -2862,14 +2878,69 @@ if (uni.restoreGlobal) {
               vue.createElementVNode("view", { class: "pic" }, [
                 vue.createElementVNode("image", {
                   src: "/static/logo.png",
-                  mode: ""
+                  mode: "aspectFill"
                 })
               ]),
               vue.unref(isLogin) ? (vue.openBlock(), vue.createElementBlock("view", {
                 key: 0,
                 class: "user-online"
               }, [
-                vue.createElementVNode("text", null, "已经登录")
+                vue.createElementVNode("view", { class: "username" }, [
+                  vue.createElementVNode("text", null, "Aidan")
+                ]),
+                vue.createElementVNode("view", { class: "user-desc" }, [
+                  vue.createElementVNode("view", { class: "user-desc-horoscope" }, [
+                    vue.createElementVNode("text", { class: "iconfont icon-boy" }),
+                    vue.createElementVNode("text", null, "90后"),
+                    vue.createElementVNode("text", null, "射手座")
+                  ]),
+                  vue.createElementVNode("view", { class: "user-desc-address" }, [
+                    vue.createElementVNode("text", null, "江西 南昌")
+                  ]),
+                  vue.createElementVNode("view", { class: "user-desc-age" }, [
+                    vue.createElementVNode("text", null, "村龄7年")
+                  ])
+                ]),
+                vue.createElementVNode("view", { class: "user-wyInfo" }, [
+                  vue.createElementVNode("view", { class: "wyInfo-gz" }, [
+                    vue.createElementVNode("text", null, "10 "),
+                    vue.createTextVNode("关注 ")
+                  ]),
+                  vue.createElementVNode("view", { class: "wyInfo-fs" }, [
+                    vue.createElementVNode("text", null, "13 "),
+                    vue.createTextVNode("粉丝 ")
+                  ]),
+                  vue.createElementVNode("view", { class: "wyInfo-dj" }, [
+                    vue.createElementVNode("text", null, "Lv.8 "),
+                    vue.createTextVNode("等级 ")
+                  ]),
+                  vue.createElementVNode("view", { class: "wyInfo-tg" }, [
+                    vue.createElementVNode("text", null, "1837时 "),
+                    vue.createTextVNode("听歌 ")
+                  ])
+                ]),
+                vue.createElementVNode("view", { class: "user-list" }, [
+                  vue.createElementVNode("view", { class: "zj btn" }, [
+                    vue.createElementVNode("text", { class: "iconfont icon-zuijinlaifang" }),
+                    vue.createElementVNode("text", { class: "text" }, "最近")
+                  ]),
+                  vue.createElementVNode("view", { class: "bd btn" }, [
+                    vue.createElementVNode("text", { class: "iconfont icon-bendisucai" }),
+                    vue.createElementVNode("text", { class: "text" }, "本地")
+                  ]),
+                  vue.createElementVNode("view", { class: "yp btn" }, [
+                    vue.createElementVNode("text", { class: "iconfont icon-shangchuanyunpan" }),
+                    vue.createElementVNode("text", { class: "text" }, "云盘")
+                  ]),
+                  vue.createElementVNode("view", { class: "yg btn" }, [
+                    vue.createElementVNode("text", { class: "iconfont icon-yigou" }),
+                    vue.createElementVNode("text", { class: "text" }, "已购")
+                  ]),
+                  vue.createElementVNode("view", { class: "fl btn" }, [
+                    vue.createElementVNode("text", { class: "iconfont icon-bendifenlei" }),
+                    vue.createElementVNode("text", { class: "text" })
+                  ])
+                ])
               ])) : (vue.openBlock(), vue.createElementBlock("view", {
                 key: 1,
                 class: "user-outline",
@@ -2878,7 +2949,7 @@ if (uni.restoreGlobal) {
                 vue.createElementVNode("text", null, "立即登录"),
                 vue.createVNode(_component_uni_icons, {
                   type: "right",
-                  size: "20"
+                  size: "16"
                 })
               ]))
             ])
@@ -2919,7 +2990,8 @@ if (uni.restoreGlobal) {
   const _sfc_main$1 = {
     __name: "login",
     setup(__props) {
-      let msg = vue.ref("");
+      const store2 = useStore();
+      let msg = vue.ref("扫一扫");
       let qrimg = vue.ref("");
       const goIndexPage = () => {
         uni.reLaunch({
@@ -2932,17 +3004,24 @@ if (uni.restoreGlobal) {
           success: (res) => {
             let key = res.data.data.unikey;
             uni.request({
-              url: `${baseUrl}/login/qr/create?${key}&qrimg=true&timestamp=${Date.now()}`,
+              url: `${baseUrl}/login/qr/create?key=${key}&qrimg=true&timestamp=${Date.now()}`,
               success: (result) => {
                 qrimg.value = result.data.data.qrimg;
-                setInterval(() => {
+                const timmer = setInterval(() => {
                   uni.request({
                     url: `${baseUrl}/login/qr/check?key=${key}&timestamp=${Date.now()}`,
                     success: (response) => {
-                      formatAppLog("log", "at pages/login/login.vue:60", response);
+                      formatAppLog("log", "at pages/login/login.vue:68", response);
                       msg.value = response.data.message;
                       if (response.data.code === 803) {
                         msg.value = response.data.message;
+                        clearInterval(timmer);
+                        uni.setStorageSync("cookie", response.data.cookie);
+                        store2.commit("changeLoginState", true);
+                        getApp().getUser(response.data.cookie);
+                        uni.reLaunch({
+                          url: "/pages/index/index"
+                        });
                       }
                     }
                   });
@@ -2962,6 +3041,13 @@ if (uni.restoreGlobal) {
           ]),
           vue.createElementVNode("view", { class: "login-body" }, [
             vue.createElementVNode("view", { class: "qrimg" }, [
+              vue.unref(qrimg) ? (vue.openBlock(), vue.createElementBlock(
+                "text",
+                { key: 0 },
+                vue.toDisplayString(vue.unref(msg)),
+                1
+                /* TEXT */
+              )) : vue.createCommentVNode("v-if", true),
               vue.createElementVNode("view", { class: "login-img" }, [
                 vue.unref(qrimg) ? (vue.openBlock(), vue.createElementBlock("image", {
                   key: 0,
@@ -2994,6 +3080,7 @@ if (uni.restoreGlobal) {
   __definePage("pages/login/login", PagesLoginLogin);
   const _sfc_main = {
     onLaunch: function() {
+      formatAppLog("log", "at App.vue:5", "App Launch");
       let key = uni.getStorageSync("cookie");
       if (!key) {
         this.$store.commit("changeLoginState", false);
@@ -3005,7 +3092,7 @@ if (uni.restoreGlobal) {
           cookie: key
         },
         success: (res) => {
-          formatAppLog("log", "at App.vue:20", res.data.data.account.id);
+          formatAppLog("log", "at App.vue:19", res.data.data.account.id);
           let id = res.data.data.account.id;
           if (id) {
             this.$store.commit("changeLoginState", true);
@@ -3015,10 +3102,10 @@ if (uni.restoreGlobal) {
       });
     },
     onShow: function() {
-      formatAppLog("log", "at App.vue:32", "App Show");
+      formatAppLog("log", "at App.vue:30", "App Show");
     },
     onHide: function() {
-      formatAppLog("log", "at App.vue:35", "App Hide");
+      formatAppLog("log", "at App.vue:33", "App Hide");
     },
     methods: {
       getUser(key) {
@@ -3030,7 +3117,7 @@ if (uni.restoreGlobal) {
             cookie: key
           },
           success: (res) => {
-            formatAppLog("log", "at App.vue:46", res);
+            formatAppLog("log", "at App.vue:44", res);
             let nickname = res.data.profile && res.data.profile.nickname;
             let id = res.data.profile && res.data.profile.userId;
             let avatar = res.data.profile && res.data.profile.avatarUrl;
@@ -3040,7 +3127,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-f13b4d11"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/App.vue"]]);
   const store = createStore({
     state: {
       // 控制菜单显示隐藏

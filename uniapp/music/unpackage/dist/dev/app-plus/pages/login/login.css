@@ -46,6 +46,9 @@
   left: 50%;
   transform: translateX(-50%);
 }
+.login .login-body .qrimg {
+  text-align: center;
+}
 .login .login-body .qrimg .login-img {
   width: 12.5rem;
   height: 12.5rem;

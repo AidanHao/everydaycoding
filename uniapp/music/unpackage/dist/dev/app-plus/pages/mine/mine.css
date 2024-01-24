@@ -683,8 +683,8 @@
   background-color: #93969d;
 }
 .mine-bd .user .pic[data-v-7c2ebfa5] {
-  height: 3.75rem;
   width: 3.75rem;
+  height: 3.75rem;
   margin: 0 auto;
 }
 .mine-bd .user .pic uni-image[data-v-7c2ebfa5] {
@@ -700,4 +700,57 @@
 }
 .mine-bd .user .user-outline[data-v-7c2ebfa5] .uni-icons {
   color: #fff !important;
+}
+.mine-bd .user .user-online[data-v-7c2ebfa5] {
+  text-align: center;
+  color: #fff;
+}
+.mine-bd .user .user-online .username[data-v-7c2ebfa5] {
+  margin: 1.25rem 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.mine-bd .user .user-online .user-desc[data-v-7c2ebfa5] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+}
+.mine-bd .user .user-online .user-desc uni-text[data-v-7c2ebfa5] {
+  margin-left: 0.3125rem;
+}
+.mine-bd .user .user-online .user-desc uni-text.iconfont[data-v-7c2ebfa5] {
+  color: #72939f;
+}
+.mine-bd .user .user-online .user-wyInfo[data-v-7c2ebfa5] {
+  margin: 1.25rem 0;
+  display: flex;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #eee;
+}
+.mine-bd .user .user-online .user-wyInfo uni-view[data-v-7c2ebfa5] {
+  margin-left: 1.25rem;
+}
+.mine-bd .user .user-online .user-wyInfo uni-view[data-v-7c2ebfa5]:first-child {
+  margin-left: 0;
+}
+.mine-bd .user .user-online .user-wyInfo uni-view uni-text[data-v-7c2ebfa5] {
+  font-size: 0.875rem;
+  color: #fff;
+}
+.mine-bd .user .user-online .user-list[data-v-7c2ebfa5] {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
+  grid-column-gap: 0.3125rem;
+}
+.mine-bd .user .user-online .user-list .btn[data-v-7c2ebfa5] {
+  padding: 0.3125rem 0;
+  font-size: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.3125rem;
+}
+.mine-bd .user .user-online .user-list .btn .iconfont[data-v-7c2ebfa5] {
+  font-size: 0.75rem;
+  margin-right: 0.125rem;
 }
