@@ -9,7 +9,9 @@ export default createStore({
 			nickname:'',
 			userId:null,
 			avatar:''
-		}
+		},
+		isShowPlayer:false,//展示播放器
+		currentPlayId:null,//当前播放的歌曲的id
 	},
 	// 这个是同步代码，菜单的隐藏不会涉及到异步逻辑
 	mutations:{
@@ -22,6 +24,14 @@ export default createStore({
 		// 获取用户信息
 		getUserInfo(state,opt){
 			state.userInfo = opt
+		},
+		// 
+		changeCurrentPlayId(state,id){
+			state.currentPlayId = id
+		},
+		// 
+		changeIsShowPlayer(state,flag){
+			state.isShowPlayer = flag
 		}
 	}
 })

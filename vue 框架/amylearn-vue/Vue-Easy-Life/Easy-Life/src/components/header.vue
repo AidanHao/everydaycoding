@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <span>婷生活</span>
+        <span>易生活</span>
     </div>
     <!-- 撑开顶部 -->
     <div class="box">
@@ -22,7 +22,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -31,6 +31,8 @@
 .box{
     width: 100vw;
     height: 2rem;
+    background-color: #5C78FF;
+
 }
 
 </style>

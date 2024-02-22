@@ -1,7 +1,7 @@
 <template>
-	<view class="mine">
+	<scroll-view class="mine" scroll-y="true" @scroll="handleScroll" data-mine='mineWarp'>
 		
-		<wyheader icon="more-filled" bgColor='transparent' :needBox="false" fontColor='#fff'>
+		<wyheader icon="more-filled" :bgColor='headerBgColor' :needBox="false" :fontColor='headerFontColor'>
 			<template v-slot:content>
 				<view>我的音乐</view>
 			</template>
@@ -92,18 +92,47 @@
 						{{item}}
 					</view>
 				</view>
+				<view class="list-sort">
+					<view class="tab" v-if='showTab[0]'>
+						<view class="sort-item" @click="goSongsList(item.id)" v-for="(item , index) in sort_playlist" :key="item.id" >
+							<view class="pic">
+								<image :src="item.coverImgUrl" mode="aspectFill"></image>
+							</view>
+							<view class="desc">
+								<view class="title">
+									{{item.name}}
+								</view>
+								<view class="detail">
+									<text  v-if="item.specialType==0" >歌单</text>
+									<text>{{item.trackCount}}首</text>
+									<text>{{item.playCount}}播放</text>
+									<text v-if="item.specialType==0">{{item.creator.nickname}}</text>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="tab" v-if='showTab[1]'>
+						播客
+					</view>
+					<view class="tab" v-if='showTab[2]'>
+						动态
+					</view>
+				</view>
 			</view>
 		</view>
 		
+		<!-- 播放器 -->
+		<musicPlayer bottom="100rpx"/>
 		
-	</view>
+	</scroll-view>
+	
 </template>
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import { computed,watch,ref } from 'vue';
 import { useStore } from 'vuex'
-import {apiGetUserInfo} from '@/api/mine.js'
+import {apiGetUserInfo,apiGetUserSongsList} from '@/api/mine.js'
 import { formateTime } from '@/utils/index.js'
 const store = useStore()
 
@@ -111,6 +140,10 @@ const userInfo = ref({});
 const activeNum = ref(0)
 const listNav = ['音乐','播客','动态']
 const nav_bottom = ref( 750/3/2 + 'rpx')
+const sort_playlist = ref([])
+const headerBgColor = ref('rgba(255,255,255,0)')
+const headerFontColor = ref('rgba(255,255,255,1)')
+const showTab = ref([true,false,false])
 
 
 const isLogin = computed(() => {
@@ -127,10 +160,18 @@ const login = () => {
 // 	getUserInfo()
 // })
 
+// 获取用户信息
 const getUserInfo =async()=>{
 	const res = await apiGetUserInfo(store.state.userInfo.userId)//'传入用户id
-	console.log(res.data);
+	// console.log(res.data);
 	userInfo.value = res.data
+}
+
+// 用户列表数据获取用
+const getUserSongsList = async()=>{
+	const res = await apiGetUserSongsList(store.state.userInfo.userId)
+	console.log(res.data.playlist);
+	sort_playlist.value = res.data.playlist
 }
 
 // 监听器仓库的用户数据是否更新
@@ -138,21 +179,72 @@ watch(()=>store.state.userInfo.userId,(newVal,oldVal)=>{
 	if(newVal)
 	{
 		getUserInfo()
+		getUserSongsList()
 	}
 },{immediate:true})
 
 const changeNav = (index)=>{
 	activeNum.value = index
 	nav_bottom.value = 750/3/2 * ((2*index)+1) + 'rpx'
+	showTab.value = [false,false,false]
+	showTab.value[index] = true
+	
+	
+}
+let bgOpacity = 0
+	let fontColor = 255
+// 监听滚动事件
+const handleScroll = (e)=>{//0-340
+	// console.log(e.detail.scrollTop);
+	let top = e.detail.scrollTop
+	
+	if(top<=340)
+	{
+		// toFixed(1)保留一位小数
+		bgOpacity = (top / 340).toFixed(1)
+		
+	}else{
+		
+	}
+	if(top>340)
+	{
+		bgOpacity=1
+	}
+	if(top>=200)
+	{
+		fontColor = 0
+	}else{
+		fontColor=255
+	}
+	// bgOpacity = top<=340? (top / 340).toFixed(1):0
+	// fontColor = top>=200? 0 : 255
+	
+	headerBgColor.value=`rgba(255,255,255,${bgOpacity})`
+	headerFontColor.value=`rgb(${fontColor},${fontColor},${fontColor})`
+}
+
+const goSongsList = (id)=>{
+	uni.navigateTo({
+		url:`/pages/songsList/songsList?id=${id}`
+	})
 }
 </script>
 
 <style lang="scss" scoped>
+.mine{
+	// 这样也可以解决滚动的问题
+	// height: calc(100vh - 100rpx);
+	height: 100%;
+}
 .mine-bd{
+	height: 100%;
+	// height: calc(100% - 100rpx);
+	box-sizing: border-box;
 	padding: 280rpx 30rpx 80rpx;
 	position: relative;
 	.user{
-		
+		// 没有登录的时候，撑开
+		min-height: 400rpx;
 		.pic{
 			width: 120rpx;
 			height: 120rpx;
@@ -215,6 +307,7 @@ const changeNav = (index)=>{
 				}
 			}
 			.user-list{
+				// box-sizing: border-box;
 				display: grid;
 				grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
 				grid-column-gap: 10rpx;
@@ -252,8 +345,18 @@ const changeNav = (index)=>{
 		margin-top: 80rpx;
 		border-top-left-radius: 15px;
 		border-top-right-radius: 15px;
+		// 会导致粘性定位失效，
+		// overflow: hidden;
 		.nav{
+			border-top-left-radius: 15px;
+			border-top-right-radius: 15px;
 			display: flex;
+			// 粘性定位
+			position:sticky;
+			position:-webkit-sticky;
+			top: 100rpx;
+			background-color: #fff;
+			z-index: 999;
 			.nav-item{
 				flex: 1;
 				text-align: center;
@@ -292,6 +395,44 @@ const changeNav = (index)=>{
 				bottom: 15rpx;
 				border-radius: 20rpx;
 				transition: left 0.5s ease;
+			}
+		}
+		.list-sort{
+			padding: 40rpx 30rpx;
+			.sort-item{
+				margin-bottom: 20rpx;
+				display: flex;
+				align-items: center;
+				.pic{
+					width: 100rpx;
+					height: 100rpx;
+					margin-right: 20rpx;
+					image{
+						width: 100%;
+						height: 100%;
+						border-radius: 8px;
+					}
+				}
+				.desc{
+					color: #3d4251;
+					font-size: 28rpx;
+
+				}
+				.detail{
+					color: #6e747b;
+					font-size: 22rpx;
+					text{
+						// 通过伪元素加点
+						&::after{
+							content: '·';
+							margin: 0 4rpx;
+						}
+						&:last-child::after{
+							content: '';
+						}
+					}
+				}
+				
 			}
 		}
 	}

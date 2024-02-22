@@ -14,4 +14,5 @@
 // console.log(__filename);//读取到某个文件所在的绝对路径
 
 //运行一个软件就是一个进程，运行一个代码，node就会开启一个进程
-console.log(process);//
+// console.log(process);//
+console.log(process.argv);//
