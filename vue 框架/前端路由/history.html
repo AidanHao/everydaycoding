@@ -57,6 +57,7 @@
 
 
         function onPopState() {
+            //拿到当前浏览器的地址
             console.log(location.pathname);
             routes.forEach(item => {
                 if (item.path == location.pathname) {
