@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+            width: 400px;
+            height: 400px;
+            background-color: aqua;
+        }
+        #wrap{
+            width: 200px;
+            height: 200px;background-color: rebeccapurple;
+        }
+        #box{
+            width: 100px;
+            height: 100px;
+            background-color: darkorange;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="wrap">
+            <div id="box">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        let app = document.getElementById("app");
+        let wrap = document.getElementById("wrap");
+        let box = document.getElementById("box");
+
+        // addEventListener有第三个参数，默认是false，true表示在捕获阶段触发,false表示在冒泡阶段触发
+        app.addEventListener('click',()=>{//绑定，订阅，注册
+            console.log("app")
+            // event.stopPropagation();
+
+            // 这个方法包含了stopPropagation
+            // event.stopImmediatePropagation()
+
+        },true)
+       
+        wrap.addEventListener('click',()=>{
+            console.log("wrap")
+        },true)
+
+        box.addEventListener('click',()=>{
+            console.log("box")
+            // 阻止默认事件（可以是冒泡和捕获）
+            // e.stopPropagation();
+
+            // 阻止默认事件（可以是冒泡和捕获）还可以阻止同一dom绑定多个相同事件
+            event.stopImmediatePropagation()
+
+        },false)
+        box.addEventListener('click',()=>{
+            console.log("box2")
+        },false)
+        box.addEventListener('mouseenter',()=>{
+            console.log("box3")
+        },false)
+
+    </script>
+</body>
+</html>
