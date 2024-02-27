@@ -1,0 +1,19 @@
+{
+  "name": "own_vite",
+  "version": "1.0.0",
+  "description": "- vue 项目怎么跑起来的 工程化\r         ？\r         SPA .vue\r         - 工程化 node \r             项目初始化， 开发， debug ， 打包， 测试 ， 发布\r             index.html? koa  启动一个http服务 5173？\r     - 热更新 websocket + node \r     - vite webpack 快？ 区别 优势",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "koa": "^2.15.0",
+    "path": "^0.12.7",
+    "vue": "^3.4.20"
+  }
+}
