@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img-item{
+            display: block;
+            height: 300px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/011e0e5c231dcaa80121df9063b03f.jpg@1280w_1l_2o_100sh.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/01427a5c63c7dba801213f26fa8f1f.jpg@1280w_1l_2o_100sh.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/0132fb60a7171011013f472074ee82.jpg@1280w_1l_2o_100sh.jpg" alt="">
+    <img class='img-item' src="" data-original="https://pic2.zhimg.com/v2-ac79ec66a08cdbbfd36c3f9e4f307077_1440w.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/01702360a7171511013e3b7d2249ef.jpg@1280w_1l_2o_100sh.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/01c9e05da91bcea8012163bae9a7ea.jpg@2o.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/010c155dcec2b0a8012053c0802a12.jpg@3000w_1l_0o_100sh.jpg" alt="">
+    <img class='img-item' src="" data-original="https://pic2.zhimg.com/v2-b2ab50d677e6f8a9101dae446dd99acd_r.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.3dmgame.com/uploads/images/thumbpicfirst/20180824/1535099402_352803.jpg" alt="">
+    <img class='img-item' src="" data-original="https://img.zcool.cn/community/0193a55b9df41ba8012099c8aedcd0.jpg@3000w_1l_0o_100sh.jpg" alt="">
+
+    <script>
+        // 判断图片有没有进入可视区域，有的话就将其data-original的值赋给src
+
+        // 拿到可视觉区域的高度   innerHeight是window上独有的方法 别的用outerHeight或者innerHeight
+        let viewHeight = window.innerHeight;
+        // console.log(viewHeight);
+        function lazyLoad(){
+            // 拿到所有的img元素  img[data-original]只要具有data-original属性的img元素
+            let imgs = document.querySelectorAll('img[data-original]');
+            imgs.forEach(el=>{
+                // 判断元素是否进入可视区域
+
+                // getBoundingClientRect()专门获取容器的几何信息
+                let rect = el.getBoundingClientRect()
+                if(rect.top<viewHeight){
+                    // img元素自带一个构造函数，可以创建一个图片对象
+                    let image = new Image()
+                    // js专有写法dataset.original; = data-original
+                    image.src = el.dataset.original;
+                    // image.onload函数执行了，我们创造的image标签真的加载完毕了的话，我才去把el.src 赋值为image.src
+                    // 为什么不写el.src = image.src
+                    // 图片被浏览器加载完了，是会被浏览器缓存起来的，这里我们这样写，纯粹是为了看了这个onload 看这个图片有没有被浏览器加载完毕，加载完了我们才赋值过去，赋值过去就不用再加载了，直接赋值还是会空白一下，加载是需要时间的，
+                    image.onload = function(){
+                        el.src = image.src
+                    }
+                    // 图片加载完毕就移除属性
+                    el.removeAttribute('data-original')
+                }
+            })
+        }
+        lazyLoad()
+        // 添加滚动事件监听器
+        document.addEventListener('scroll',lazyLoad)
+    </script>
+</body>
+</html>

@@ -15,10 +15,25 @@
     </ul>
 
     <script>
+        // 事件委托
+        // 借助冒泡机制
         let ul = document.getElementById("ul");
-        ul.addEventListener("click",function(e){
-            console.log(e);
-        },false)
+        ul.addEventListener('click',(e)=>{
+            // 事件参数e，详细描述当前事件行为，包括目标元素，事件源，事件类型，是否冒泡等所以可以被描述的内容
+            console.log(e.target.innerHTML);
+        });
+
+
+
+    //    let lis = document.querySelectorAll('li')
+    // //    console.log(lis)
+    //    lis.forEach((li)=>{
+    //     // 给每个li添加一个点击事件
+    //     // li过多的时候，注册了大量的事件，会造成性能问题
+    //     li.addEventListener('click',()=>{
+    //         console.log(li.innerText);
+    //     })
+    //    })
     </script>
 </body>
 </html>
