@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #box{
+        width: 100px;
+        height: 100px;
+        background-color: #000;
+    }
+</style>
+<body>
+    <div id="box"></div>
+    <script>
+
+        let ev = new Event('look',{
+            bubbles:true,
+            cancelable:false,
+            // 事件派发会不会影响影子dom外的节点
+            composed:false
+            
+        })
+
+        let box = document.getElementById("box");
+        // 添加一个影子dom
+        let boxShadow = box.attachShadow({ mode:'open',delegatesFocus:false })
+        boxShadow.innerHTML = `
+        <div class="title">我是影子dom</div>
+        `
+        box.addEventListener("look", (event)=>{
+            if(event.cancelable){
+                event.preventDefault();
+            }else{
+                console.log('在box上触发了look事件');
+            }
+
+        })
+        
+        let boxChild = box.shadowRoot.querySelector('.title')
+        console.log(boxChild);
+        // 用影子dom派发事件
+        boxChild.dispatchEvent(ev)
+
+       
+    </script>
+</body>
+</html>

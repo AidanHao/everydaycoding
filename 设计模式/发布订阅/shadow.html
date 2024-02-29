@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .title{
+            font-size: 26px;
+            color: red;
+        }
+        /* 定义了一个css变量 */
+        body{
+            --color:green
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="title">我是真实的标题</div>
+    </div>
+    <div id="root">
+
+    </div>
+    <script>
+
+        
+
+        let root = document.getElementById("root");
+        // attachShadow创建一个影子dom
+        // mode 有两个值open和closed，意思是代表影子dom在外部的js是否可以访问到 delegatesFocus焦点委托:用于指定我们去减轻一个自定义元素的聚焦的性能问题
+        let rootShadow = root.attachShadow({mode:'closed',delegatesFocus: true});
+        // 影子dom不受全局样式的影响,要用``并且加上style
+        // 影子dom经常在封装组件时候用到，可以实现样式分离
+        // video标签也经常用到影子dom
+        rootShadow.innerHTML = `
+        <div class="title shadow">我是影子dom标题</div>
+        <style>
+            :host{
+                font-size: 26px;
+                color:var(--color)
+            }
+        </style>
+        `
+        // 外部js访问影子dom
+        console.log(root.shadowRoot);
+
+    </script>
+</body>
+</html>

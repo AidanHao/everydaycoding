@@ -1,0 +1,19 @@
+<script>
+    let finish = new CustomEvent('finish',{detail:{name:'ok'}})
+    function fnA(){
+        setTimeout(()=>{
+            console.log('请求A完成');
+            window.dispatchEvent(finish);
+        },1000)
+    }
+    function fnB(){
+        setTimeout(()=>{
+            console.log('请求B完成');
+        },500)
+    }
+    // 先让a执行完，再让b执行
+    fnA()
+    window.addEventListener('finish',()=>{
+        fnB()
+    })
+</script>

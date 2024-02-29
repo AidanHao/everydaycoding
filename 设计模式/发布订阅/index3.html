@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+
+    </div>
+    <script>
+        // CustomEvent是Event的继承子类,继承了Event的内容
+        // 去做一个程序出于某种目的的来创建的事件
+        let myEvent = new CustomEvent('run',{detail:{name:'running'},'bubbles':true,'cancelable':false},)
+        window.addEventListener('run',e=>{
+            console.log(`事件被${e.detail.name}触发`);
+        })
+        window.dispatchEvent(myEvent);
+    </script>
+</body>
+</html>
