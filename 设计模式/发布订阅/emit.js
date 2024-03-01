@@ -57,28 +57,54 @@ const fn = (a, b) => {
 const fn1 = (a, b) => {
     console.log(a, b, 2);
 }
-const fn2 = (a, b) => {
-    console.log(a, b, 'fn2');
-}
-const fn3 = (a, b) => {
-    console.log(a, b, 4);
-}
-// 订阅一个run事件
-// ev.on('run', fn)
 // 多个对象对同一个事件进行了订阅
-ev.on('run', fn1)
-
-ev.on('run', fn2)//只想订阅一次
-ev.once('run', fn2)
-
-ev.on('run', fn3)
-ev.off('run', fn3)
+// ev.on('run', fn)
+// ev.on('run', fn1)
 
 
 // 发布一个run事件，还可以接收一个参数
+// ev.emit('run', 1, 1)
+
+// 测试取消订阅
+ev.on('run', fn)
+ev.on('run', fn1)
+ev.off('run', fn1)
 ev.emit('run', 1, 1)
-ev.emit('run', 2, 2)
-// ev.emit('run', 3, 3)
+
+
+
+// 测试一次订阅
+// ev.on('run', fn)
+// ev.emit('run', 1, 1)
+// ev.emit('run', 1, 2)
+
+
+
+
+
+
+// const fn2 = (a, b) => {
+//     console.log(a, b, 'fn2');
+// }
+// const fn3 = (a, b) => {
+//     console.log(a, b, 4);
+// }
+// 订阅一个run事件
+// ev.on('run', fn)
+// 多个对象对同一个事件进行了订阅
+// ev.on('run', fn1)
+
+// ev.on('run', fn2)//只想订阅一次
+// ev.once('run', fn2)
+
+// ev.on('run', fn3)
+// ev.off('run', fn3)
+
+
+// 发布一个run事件，还可以接收一个参数
+// ev.emit('run', 1, 1)
+// ev.emit('run', 2, 2)
+// ev.emit('run', 3, 3)0
 
 
 
