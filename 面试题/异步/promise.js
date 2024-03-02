@@ -152,7 +152,7 @@ class MyPormise {
                         count++
                         arr[i] = reason
                         if(count===promises.length){
-                            reject( arr )
+                            reject( new AggregateError(arr))
                         }
                     }
                 )
