@@ -97,7 +97,7 @@ class MyPormise {
         return newPromise
 
     }
-
+// 比较重要的race方法
     static race(promises){
         return new MyPormise((resolve,reject)=>{
             // 判断promises里面的哪个对象的状态先变更 判断哪个
@@ -115,16 +115,60 @@ class MyPormise {
             // resolve()
         })
     }
+
+    // 比较重要的all方法
+    static all(promises){
+        return new MyPormise((resolve,reject)=>{
+            let count = 0,arr = []
+            // resolve || reject
+            for(let i= 0; i<promises.length;i++)//for..of只能遍历迭代器属性，for..in可以对象也可以数组
+            {
+                promises[i].then(
+                    (value)=>{
+                        count++
+                        arr[i] = value
+                        if(count===promises.length){
+                            resolve(arr)
+                        }
+                    },
+                    (reason)=>{
+                        reject(reason)
+                    }
+                )
+            }
+        })
+    }
+
+    // 实现一个any方法!
+    static any(promises){
+        return new MyPormise((resolve,reject)=>{
+            let count = 0,arr = []
+            for(let i= 0; i<promises.length;i++){
+                promises[i].then(//如果promise接一个.then，如果哪个.then执行并且回调也执行了，就是先执行了
+                    (value)=>{//value有值就说明promise一定resolve出来了一个值
+                        resolve(value)
+                    },
+                    (reason)=>{// 谁先reject谁先执行then第二个参数
+                        count++
+                        arr[i] = reason
+                        if(count===promises.length){
+                            reject( arr )
+                        }
+                    }
+                )
+            }
+        })
+    }
 }
 
 
-let p =new MyPormise((resolve,reject)=>{
-    resolve('1')
-    // reject('2')
-})
-// 只有当p里面的状态变为了fulfilled的时候 .then 才有意义
-p.then()
-console.log(p);
+// let p =new MyPormise((resolve,reject)=>{
+//     resolve('1')
+//     // reject('2')
+// })
+// // 只有当p里面的状态变为了fulfilled的时候 .then 才有意义
+// p.then()
+// console.log(p);
 
 
 
@@ -137,3 +181,45 @@ console.log(p);
 //     executor(resolve,reject)
 // }
 // MyPormise.prototype.then()
+
+
+
+
+
+
+
+
+
+
+
+
+
+function a(){
+    return new MyPormise((resolve,reject)=>{
+        setTimeout(()=>{
+            console.log('a');
+            // resolve('a')
+            reject('a')
+        },1000)
+    })
+}
+function b(){
+    return new MyPormise((resolve,reject)=>{
+        setTimeout(()=>{
+            console.log('b');
+            // resolve('b')
+            reject('b')
+        },500)
+    })
+}
+function c(){
+    console.log('c');
+}
+
+MyPormise.any([a(),b()]).then(res=>{
+    c()
+},
+(err)=>{
+    console.log(err);
+}
+)
