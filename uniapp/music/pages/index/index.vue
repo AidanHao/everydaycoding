@@ -88,7 +88,7 @@
 	// 推荐歌曲
 	const getRecommendSongs = async()=>{
 		const res = await apiGetRecommendSongs()
-		// console.log(res.data.data.dailySongs);
+		console.log(res.data.data.dailySongs);
 		state.recommendSongs = res.data.data.dailySongs
 	}
 	// 获取雷达歌单

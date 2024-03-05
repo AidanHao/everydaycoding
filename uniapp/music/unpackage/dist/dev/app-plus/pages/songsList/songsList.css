@@ -555,133 +555,6 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.head[data-v-f4ce61de] {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2.5rem;
-  background-color: #fff;
-  z-index: 9999;
-}
-.header[data-v-f4ce61de] {
-  height: 3.125rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 0.46875rem;
-  position: fixed;
-  top: 2.5rem;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 999;
-  color: var(--f4ce61de-fontColor);
-}
-.header[data-v-f4ce61de] .uni-icons {
-  color: var(--f4ce61de-fontColor) !important;
-}
-.box[data-v-f4ce61de] {
-  height: 5.625rem;
-}
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
-.menu-left[data-v-5a515901] {
-  position: fixed;
-  top: 2.5rem;
-  z-index: 9999;
-  width: 19.375rem;
-  height: 100%;
-  padding: 0.9375rem;
-  box-sizing: border-box;
-  background-color: #fff;
-  transition: all 0.5s ease-in-out;
-}
-.menu-left.show[data-v-5a515901] {
-  left: 0;
-}
-.menu-left.hide[data-v-5a515901] {
-  left: -19.375rem;
-}
-.menu-left .menu-hd[data-v-5a515901] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.menu-left .menu-hd .user-info[data-v-5a515901] {
-  display: flex;
-  align-items: center;
-}
-.menu-left .menu-hd .user-info .avatar[data-v-5a515901] {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.menu-left .menu-hd .user-info .avatar .pic[data-v-5a515901] {
-  width: 100%;
-  height: 100%;
-}
-.menu-left .menu-hd .user-info .username[data-v-5a515901] {
-  margin-left: 0.625rem;
-}
-.menu-mask[data-v-5a515901] {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-/**
- * 这里是uni-app内置的常用样式变量
- *
- * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
- * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
- *
- */
-/**
- * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
- *
- * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
- */
-/* 颜色变量 */
-/* 行为相关颜色 */
-/* 文字基本颜色 */
-/* 背景颜色 */
-/* 边框颜色 */
-/* 尺寸变量 */
-/* 文字尺寸 */
-/* 图片尺寸 */
-/* Border Radius */
-/* 水平间距 */
-/* 垂直间距 */
-/* 透明度 */
-/* 文章场景相关 */
 .player[data-v-a63ecc07] {
   position: fixed;
   bottom: var(--a63ecc07-bottom);
@@ -767,173 +640,133 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.mine[data-v-7c2ebfa5] {
+.songs-list {
   height: 100%;
 }
-.mine-bd[data-v-7c2ebfa5] {
-  height: 100%;
-  box-sizing: border-box;
-  padding: 8.75rem 0.9375rem 2.5rem;
-  position: relative;
-}
-.mine-bd .user[data-v-7c2ebfa5] {
-  min-height: 12.5rem;
-}
-.mine-bd .user .pic[data-v-7c2ebfa5] {
-  width: 3.75rem;
-  height: 3.75rem;
-  margin: 0 auto;
-}
-.mine-bd .user .pic uni-image[data-v-7c2ebfa5] {
-  border: 0.03125rem solid #fff;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-.mine-bd .user .user-outline[data-v-7c2ebfa5] {
-  text-align: center;
-  margin: 0.9375rem 0;
-  color: #fff;
-}
-.mine-bd .user .user-outline[data-v-7c2ebfa5] .uni-icons {
-  color: #fff !important;
-}
-.mine-bd .user .user-online[data-v-7c2ebfa5] {
-  text-align: center;
-  color: #fff;
-}
-.mine-bd .user .user-online .username[data-v-7c2ebfa5] {
-  margin: 1.25rem 0 0.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-.mine-bd .user .user-online .user-desc[data-v-7c2ebfa5] {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.75rem;
-}
-.mine-bd .user .user-online .user-desc uni-text[data-v-7c2ebfa5] {
-  margin-left: 0.3125rem;
-}
-.mine-bd .user .user-online .user-desc uni-text.iconfont[data-v-7c2ebfa5] {
-  color: #72939f;
-}
-.mine-bd .user .user-online .user-wyInfo[data-v-7c2ebfa5] {
-  margin: 1.25rem 0;
-  display: flex;
-  justify-content: center;
-  font-size: 0.75rem;
-  color: #eee;
-}
-.mine-bd .user .user-online .user-wyInfo uni-view[data-v-7c2ebfa5] {
-  margin-left: 1.25rem;
-}
-.mine-bd .user .user-online .user-wyInfo uni-view[data-v-7c2ebfa5]:first-child {
-  margin-left: 0;
-}
-.mine-bd .user .user-online .user-wyInfo uni-view uni-text[data-v-7c2ebfa5] {
-  font-size: 0.875rem;
-  color: #fff;
-}
-.mine-bd .user .user-online .user-list[data-v-7c2ebfa5] {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
-  grid-column-gap: 0.3125rem;
-}
-.mine-bd .user .user-online .user-list .btn[data-v-7c2ebfa5] {
-  padding: 0.3125rem 0;
-  font-size: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 0.3125rem;
-}
-.mine-bd .user .user-online .user-list .btn .iconfont[data-v-7c2ebfa5] {
-  font-size: 0.75rem;
-  margin-right: 0.125rem;
-}
-.mine-bd .bg[data-v-7c2ebfa5] {
-  background-color: #93969d;
-  background-size: cover;
-  position: absolute;
-  height: 25rem;
-  left: 0;
-  right: 0;
+.songs-list .head {
+  position: fixed;
   top: 0;
-  z-index: -1;
-}
-.mine-bd .list[data-v-7c2ebfa5] {
-  position: relative;
-  top: -0.9375rem;
+  left: 0;
+  width: 100%;
+  height: 2.5rem;
   background-color: #fff;
-  margin-left: -0.9375rem;
-  margin-right: -0.9375rem;
-  margin-top: 2.5rem;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  z-index: 9999;
 }
-.mine-bd .list .nav[data-v-7c2ebfa5] {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+.songs-list .header {
+  height: 3.125rem;
+  width: 100%;
+  position: fixed;
+  top: 2.5rem;
+  left: 0;
   display: flex;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 3.125rem;
-  background-color: #fff;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.46875rem;
+  box-sizing: border-box;
+  color: #fff;
+  background-color: #588b77;
   z-index: 999;
 }
-.mine-bd .list .nav .nav-item[data-v-7c2ebfa5] {
-  flex: 1;
-  text-align: center;
-  padding: 0.9375rem 0;
-  color: #666;
+.songs-list .list-hd {
+  background: linear-gradient(to bottom, #588b77, #79af9a);
+  padding: 3.125rem 0.9375rem 1.25rem;
 }
-.mine-bd .list .nav .nav-item.active[data-v-7c2ebfa5] {
-  position: relative;
-  color: #000;
-}
-.mine-bd .list .nav[data-v-7c2ebfa5]::after {
-  content: "";
-  display: block;
-  width: 0.9375rem;
-  height: 0.1875rem;
-  background-color: #d81e06;
-  position: absolute;
-  left: var(--7c2ebfa5-nav_bottom);
-  transform: translateX(-50%);
-  bottom: 0.46875rem;
-  border-radius: 0.625rem;
-  transition: left 0.5s ease;
-}
-.mine-bd .list .list-sort[data-v-7c2ebfa5] {
-  padding: 1.25rem 0.9375rem;
-}
-.mine-bd .list .list-sort .sort-item[data-v-7c2ebfa5] {
-  margin-bottom: 0.625rem;
+.songs-list .list-hd .hd-info {
   display: flex;
-  align-items: center;
+  margin-top: 0.625rem;
 }
-.mine-bd .list .list-sort .sort-item .pic[data-v-7c2ebfa5] {
-  width: 3.125rem;
-  height: 3.125rem;
-  margin-right: 0.625rem;
+.songs-list .list-hd .hd-info .pic {
+  width: 5rem;
+  height: 5rem;
+  box-shadow: 0 0 0.3125rem rgba(0, 0, 0, 0.2);
 }
-.mine-bd .list .list-sort .sort-item .pic uni-image[data-v-7c2ebfa5] {
+.songs-list .list-hd .hd-info .pic uni-image {
   width: 100%;
   height: 100%;
   border-radius: 8px;
 }
-.mine-bd .list .list-sort .sort-item .desc[data-v-7c2ebfa5] {
-  color: #3d4251;
+.songs-list .list-hd .hd-info .desc {
+  margin-left: 0.625rem;
+  color: #fff;
+}
+.songs-list .list-hd .hd-info .desc .user {
+  display: flex;
+  align-items: center;
+  margin-top: 0.3125rem;
+}
+.songs-list .list-hd .hd-info .desc .user .avatar {
+  width: 1.5625rem;
+  height: 1.5625rem;
+}
+.songs-list .list-hd .hd-info .desc .user .avatar uni-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.songs-list .list-hd .hd-info .desc .user .nickname {
+  margin: 0 0.3125rem;
+  font-size: 0.75rem;
+}
+.songs-list .list-hd .hd-status {
+  display: flex;
+  margin-top: 2.1875rem;
+}
+.songs-list .list-hd .hd-status .btn {
+  flex: 1;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border-radius: 1.5625rem;
+  padding: 0.3125rem 0;
+  font-size: 0.875rem;
+  margin: 0 0.3125rem;
+}
+.songs-list .list-bd {
+  background-color: #fff;
+  padding: 0 0.9375rem;
+  position: relative;
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
+  top: -0.625rem;
+}
+.songs-list .list-bd .bd-title {
+  display: flex;
+  align-items: center;
+  padding: 0.9375rem 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 3.125rem;
+  background-color: #fff;
+}
+.songs-list .list-bd .bd-title .uni-icons {
+  margin-right: 0.3125rem;
+}
+.songs-list .list-bd .bd-title .count {
+  font-size: 0.625rem;
+}
+.songs-list .list-bd .bd-content .item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.songs-list .list-bd .bd-content .item .num {
+  flex: 0 0 1.5625rem;
+  color: #8b8f9b;
+}
+.songs-list .list-bd .bd-content .item .icon-more {
+  flex: 0 0 0.9375rem;
+  color: #8b8f9b;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.songs-list .list-bd .bd-content .item .song-desc {
+  flex: 1;
+}
+.songs-list .list-bd .bd-content .item .song-desc .name {
   font-size: 0.875rem;
 }
-.mine-bd .list .list-sort .sort-item .detail[data-v-7c2ebfa5] {
-  color: #6e747b;
-  font-size: 0.6875rem;
-}
-.mine-bd .list .list-sort .sort-item .detail uni-text[data-v-7c2ebfa5]::after {
-  content: "·";
-  margin: 0 0.125rem;
-}
-.mine-bd .list .list-sort .sort-item .detail uni-text[data-v-7c2ebfa5]:last-child::after {
-  content: "";
+.songs-list .list-bd .bd-content .item .song-desc .author {
+  font-size: 0.625rem;
+  color: #8b8f9b;
+  margin-top: 0.125rem;
 }

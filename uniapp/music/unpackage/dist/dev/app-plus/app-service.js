@@ -703,7 +703,7 @@ if (uni.restoreGlobal) {
     const reg = /^[0-9]*$/g;
     return typeof val === "number" || reg.test(val) ? val + "px" : val;
   };
-  const _sfc_main$c = {
+  const _sfc_main$e = {
     name: "UniIcons",
     emits: ["click"],
     props: {
@@ -772,7 +772,7 @@ if (uni.restoreGlobal) {
       /* CLASS, STYLE */
     );
   }
-  const __easycom_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$4], ["__scopeId", "data-v-d31e1c47"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
+  const __easycom_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$4], ["__scopeId", "data-v-d31e1c47"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
   const isObject$1 = (val) => val !== null && typeof val === "object";
   const defaultDelimiters = ["{", "}"];
   class BaseFormatter {
@@ -1077,7 +1077,7 @@ if (uni.restoreGlobal) {
   const {
     t
   } = initVueI18n(messages);
-  const _sfc_main$b = {
+  const _sfc_main$d = {
     name: "UniSearchBar",
     emits: ["input", "update:modelValue", "clear", "cancel", "confirm", "blur", "focus"],
     props: {
@@ -1216,7 +1216,7 @@ if (uni.restoreGlobal) {
     }
   };
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_2$1);
+    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
     return vue.openBlock(), vue.createElementBlock("view", { class: "uni-searchbar" }, [
       vue.createElementVNode(
         "view",
@@ -1290,7 +1290,7 @@ if (uni.restoreGlobal) {
       )) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$3], ["__scopeId", "data-v-f07ef577"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue"]]);
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$3], ["__scopeId", "data-v-f07ef577"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue"]]);
   function getDevtoolsGlobalHook() {
     return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
   }
@@ -2348,7 +2348,7 @@ if (uni.restoreGlobal) {
     this._committing = committing;
   };
   Object.defineProperties(Store.prototype, prototypeAccessors);
-  const _sfc_main$a = {
+  const _sfc_main$c = {
     __name: "menuLeft",
     setup(__props) {
       const store2 = useStore();
@@ -2359,7 +2359,7 @@ if (uni.restoreGlobal) {
         store2.commit("changeIsShowMenu", false);
       };
       return (_ctx, _cache) => {
-        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_2$1);
+        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
         return vue.openBlock(), vue.createElementBlock(
           vue.Fragment,
           null,
@@ -2422,8 +2422,8 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-5a515901"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/menuLeft/menuLeft.vue"]]);
-  const _sfc_main$9 = {
+  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["__scopeId", "data-v-5a515901"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/menuLeft/menuLeft.vue"]]);
+  const _sfc_main$b = {
     __name: "songList",
     props: {
       List: Array,
@@ -2431,7 +2431,7 @@ if (uni.restoreGlobal) {
     },
     setup(__props) {
       return (_ctx, _cache) => {
-        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_2$1);
+        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
         return vue.openBlock(), vue.createElementBlock(
           vue.Fragment,
           null,
@@ -2489,8 +2489,8 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-29452354"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/songList/songList.vue"]]);
-  const _sfc_main$8 = {
+  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-29452354"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/songList/songList.vue"]]);
+  const _sfc_main$a = {
     __name: "recommendSong",
     props: {
       List: Array
@@ -2509,7 +2509,7 @@ if (uni.restoreGlobal) {
         });
       });
       return (_ctx, _cache) => {
-        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_2$1);
+        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
         return vue.openBlock(), vue.createElementBlock("view", { class: "recommend-song" }, [
           vue.createElementVNode("view", { class: "recommend-hd" }, [
             vue.createElementVNode("view", { class: "title" }, " 推荐歌曲 "),
@@ -2591,8 +2591,8 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-4a8ab05d"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/recommendSong/recommendSong.vue"]]);
-  const _sfc_main$7 = {
+  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-4a8ab05d"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/recommendSong/recommendSong.vue"]]);
+  const _sfc_main$9 = {
     __name: "wyheader",
     props: {
       icon: {
@@ -2606,20 +2606,27 @@ if (uni.restoreGlobal) {
       needBox: {
         type: Boolean,
         default: true
-      }
+      },
+      fontColor: String
     },
     setup(__props) {
+      vue.useCssVars((_ctx) => ({
+        "f4ce61de-fontColor": __props.fontColor
+      }));
       const store2 = useStore();
       const showMenu = () => {
         store2.commit("changeIsShowMenu", true);
       };
       return (_ctx, _cache) => {
-        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_2$1);
+        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
         return vue.openBlock(), vue.createElementBlock(
           vue.Fragment,
           null,
           [
-            vue.createElementVNode("view", { class: "head" }),
+            __props.needBox ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 0,
+              class: "head"
+            })) : vue.createCommentVNode("v-if", true),
             vue.createElementVNode(
               "view",
               {
@@ -2645,7 +2652,7 @@ if (uni.restoreGlobal) {
               /* STYLE */
             ),
             __props.needBox ? (vue.openBlock(), vue.createElementBlock("view", {
-              key: 0,
+              key: 1,
               class: "box"
             })) : vue.createCommentVNode("v-if", true)
           ],
@@ -2655,8 +2662,8 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["__scopeId", "data-v-f4ce61de"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/wyheader/wyheader.vue"]]);
-  const baseUrl = "http://192.168.10.198:3000";
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-f4ce61de"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/wyheader/wyheader.vue"]]);
+  const baseUrl = "http://172.22.145.0:3000";
   const apiGetBanner = (data) => {
     return uni.request({
       url: baseUrl + "/banner",
@@ -2688,7 +2695,7 @@ if (uni.restoreGlobal) {
       method: "GET"
     });
   };
-  const _sfc_main$6 = {
+  const _sfc_main$8 = {
     __name: "index",
     setup(__props) {
       const state = vue.reactive({
@@ -2716,6 +2723,7 @@ if (uni.restoreGlobal) {
       };
       const getRecommendSongs = async () => {
         const res = await apiGetRecommendSongs();
+        formatAppLog("log", "at pages/index/index.vue:91", res.data.data.dailySongs);
         state.recommendSongs = res.data.data.dailySongs;
       };
       const GetpersonalizedList = async () => {
@@ -2725,7 +2733,7 @@ if (uni.restoreGlobal) {
       };
       return (_ctx, _cache) => {
         const _component_uni_search_bar = resolveEasycom(vue.resolveDynamicComponent("uni-search-bar"), __easycom_0$1);
-        const _component_menuLeft = resolveEasycom(vue.resolveDynamicComponent("menuLeft"), __easycom_1);
+        const _component_menuLeft = resolveEasycom(vue.resolveDynamicComponent("menuLeft"), __easycom_1$1);
         const _component_songList = resolveEasycom(vue.resolveDynamicComponent("songList"), __easycom_2);
         const _component_recommendSong = resolveEasycom(vue.resolveDynamicComponent("recommendSong"), __easycom_3);
         return vue.openBlock(), vue.createElementBlock("view", { class: "index" }, [
@@ -2818,8 +2826,8 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-1cf27b2a"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/index/index.vue"]]);
-  const _sfc_main$5 = {
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-1cf27b2a"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/index/index.vue"]]);
+  const _sfc_main$7 = {
     data() {
       return {};
     }
@@ -2827,7 +2835,114 @@ if (uni.restoreGlobal) {
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, " 播客 ");
   }
-  const PagesPlayPlay = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$2], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/play/play.vue"]]);
+  const PagesPlayPlay = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$2], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/play/play.vue"]]);
+  const apiGetSongUrl = (id) => {
+    return uni.request({
+      url: `${baseUrl}/song/url/v1`,
+      method: "GET",
+      data: {
+        id,
+        level: "jymaster"
+      }
+    });
+  };
+  const apiGetSongDetail = (id) => {
+    return uni.request({
+      url: `${baseUrl}/song/detail`,
+      method: "GET",
+      data: {
+        ids: id
+      }
+    });
+  };
+  const _sfc_main$6 = {
+    __name: "musicPlayer",
+    props: {
+      bottom: {
+        type: String,
+        default: "0rpx"
+      }
+    },
+    setup(__props) {
+      vue.useCssVars((_ctx) => ({
+        "a63ecc07-bottom": __props.bottom
+      }));
+      const store2 = useStore();
+      const state = vue.reactive({
+        url: "",
+        name: "",
+        author: "",
+        time: "",
+        pic: "",
+        method: "pause"
+      });
+      const getSongUrl = async (id) => {
+        const res = await apiGetSongUrl(id);
+        state.url = res.data.data[0].url;
+        const innerAudioContext = uni.createInnerAudioContext();
+        innerAudioContext.autoplay = true;
+        innerAudioContext.src = state.url;
+        innerAudioContext.onPlay(() => {
+          formatAppLog("log", "at components/musicPlayer/musicPlayer.vue:54", "开始播放");
+        });
+        innerAudioContext.onError((res2) => {
+          formatAppLog("log", "at components/musicPlayer/musicPlayer.vue:57", res2.errMsg);
+          formatAppLog("log", "at components/musicPlayer/musicPlayer.vue:58", res2.errCode);
+        });
+      };
+      const getSongDetail = async (id) => {
+        const res = await apiGetSongDetail(id);
+        formatAppLog("log", "at components/musicPlayer/musicPlayer.vue:63", res.data.songs);
+        state.name = res.data.songs[0].al.name;
+        state.pic = res.data.songs[0].al.picUrl;
+        state.time = res.data.songs[0].dt;
+        state.author = res.data.songs[0].ar.map((item) => item.name).join("/");
+      };
+      vue.watch(
+        () => store2.state.currentPlayId,
+        async (newVal, oldVal) => {
+          getSongUrl(newVal);
+          getSongDetail(newVal);
+        }
+      );
+      return (_ctx, _cache) => {
+        return vue.unref(store2).state.isShowPlayer ? (vue.openBlock(), vue.createElementBlock("view", {
+          key: 0,
+          class: "player"
+        }, [
+          vue.createElementVNode("view", { class: "mini-player" }, [
+            vue.createElementVNode("view", { class: "pic" }, [
+              vue.createElementVNode("image", {
+                src: state.pic
+              }, null, 8, ["src"])
+            ]),
+            vue.createElementVNode("view", { class: "song" }, [
+              vue.createElementVNode(
+                "text",
+                { class: "name" },
+                vue.toDisplayString(state.name),
+                1
+                /* TEXT */
+              ),
+              vue.createElementVNode(
+                "text",
+                { class: "author" },
+                " - " + vue.toDisplayString(state.author),
+                1
+                /* TEXT */
+              )
+            ]),
+            vue.createElementVNode("view", { class: "player-control" }, [
+              vue.createElementVNode("view", { class: "iconfont icon-bofanganniu" }),
+              vue.createElementVNode("view", { class: "iconfont icon-16gl-playlistMusic" })
+            ])
+          ]),
+          vue.createElementVNode("view", { class: "max-player" })
+        ])) : vue.createCommentVNode("v-if", true);
+      };
+    }
+  };
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-a63ecc07"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/components/musicPlayer/musicPlayer.vue"]]);
   const apiGetUserInfo = (uid) => {
     return uni.request({
       url: `${baseUrl}/user/detail`,
@@ -2837,10 +2952,41 @@ if (uni.restoreGlobal) {
       }
     });
   };
-  const _sfc_main$4 = {
+  const apiGetUserSongsList = (uid) => {
+    return uni.request({
+      url: `${baseUrl}/user/playlist`,
+      method: "GET",
+      data: {
+        uid
+      }
+    });
+  };
+  const formateTime = (date, type) => {
+    let time = new Date(date);
+    let year = time.getFullYear();
+    let month = time.getMonth() + 1;
+    let day = time.getDate();
+    let c = ["摩羯", "水瓶", "双鱼", "白羊", "金牛", "双子", "巨蟹", "狮子", "处女", "天秤", "天蝎", "射手", "摩羯"];
+    let startMonth = month - (day - 14 < "865778999988".charAt(month));
+    let horoscope = c[startMonth];
+    let ageLever = (year + "").slice(2, 3) + "0";
+    return { horoscope, ageLever };
+  };
+  const _sfc_main$5 = {
     __name: "mine",
     setup(__props) {
+      vue.useCssVars((_ctx) => ({
+        "7c2ebfa5-nav_bottom": nav_bottom.value
+      }));
       const store2 = useStore();
+      const userInfo = vue.ref({});
+      const activeNum = vue.ref(0);
+      const listNav = ["音乐", "播客", "动态"];
+      const nav_bottom = vue.ref(750 / 3 / 2 + "rpx");
+      const sort_playlist = vue.ref([]);
+      const headerBgColor = vue.ref("rgba(255,255,255,0)");
+      const headerFontColor = vue.ref("rgba(255,255,255,1)");
+      const showTab = vue.ref([true, false, false]);
       const isLogin = vue.computed(() => {
         return store2.state.loginState;
       });
@@ -2849,117 +2995,316 @@ if (uni.restoreGlobal) {
           url: "/pages/login/login"
         });
       };
-      onLoad(() => {
-        getUserInfo();
-      });
       const getUserInfo = async () => {
-        const res = await apiGetUserInfo("store.state.userId");
-        formatAppLog("log", "at pages/mine/mine.vue:110", res);
+        const res = await apiGetUserInfo(store2.state.userInfo.userId);
+        userInfo.value = res.data;
+      };
+      const getUserSongsList = async () => {
+        const res = await apiGetUserSongsList(store2.state.userInfo.userId);
+        formatAppLog("log", "at pages/mine/mine.vue:173", res.data.playlist);
+        sort_playlist.value = res.data.playlist;
+      };
+      vue.watch(() => store2.state.userInfo.userId, (newVal, oldVal) => {
+        if (newVal) {
+          getUserInfo();
+          getUserSongsList();
+        }
+      }, { immediate: true });
+      const changeNav = (index) => {
+        activeNum.value = index;
+        nav_bottom.value = 750 / 3 / 2 * (2 * index + 1) + "rpx";
+        showTab.value = [false, false, false];
+        showTab.value[index] = true;
+      };
+      let bgOpacity = 0;
+      let fontColor = 255;
+      const handleScroll = (e) => {
+        let top = e.detail.scrollTop;
+        if (top <= 340) {
+          bgOpacity = (top / 340).toFixed(1);
+        }
+        if (top > 340) {
+          bgOpacity = 1;
+        }
+        if (top >= 200) {
+          fontColor = 0;
+        } else {
+          fontColor = 255;
+        }
+        headerBgColor.value = `rgba(255,255,255,${bgOpacity})`;
+        headerFontColor.value = `rgb(${fontColor},${fontColor},${fontColor})`;
+      };
+      const goSongsList = (id) => {
+        uni.navigateTo({
+          url: `/pages/songsList/songsList?id=${id}`
+        });
       };
       return (_ctx, _cache) => {
         const _component_wyheader = resolveEasycom(vue.resolveDynamicComponent("wyheader"), __easycom_0);
-        const _component_menuLeft = resolveEasycom(vue.resolveDynamicComponent("menuLeft"), __easycom_1);
-        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_2$1);
-        return vue.openBlock(), vue.createElementBlock("view", { class: "mine" }, [
-          vue.createVNode(_component_wyheader, {
-            icon: "more-filled",
-            bgColor: "transparent",
-            needBox: false
-          }, {
-            content: vue.withCtx(() => [
-              vue.createElementVNode("view", null, "我的音乐")
-            ]),
-            _: 1
-            /* STABLE */
-          }),
-          vue.createVNode(_component_menuLeft),
-          vue.createElementVNode("view", { class: "mine-bd" }, [
-            vue.createElementVNode("view", { class: "user" }, [
-              vue.createElementVNode("view", { class: "pic" }, [
-                vue.createElementVNode("image", {
-                  src: "/static/logo.png",
-                  mode: "aspectFill"
-                })
+        const _component_menuLeft = resolveEasycom(vue.resolveDynamicComponent("menuLeft"), __easycom_1$1);
+        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
+        const _component_musicPlayer = resolveEasycom(vue.resolveDynamicComponent("musicPlayer"), __easycom_1);
+        return vue.openBlock(), vue.createElementBlock(
+          "scroll-view",
+          {
+            class: "mine",
+            "scroll-y": "true",
+            onScroll: handleScroll,
+            "data-mine": "mineWarp"
+          },
+          [
+            vue.createVNode(_component_wyheader, {
+              icon: "more-filled",
+              bgColor: headerBgColor.value,
+              needBox: false,
+              fontColor: headerFontColor.value
+            }, {
+              content: vue.withCtx(() => [
+                vue.createElementVNode("view", null, "我的音乐")
               ]),
-              vue.unref(isLogin) ? (vue.openBlock(), vue.createElementBlock("view", {
-                key: 0,
-                class: "user-online"
-              }, [
-                vue.createElementVNode("view", { class: "username" }, [
-                  vue.createElementVNode("text", null, "Aidan")
+              _: 1
+              /* STABLE */
+            }, 8, ["bgColor", "fontColor"]),
+            vue.createVNode(_component_menuLeft),
+            vue.createCommentVNode(' :style="{backgroundImage:`url(${userInfo.profile&&userInfo.profile.backgroundUrl})`}" '),
+            vue.createCommentVNode(` :style="{'background-image':'url(' + userInfo.profile.backgroundUrl + ')'}" `),
+            vue.createElementVNode("view", { class: "mine-bd" }, [
+              vue.createElementVNode(
+                "view",
+                {
+                  class: "bg",
+                  style: vue.normalizeStyle({ backgroundImage: `url(${userInfo.value.profile && userInfo.value.profile.backgroundUrl})` })
+                },
+                null,
+                4
+                /* STYLE */
+              ),
+              vue.createElementVNode("view", { class: "user" }, [
+                vue.createElementVNode("view", { class: "pic" }, [
+                  vue.createElementVNode("image", {
+                    src: userInfo.value.profile && userInfo.value.profile.avatarUrl,
+                    mode: "aspectFill"
+                  }, null, 8, ["src"])
                 ]),
-                vue.createElementVNode("view", { class: "user-desc" }, [
-                  vue.createElementVNode("view", { class: "user-desc-horoscope" }, [
-                    vue.createElementVNode("text", { class: "iconfont icon-boy" }),
-                    vue.createElementVNode("text", null, "90后"),
-                    vue.createElementVNode("text", null, "射手座")
+                vue.unref(isLogin) ? (vue.openBlock(), vue.createElementBlock("view", {
+                  key: 0,
+                  class: "user-online"
+                }, [
+                  vue.createElementVNode("view", { class: "username" }, [
+                    vue.createElementVNode(
+                      "text",
+                      null,
+                      vue.toDisplayString(userInfo.value.profile && userInfo.value.profile.nickname),
+                      1
+                      /* TEXT */
+                    )
                   ]),
-                  vue.createElementVNode("view", { class: "user-desc-address" }, [
-                    vue.createElementVNode("text", null, "江西 南昌")
+                  vue.createElementVNode("view", { class: "user-desc" }, [
+                    vue.createElementVNode("view", { class: "user-desc-horoscope" }, [
+                      vue.createElementVNode("text", { class: "iconfont icon-boy" }),
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        vue.toDisplayString(vue.unref(formateTime)(userInfo.value.profile && userInfo.value.profile.birthday).ageLever) + "后",
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        vue.toDisplayString(vue.unref(formateTime)(userInfo.value.profile && userInfo.value.profile.birthday).horoscope) + "座",
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    vue.createElementVNode("view", { class: "user-desc-address" }, [
+                      vue.createElementVNode("text", null, "江西 南昌")
+                    ]),
+                    vue.createElementVNode("view", { class: "user-desc-age" }, [
+                      vue.createCommentVNode(" {{Math.floor(userInfo.createDays/365)}} "),
+                      vue.createCommentVNode(" 位运算~~(userInfo.createDays/365) "),
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        "村龄" + vue.toDisplayString(~~(userInfo.value.createDays / 365)) + "年",
+                        1
+                        /* TEXT */
+                      )
+                    ])
                   ]),
-                  vue.createElementVNode("view", { class: "user-desc-age" }, [
-                    vue.createElementVNode("text", null, "村龄7年")
+                  vue.createElementVNode("view", { class: "user-wyInfo" }, [
+                    vue.createElementVNode("view", { class: "wyInfo-gz" }, [
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        vue.toDisplayString(userInfo.value.profile && userInfo.value.profile.follows),
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createTextVNode("关注 ")
+                    ]),
+                    vue.createElementVNode("view", { class: "wyInfo-fs" }, [
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        vue.toDisplayString(userInfo.value.profile && userInfo.value.profile.followeds),
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createTextVNode("粉丝 ")
+                    ]),
+                    vue.createElementVNode("view", { class: "wyInfo-dj" }, [
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        "Lv." + vue.toDisplayString(userInfo.value.level),
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createTextVNode("等级 ")
+                    ]),
+                    vue.createElementVNode("view", { class: "wyInfo-tg" }, [
+                      vue.createElementVNode(
+                        "text",
+                        null,
+                        vue.toDisplayString(userInfo.value.listenSongs) + "时 ",
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createTextVNode("听歌 ")
+                    ])
+                  ]),
+                  vue.createElementVNode("view", { class: "user-list" }, [
+                    vue.createElementVNode("view", { class: "zj btn" }, [
+                      vue.createElementVNode("text", { class: "iconfont icon-zuijinlaifang" }),
+                      vue.createElementVNode("text", { class: "text" }, "最近")
+                    ]),
+                    vue.createElementVNode("view", { class: "bd btn" }, [
+                      vue.createElementVNode("text", { class: "iconfont icon-bendisucai" }),
+                      vue.createElementVNode("text", { class: "text" }, "本地")
+                    ]),
+                    vue.createElementVNode("view", { class: "yp btn" }, [
+                      vue.createElementVNode("text", { class: "iconfont icon-shangchuanyunpan" }),
+                      vue.createElementVNode("text", { class: "text" }, "云盘")
+                    ]),
+                    vue.createElementVNode("view", { class: "yg btn" }, [
+                      vue.createElementVNode("text", { class: "iconfont icon-yigou" }),
+                      vue.createElementVNode("text", { class: "text" }, "已购")
+                    ]),
+                    vue.createElementVNode("view", { class: "fl btn" }, [
+                      vue.createElementVNode("text", { class: "iconfont icon-bendifenlei" }),
+                      vue.createElementVNode("text", { class: "text" })
+                    ])
                   ])
+                ])) : (vue.openBlock(), vue.createElementBlock("view", {
+                  key: 1,
+                  class: "user-outline",
+                  onClick: login
+                }, [
+                  vue.createElementVNode("text", null, "立即登录"),
+                  vue.createVNode(_component_uni_icons, {
+                    type: "right",
+                    size: "16"
+                  })
+                ]))
+              ]),
+              vue.createElementVNode("view", { class: "list" }, [
+                vue.createElementVNode("view", { class: "nav" }, [
+                  (vue.openBlock(), vue.createElementBlock(
+                    vue.Fragment,
+                    null,
+                    vue.renderList(listNav, (item, index) => {
+                      return vue.createElementVNode("view", {
+                        class: vue.normalizeClass(["nav-item", { "active": activeNum.value === index }]),
+                        key: index,
+                        onClick: ($event) => changeNav(index)
+                      }, vue.toDisplayString(item), 11, ["onClick"]);
+                    }),
+                    64
+                    /* STABLE_FRAGMENT */
+                  ))
                 ]),
-                vue.createElementVNode("view", { class: "user-wyInfo" }, [
-                  vue.createElementVNode("view", { class: "wyInfo-gz" }, [
-                    vue.createElementVNode("text", null, "10 "),
-                    vue.createTextVNode("关注 ")
-                  ]),
-                  vue.createElementVNode("view", { class: "wyInfo-fs" }, [
-                    vue.createElementVNode("text", null, "13 "),
-                    vue.createTextVNode("粉丝 ")
-                  ]),
-                  vue.createElementVNode("view", { class: "wyInfo-dj" }, [
-                    vue.createElementVNode("text", null, "Lv.8 "),
-                    vue.createTextVNode("等级 ")
-                  ]),
-                  vue.createElementVNode("view", { class: "wyInfo-tg" }, [
-                    vue.createElementVNode("text", null, "1837时 "),
-                    vue.createTextVNode("听歌 ")
-                  ])
-                ]),
-                vue.createElementVNode("view", { class: "user-list" }, [
-                  vue.createElementVNode("view", { class: "zj btn" }, [
-                    vue.createElementVNode("text", { class: "iconfont icon-zuijinlaifang" }),
-                    vue.createElementVNode("text", { class: "text" }, "最近")
-                  ]),
-                  vue.createElementVNode("view", { class: "bd btn" }, [
-                    vue.createElementVNode("text", { class: "iconfont icon-bendisucai" }),
-                    vue.createElementVNode("text", { class: "text" }, "本地")
-                  ]),
-                  vue.createElementVNode("view", { class: "yp btn" }, [
-                    vue.createElementVNode("text", { class: "iconfont icon-shangchuanyunpan" }),
-                    vue.createElementVNode("text", { class: "text" }, "云盘")
-                  ]),
-                  vue.createElementVNode("view", { class: "yg btn" }, [
-                    vue.createElementVNode("text", { class: "iconfont icon-yigou" }),
-                    vue.createElementVNode("text", { class: "text" }, "已购")
-                  ]),
-                  vue.createElementVNode("view", { class: "fl btn" }, [
-                    vue.createElementVNode("text", { class: "iconfont icon-bendifenlei" }),
-                    vue.createElementVNode("text", { class: "text" })
-                  ])
+                vue.createElementVNode("view", { class: "list-sort" }, [
+                  showTab.value[0] ? (vue.openBlock(), vue.createElementBlock("view", {
+                    key: 0,
+                    class: "tab"
+                  }, [
+                    (vue.openBlock(true), vue.createElementBlock(
+                      vue.Fragment,
+                      null,
+                      vue.renderList(sort_playlist.value, (item, index) => {
+                        return vue.openBlock(), vue.createElementBlock("view", {
+                          class: "sort-item",
+                          onClick: ($event) => goSongsList(item.id),
+                          key: item.id
+                        }, [
+                          vue.createElementVNode("view", { class: "pic" }, [
+                            vue.createElementVNode("image", {
+                              src: item.coverImgUrl,
+                              mode: "aspectFill"
+                            }, null, 8, ["src"])
+                          ]),
+                          vue.createElementVNode("view", { class: "desc" }, [
+                            vue.createElementVNode(
+                              "view",
+                              { class: "title" },
+                              vue.toDisplayString(item.name),
+                              1
+                              /* TEXT */
+                            ),
+                            vue.createElementVNode("view", { class: "detail" }, [
+                              item.specialType == 0 ? (vue.openBlock(), vue.createElementBlock("text", { key: 0 }, "歌单")) : vue.createCommentVNode("v-if", true),
+                              vue.createElementVNode(
+                                "text",
+                                null,
+                                vue.toDisplayString(item.trackCount) + "首",
+                                1
+                                /* TEXT */
+                              ),
+                              vue.createElementVNode(
+                                "text",
+                                null,
+                                vue.toDisplayString(item.playCount) + "播放",
+                                1
+                                /* TEXT */
+                              ),
+                              item.specialType == 0 ? (vue.openBlock(), vue.createElementBlock(
+                                "text",
+                                { key: 1 },
+                                vue.toDisplayString(item.creator.nickname),
+                                1
+                                /* TEXT */
+                              )) : vue.createCommentVNode("v-if", true)
+                            ])
+                          ])
+                        ], 8, ["onClick"]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])) : vue.createCommentVNode("v-if", true),
+                  showTab.value[1] ? (vue.openBlock(), vue.createElementBlock("view", {
+                    key: 1,
+                    class: "tab"
+                  }, " 播客 ")) : vue.createCommentVNode("v-if", true),
+                  showTab.value[2] ? (vue.openBlock(), vue.createElementBlock("view", {
+                    key: 2,
+                    class: "tab"
+                  }, " 动态 ")) : vue.createCommentVNode("v-if", true)
                 ])
-              ])) : (vue.openBlock(), vue.createElementBlock("view", {
-                key: 1,
-                class: "user-outline",
-                onClick: login
-              }, [
-                vue.createElementVNode("text", null, "立即登录"),
-                vue.createVNode(_component_uni_icons, {
-                  type: "right",
-                  size: "16"
-                })
-              ]))
-            ])
-          ])
-        ]);
+              ])
+            ]),
+            vue.createCommentVNode(" 播放器 "),
+            vue.createVNode(_component_musicPlayer, { bottom: "100rpx" })
+          ],
+          32
+          /* HYDRATE_EVENTS */
+        );
       };
     }
   };
-  const PagesMineMine = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-7c2ebfa5"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/mine/mine.vue"]]);
-  const _sfc_main$3 = {
+  const PagesMineMine = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-7c2ebfa5"], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/mine/mine.vue"]]);
+  const _sfc_main$4 = {
     data() {
       return {};
     }
@@ -2977,8 +3322,8 @@ if (uni.restoreGlobal) {
       vue.createTextVNode(" 关注 ")
     ]);
   }
-  const PagesFollowFollow = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$1], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/follow/follow.vue"]]);
-  const _sfc_main$2 = {
+  const PagesFollowFollow = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$1], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/follow/follow.vue"]]);
+  const _sfc_main$3 = {
     data() {
       return {};
     }
@@ -2986,8 +3331,8 @@ if (uni.restoreGlobal) {
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, " 社区 ");
   }
-  const PagesCommunityCommunity = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/community/community.vue"]]);
-  const _sfc_main$1 = {
+  const PagesCommunityCommunity = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render], ["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/community/community.vue"]]);
+  const _sfc_main$2 = {
     __name: "login",
     setup(__props) {
       const store2 = useStore();
@@ -3071,13 +3416,249 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/login/login.vue"]]);
+  const PagesLoginLogin = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/login/login.vue"]]);
+  const apiGetPlayList = (id, limit, offset) => {
+    return uni.request({
+      url: `${baseUrl}/playlist/track/all`,
+      method: "GET",
+      data: {
+        id,
+        limit,
+        offset
+      }
+    });
+  };
+  const apiGetPlayListDetail = (id) => {
+    return uni.request({
+      url: `${baseUrl}/playlist/detail`,
+      method: "GET",
+      data: {
+        id
+      }
+    });
+  };
+  const _sfc_main$1 = {
+    __name: "songsList",
+    setup(__props) {
+      const store2 = useStore();
+      const info = vue.ref({});
+      const list = vue.ref([]);
+      const goBack = () => {
+        uni.navigateBack();
+      };
+      onLoad((options) => {
+        getPlayList(options.id);
+        getPlayListDetail(options.id);
+      });
+      const getPlayList = async (id) => {
+        const res = await apiGetPlayList(id, 20, 0);
+        formatAppLog("log", "at pages/songsList/songsList.vue:99", res.data.songs);
+        list.value = res.data.songs;
+      };
+      const getPlayListDetail = async (id) => {
+        const res = await apiGetPlayListDetail(id);
+        formatAppLog("log", "at pages/songsList/songsList.vue:104", res.data.playlist);
+        info.value = res.data.playlist;
+      };
+      const showPlayer = (id) => {
+        store2.commit("changeIsShowPlayer", true);
+        store2.commit("changeCurrentPlayId", id);
+      };
+      return (_ctx, _cache) => {
+        const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$2);
+        const _component_musicPlayer = resolveEasycom(vue.resolveDynamicComponent("musicPlayer"), __easycom_1);
+        return vue.openBlock(), vue.createElementBlock(
+          vue.Fragment,
+          null,
+          [
+            vue.createElementVNode("view", { class: "songs-list" }, [
+              vue.createElementVNode("view", { class: "head" }),
+              vue.createElementVNode("view", { class: "header" }, [
+                vue.createVNode(_component_uni_icons, {
+                  type: "left",
+                  size: "22",
+                  color: "#fff",
+                  onClick: goBack
+                }),
+                vue.createElementVNode("view", { class: "title" }, "歌单"),
+                vue.createVNode(_component_uni_icons, {
+                  type: "more-filled",
+                  size: "22",
+                  color: "#fff"
+                })
+              ]),
+              vue.createElementVNode("view", { class: "list-hd" }, [
+                vue.createElementVNode("view", { class: "hd-info" }, [
+                  vue.createElementVNode("view", { class: "pic boxShadow" }, [
+                    vue.createElementVNode("image", {
+                      src: info.value.coverImgUrl,
+                      mode: ""
+                    }, null, 8, ["src"])
+                  ]),
+                  vue.createElementVNode("view", { class: "desc" }, [
+                    vue.createElementVNode(
+                      "view",
+                      { class: "title" },
+                      vue.toDisplayString(info.value.name),
+                      1
+                      /* TEXT */
+                    ),
+                    vue.createElementVNode("view", { class: "user" }, [
+                      vue.createElementVNode("view", { class: "avatar" }, [
+                        vue.createElementVNode("image", {
+                          src: info.value.creator && info.value.creator.avatarUrl,
+                          mode: ""
+                        }, null, 8, ["src"])
+                      ]),
+                      vue.createElementVNode(
+                        "view",
+                        { class: "nickname" },
+                        vue.toDisplayString(info.value.creator && info.value.creator.nickname),
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createVNode(_component_uni_icons, {
+                        type: "right",
+                        size: "22",
+                        color: "#fff"
+                      })
+                    ])
+                  ])
+                ]),
+                vue.createElementVNode("view", { class: "hd-status" }, [
+                  vue.createElementVNode("view", { class: "share btn" }, [
+                    vue.createVNode(_component_uni_icons, {
+                      type: "redo",
+                      size: "20",
+                      color: "#fff"
+                    }),
+                    vue.createElementVNode(
+                      "text",
+                      null,
+                      vue.toDisplayString(info.value.shareCount),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  vue.createElementVNode("view", { class: "comment btn" }, [
+                    vue.createVNode(_component_uni_icons, {
+                      type: "chat",
+                      size: "20",
+                      color: "#fff"
+                    }),
+                    vue.createElementVNode("text", null, "评论")
+                  ]),
+                  vue.createElementVNode("view", { class: "collection btn" }, [
+                    vue.createVNode(_component_uni_icons, {
+                      type: "download",
+                      size: "20",
+                      color: "#fff"
+                    }),
+                    vue.createElementVNode(
+                      "text",
+                      null,
+                      vue.toDisplayString(info.value.subscribedCount),
+                      1
+                      /* TEXT */
+                    )
+                  ])
+                ])
+              ]),
+              vue.createElementVNode("view", { class: "list-bd" }, [
+                vue.createElementVNode("view", { class: "bd-title" }, [
+                  vue.createVNode(_component_uni_icons, {
+                    type: "headphones",
+                    size: "26",
+                    color: "#d81e06"
+                  }),
+                  vue.createElementVNode("text", null, "全部播放"),
+                  vue.createElementVNode(
+                    "text",
+                    { class: "count" },
+                    "（" + vue.toDisplayString(info.value.trackCount) + "）",
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                vue.createElementVNode("view", { class: "bd-content" }, [
+                  (vue.openBlock(true), vue.createElementBlock(
+                    vue.Fragment,
+                    null,
+                    vue.renderList(list.value, (song, index) => {
+                      return vue.openBlock(), vue.createElementBlock("view", {
+                        class: "item",
+                        onClick: ($event) => showPlayer(song.id),
+                        key: song.al.id
+                      }, [
+                        vue.createElementVNode(
+                          "view",
+                          { class: "num" },
+                          vue.toDisplayString(index + 1),
+                          1
+                          /* TEXT */
+                        ),
+                        vue.createElementVNode("view", { class: "song-desc" }, [
+                          vue.createElementVNode(
+                            "view",
+                            { class: "name" },
+                            vue.toDisplayString(song.name),
+                            1
+                            /* TEXT */
+                          ),
+                          vue.createElementVNode("view", { class: "author" }, [
+                            (vue.openBlock(true), vue.createElementBlock(
+                              vue.Fragment,
+                              null,
+                              vue.renderList(song.ar, (item, index2) => {
+                                return vue.openBlock(), vue.createElementBlock("text", {
+                                  key: item.id
+                                }, [
+                                  vue.createTextVNode(
+                                    vue.toDisplayString(item.name) + " ",
+                                    1
+                                    /* TEXT */
+                                  ),
+                                  index2 < song.ar.length - 1 ? (vue.openBlock(), vue.createElementBlock("text", { key: 0 }, "/")) : vue.createCommentVNode("v-if", true)
+                                ]);
+                              }),
+                              128
+                              /* KEYED_FRAGMENT */
+                            )),
+                            vue.createElementVNode(
+                              "text",
+                              null,
+                              "-" + vue.toDisplayString(song.al && song.al.name),
+                              1
+                              /* TEXT */
+                            )
+                          ])
+                        ]),
+                        vue.createElementVNode("view", { class: "iconfont icon-more" })
+                      ], 8, ["onClick"]);
+                    }),
+                    128
+                    /* KEYED_FRAGMENT */
+                  ))
+                ])
+              ])
+            ]),
+            vue.createCommentVNode(" 播放器 "),
+            vue.createVNode(_component_musicPlayer)
+          ],
+          64
+          /* STABLE_FRAGMENT */
+        );
+      };
+    }
+  };
+  const PagesSongsListSongsList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__file", "C:/Users/www16/Desktop/培训/codespace/uniapp/music/pages/songsList/songsList.vue"]]);
   __definePage("pages/index/index", PagesIndexIndex);
   __definePage("pages/play/play", PagesPlayPlay);
   __definePage("pages/mine/mine", PagesMineMine);
   __definePage("pages/follow/follow", PagesFollowFollow);
   __definePage("pages/community/community", PagesCommunityCommunity);
   __definePage("pages/login/login", PagesLoginLogin);
+  __definePage("pages/songsList/songsList", PagesSongsListSongsList);
   const _sfc_main = {
     onLaunch: function() {
       formatAppLog("log", "at App.vue:5", "App Launch");
@@ -3117,7 +3698,6 @@ if (uni.restoreGlobal) {
             cookie: key
           },
           success: (res) => {
-            formatAppLog("log", "at App.vue:44", res);
             let nickname = res.data.profile && res.data.profile.nickname;
             let id = res.data.profile && res.data.profile.userId;
             let avatar = res.data.profile && res.data.profile.avatarUrl;
@@ -3139,7 +3719,11 @@ if (uni.restoreGlobal) {
         nickname: "",
         userId: null,
         avatar: ""
-      }
+      },
+      isShowPlayer: false,
+      //展示播放器
+      currentPlayId: null
+      //当前播放的歌曲的id
     },
     // 这个是同步代码，菜单的隐藏不会涉及到异步逻辑
     mutations: {
@@ -3152,6 +3736,14 @@ if (uni.restoreGlobal) {
       // 获取用户信息
       getUserInfo(state, opt) {
         state.userInfo = opt;
+      },
+      // 
+      changeCurrentPlayId(state, id) {
+        state.currentPlayId = id;
+      },
+      // 
+      changeIsShowPlayer(state, flag) {
+        state.isShowPlayer = flag;
       }
     }
   });
