@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="./index.js"></script>
+
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', function () {
+      let num = 0;
+
+      function add() {
+        num++;
+        document.querySelector('.counter').textContent = num;
+      }
+
+      // // Debounce function implementation
+      // function debounce(func, wait) {
+      //   let timeoutId;
+      //   return function (...args) {
+      //     if (timeoutId) clearTimeout(timeoutId);
+      //     timeoutId = setTimeout(() => func.apply(this, args), wait);
+      //   };
+      // }
+
+      const throttleAdd = throttle(add, 1000);
+
+      const addButton = document.getElementById('addButton');
+      if (addButton) {
+        addButton.addEventListener('click', throttleAdd);
+      } else {
+        console.error('Element with ID "addButton" not found in the DOM.');
+      }
+    });
+  </script>
+
+  <p class="counter">0</p>
+  <button id="addButton">+</button>
+
+</body>
+
+</html>

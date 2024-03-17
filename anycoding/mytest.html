@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">提交</button>
+</body>
+<script>
+    let btn = document.getElementById("btn");
+    function send() {
+        console.log('提交');
+    }
+    btn.addEventListener('click', debounce(send, 1000))
+    // function throttle(fn, delay) {
+    //     // 拿到现在的时间
+    //     let starttime = Date.now()
+    //     return function () {
+    //         if (Date.now() - starttime > delay) {
+    //             fn.apply(this, arguments)
+    //             starttime = Date.now()
+    //         }
+    //     }
+    // }
+
+    //     function debounce(fn, delay) {
+    //     let timer = null//记录定时器
+    //     return function () {
+    //         if (timer) clearTimeout(timer)//如果存在就清除
+    //         timer = setTimeout(() => {
+    //             fn.call(this,arguments)
+    //         }, delay)
+    //     }
+    // }
+</script>
+
+</html>
