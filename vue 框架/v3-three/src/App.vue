@@ -102,6 +102,14 @@ onMounted(()=>{
 
   
 })
+
+let wheels = []
+
+const wheelsMaterial = new THREE.MeshPhysicalMaterial({
+  color:0x424449,
+  metalness:1,
+  roughness:0.5
+})
 </script>
 
 <template>

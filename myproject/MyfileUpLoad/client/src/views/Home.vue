@@ -15,68 +15,66 @@
         </div>
       </el-header>
 
-      <!-- 侧边 -->
-      <el-container class="body-side">
-        <el-aside>
+      <!-- 侧边和body -->
+      <el-container class="body_all">
+        <!-- 侧边 -->
+        <el-aside class="body_side">
           <el-row class="tac">
-            <el-col :span="15">
-              <el-menu adefault-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-                <el-sub-menu index="1">
-                  <template #title>
-                    <el-icon>
-                      <location />
-                    </el-icon>
-                    <span>图片资源</span>
-                  </template>
-                  <el-menu-item-group title="Group One">
-                    <el-menu-item index="1-1">item one</el-menu-item>
-                    <el-menu-item index="1-2">item two</el-menu-item>
-                  </el-menu-item-group>
-                  <el-menu-item-group title="Group Two">
-                    <el-menu-item index="1-3">item three</el-menu-item>
-                  </el-menu-item-group>
-                  <el-sub-menu index="1-4">
-                    <template #title>item four</template>
-                    <el-menu-item index="1-4-1">item one</el-menu-item>
-                  </el-sub-menu>
-                </el-sub-menu>
-                <el-menu-item index="2">
+            <el-col>
+              <el-menu router :default-active='nowindex' class="el-menu-vertical-demo" @select="handleSelect">
+
+                <el-menu-item index="1" route="/first" @click="handleClick">
+                  <el-icon><icon-menu /></el-icon>
+                  <span>首页</span>
+                </el-menu-item>
+
+                <el-menu-item index="2" route="/bigfiles" @click="handleClick">
                   <el-icon><icon-menu /></el-icon>
                   <span>大文件资源</span>
                 </el-menu-item>
-                <el-menu-item index="3" disabled>
+
+                <el-menu-item index="3" route="/video" @click="handleClick">
                   <el-icon>
                     <document />
                   </el-icon>
-                  <span>敬请期待</span>
+                  <span>视频资源</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+
+                <el-menu-item index="4" route="/radio" @click="handleClick">
                   <el-icon>
                     <setting />
                   </el-icon>
                   <span>音频资源</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+
+                <el-menu-item index="5" route="/image" @click="handleClick">
+                  <el-icon><icon-menu /></el-icon>
+                  <span>图片资源</span>
+                </el-menu-item>
+
+                <el-menu-item index="6" route="/another" @click="handleClick">
                   <el-icon><icon-menu /></el-icon>
                   <span>其他资源</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="7" disabled>
                   <el-icon><icon-menu /></el-icon>
-                  <span>其他资源</span>
+                  <span>敬请期待</span>
                 </el-menu-item>
-                <el-menu-item index="5">
-                  <el-icon><icon-menu /></el-icon>
-                  <span>其他资源</span>
-                </el-menu-item>
-                
+
 
               </el-menu>
             </el-col>
           </el-row>
         </el-aside>
 
-        <el-main>Main</el-main>
+        <!-- 主体 -->
+        <el-main class="body_main">
+          你好，这里是主页面
+          <router-view></router-view>
+        </el-main>
+
       </el-container>
+
     </el-container>
   </div>
 </template>
@@ -84,15 +82,47 @@
 
 <script setup>
 import { ref } from 'vue'
+import router from '@/router';
+import {
+  Document,
+  Menu as IconMenu,
+  Location,
+  Setting,
+} from '@element-plus/icons-vue'
+
+// 当前总和路径
+const allurl = ['/first','/bigfiles','/video','/radio','/image','/another']
+// 拿到当前路径
+const nowurl = window.location.pathname
+// 拿到当前下标
+const numindex = allurl.indexOf(nowurl) + 1
+const nowindex = ''+numindex
+
+const handleSelect = (key,path)=>{
+
+}
+
+const handleClick = (item) => {
+// console.log(item);
+}
+
+
 
 
 </script>
 
 <style lang="less" scoped>
 .common-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
+
   .head_all {
     margin-bottom: 1rem;
-    text{
+
+    text {
       // 设置字体颜色渐变
       background: linear-gradient(to right, rgb(5, 246, 250), rgb(238, 0, 255));
       -webkit-background-clip: text;
@@ -103,7 +133,7 @@ import { ref } from 'vue'
 
     // background: linear-gradient(to right, rgb(0, 217, 255), rgb(197, 5, 250));
     background: url(https://img95.699pic.com/photo/40162/1594.jpg_wh860.jpg);
-    width: 100vw;
+    width: 100%;
     height: 5rem;
 
     .head_detail {
@@ -127,8 +157,26 @@ import { ref } from 'vue'
     }
   }
 
-  .body_side {
-    height: max-content;
+  .body_all {
+    flex: 1;
+
+    .body_side {
+      height: 100%;
+
+      // background: #000;
+      .tac {
+        height: 100%;
+
+        .el-menu-vertical-demo {
+          height: 100%;
+        }
+      }
+    }
+
+    .body_main {
+      // background: #000;
+    }
+
   }
 }
 </style>
