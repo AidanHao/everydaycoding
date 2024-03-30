@@ -1,10 +1,12 @@
 <template>
     <div>
-        你好吗，啊
+        
+        <el-empty description="资源空空如也~" />
     </div>
 </template>
 
 <script setup>
+    
 
 </script>
 

@@ -14,3 +14,8 @@
 - three.js 3D
     - 以导演的感性去构建3D世界
         camera scene添加元素 renderer输出
+
+- 大二同学，小米汽车实习方案
+
+- 小米汽车app仿品
+    - 

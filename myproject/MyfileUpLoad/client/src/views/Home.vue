@@ -1,4 +1,5 @@
 <template>
+  <Newjoin v-if="state.showNewJoin" :showNewJoin="state.showNewJoin" :Show="ShowNewJoin"/>
   <div class="common-layout">
     <el-container>
       <el-header class="head_all">
@@ -10,13 +11,29 @@
             <text>Aidan资源库</text>
           </div>
           <div class="head_right">
-            <text>你好</text>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                <text>未登录</text>
+                <el-icon class="el-icon--right">
+                  <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="handleLogin">登录</el-dropdown-item>
+                  <el-dropdown-item @click="ShowNewJoin">查看弹窗</el-dropdown-item>
+                  <el-dropdown-item disabled>退出登录</el-dropdown-item>
+                  <!-- <el-dropdown-item divided>退出登录</el-dropdown-item> -->
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </div>
         </div>
       </el-header>
 
       <!-- 侧边和body -->
       <el-container class="body_all">
+        
         <!-- 侧边 -->
         <el-aside class="body_side">
           <el-row class="tac">
@@ -81,8 +98,10 @@
 
 
 <script setup>
-import { ref } from 'vue'
-import router from '@/router';
+// 引入一个组件
+import Newjoin from "../components/NewJoin.vue";
+import {useRoute,useRouter} from 'vue-router';
+import { reactive } from 'vue'
 import {
   Document,
   Menu as IconMenu,
@@ -90,22 +109,38 @@ import {
   Setting,
 } from '@element-plus/icons-vue'
 
+// 声明路由
+const router = useRouter()
+const route = useRoute()
+
+const state = reactive({
+  showNewJoin:false
+})
+
+
 // 当前总和路径
-const allurl = ['/first','/bigfiles','/video','/radio','/image','/another']
+const allurl = ['/first', '/bigfiles', '/video', '/radio', '/image', '/another']
 // 拿到当前路径
 const nowurl = window.location.pathname
 // 拿到当前下标
 const numindex = allurl.indexOf(nowurl) + 1
-const nowindex = ''+numindex
+const nowindex = '' + numindex
 
-const handleSelect = (key,path)=>{
+const handleSelect = (key, path) => {
 
 }
 
 const handleClick = (item) => {
-// console.log(item);
+  // console.log(item);
 }
 
+const handleLogin = function(){
+  router.push('/login')
+}
+
+const ShowNewJoin = (showNewJoin)=>{
+  state.showNewJoin = !state.showNewJoin
+}
 
 
 
