@@ -61,15 +61,30 @@ function deepCopy(obj) {
 }
 
 // 手写一个柯里化
-function curry(fn) {
-    let res = (...args)=>{
-        if(args.length == fn.length){
-            return fn(...args)
-        }
-        return (...arg) =>{res(...args,...arg)}
-    }
-    return res
+// function curry(fn) {
+//     let res = (...args)=>{
+//         if(args.length == fn.length){
+//             return fn(...args)
+//         }
+//         return (...arg) =>{res(...args,...arg)}
+//     }
+//     return res
 
+// }
+
+// 手写柯里化
+function curry(fn){
+    return function curryed(...args){
+        if(args.length >=fn.length)
+        {
+            return fn.apply(this,args)
+        }else
+        {
+            return function(...args2){
+                return curryed.apply(this,args.concat(args2))
+            }
+        }
+    }
 }
 
 // 手写一个instanceOf
@@ -150,3 +165,41 @@ ev.on('run', fn1)
 // 发布一个run事件，还可以接收一个参数
 ev.emit('run', 1, 1)
 ev.emit('run', 3, 3)
+
+// 手写call
+Function.prototype.mycall = function(context,...args){
+    if(typeof this !=='function'){
+        return new TypeError('type error')
+    }
+    context = context || window
+    // 缓存this
+    context.fn = this
+    const result = context.fn(...args)
+    delete context.fn
+    return result;
+}
+// 手写apply
+Function.prototype.myapply = function(context,args){
+    if(typeof this !=='function')
+    {
+        return new TypeError('type error')
+    }
+    context = context || window
+    context.fn = this
+    const result = args?context.fn(...args):context.fn()
+    delete context.fn
+    return result
+}
+// 手写bind
+Function.prototype.mybind = function(context,...args){
+    if(typeof this!=='function'){
+        return new TypeError('type error')
+    }
+    context = context||window
+    context.fn = this
+    return function(...args2){
+        const result = context.fn(...args,...args2)
+        delete context.fn
+        return result
+    }
+}
