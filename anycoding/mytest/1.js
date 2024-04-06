@@ -27,7 +27,7 @@
 // }
 // function mynew(fn,...arguments){
 //     let obj = {}
-//     obj.__proto__ = fn.prototyoe
+//     obj.__proto__ = fn.prototype
 //     let res = fn.call(obj,...arguments)
 //     return res instanceof Object ? res:obj
 // }
@@ -200,3 +200,47 @@
 // }
 
 
+// function findCombinations(nums, m, path = [], result = []) {  
+//     // 如果当前路径的和等于m，则将其添加到结果中  
+//     if (path.reduce((a, b) => a + b, 0) === m) {  
+//         result.push(path.slice()); // 使用slice()来复制数组，避免后续修改影响结果  
+//     }  
+  
+//     for (let i = 0; i < nums.length; i++) {  
+//         // 尝试将当前数字添加到路径中  
+//         path.push(nums[i]);  
+//         // 递归调用，尝试添加或减去当前数字  
+//         findCombinations(nums, m, path, result);  
+//         findCombinations(nums, m - 2 * nums[i], path, result); // 减去当前数字  
+//         // 回溯，将当前数字从路径中移除  
+//         path.pop();  
+//     }  
+  
+//     return result;  
+// }  
+
+
+
+function total(nums,m,path=[],result=[],nowindex = 0){
+    if(nowindex === nums.length)
+    {
+        // console.log(path.reduce((a,b)=>a+b,0));
+        // console.log(path);
+        if(path.reduce((a,b)=>a+b,0)===m)
+        {
+            // 注意数组是引用数据类型，直接push会因为path的修改而影响结果
+            result.push([path.join(',')])
+            return result; 
+        }
+        return
+    }
+    for(let i = nowindex,j =0 ;j<2;j++)
+    {
+        path.push(nums[i])
+        nums[i] = -nums[i]
+        total(nums,m,path,result,nowindex+1)
+        path.pop()
+    }
+    return result
+}
+console.log(total([1,1,1,1,1],3));
