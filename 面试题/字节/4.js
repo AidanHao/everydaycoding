@@ -1,6 +1,6 @@
 
 Object.prototype[Symbol.iterator] = function() {
-    // Object,keys 会返回一个数组 内容是对象的键名 Object.values 会返回一个数组 内容是对象的键值
+    // Object.keys 会返回一个数组 内容是对象的键名 Object.values 会返回一个数组 内容是对象的键值
     return Object.values(this)[Symbol.iterator]()
 }
 // for of 拿到迭代器不断去调用next 直到那个状态为true

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>卡片布局示例</title>
+  <style>
+    /* 定义容器样式 */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0 10px;
+}
+
+/* 定义卡片样式 */
+.card {
+  height: 100px;
+  width: calc(33.33% - 20px);
+  margin-bottom: 10px;
+  box-sizing: border-box; /* 包含内边距和边框在计算宽度内 */
+  padding: 10px; /* 可选，添加内部间距 */
+}
+
+/* 添加不同背景色 */
+.card-color-1 {
+  background-color: #FFC0CB; /* 示例颜色：浅粉色 */
+}
+
+.card-color-2 {
+  background-color: #ADD8E6; /* 示例颜色：浅蓝 */
+}
+
+.card-color-3 {
+  background-color: #FFFF00; /* 示例颜色：黄色 */
+}
+
+.card-color-4 {
+  background-color: #9ACD32; /* 示例颜色：浅绿色 */
+}
+
+.card-color-5 {
+  background-color: #FFA07A; /* 示例颜色：浅鲑鱼色 */
+}
+
+/* 为了确保在某些情况下（如视口宽度过小或卡片内容导致的实际宽度增加）依然能保持每行三个卡片，可添加媒体查询调整最小宽度 */
+@media (max-width: 767px) {
+  .card {
+    width: calc(50% - 20px); /* 超过该阈值时，每行显示两个卡片 */
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%; /* 超过该阈值时，每行显示一个卡片 */
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card card-color-1">卡片内容1</div>
+    <div class="card card-color-2">卡片内容2</div>
+    <div class="card card-color-3">卡片内容3</div>
+    <div class="card card-color-4">卡片内容4</div>
+    <div class="card card-color-5">卡片内容5</div>
+  </div>
+</body>
+</html>

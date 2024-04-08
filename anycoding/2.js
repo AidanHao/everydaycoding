@@ -16,7 +16,7 @@ class SuperTask{
     }
     add(task){
         return new Promise((resolve,reject)=>{
-            this.tasks.push(//通过解构，将任务放入到任务队列当中，
+            this.tasks.push(//将任务放入到任务队列当中，
                 {
                     task,
                     resolve,
@@ -30,7 +30,7 @@ class SuperTask{
         //判断是否达到最大并发数量，或者是否还有任务需要执行
         if(this.runtask<this.maxcount && this.tasks.length){
             this.runtask++
-            const {task,resolve,reject} = this.tasks.shift()//取出头部的任务
+            const {task,resolve,reject} = this.tasks.shift()//通过解构，取出头部的任务
             task()
             .then(resolve,reject)
             .finally(()=>{
@@ -99,8 +99,8 @@ const list = [
 //红绿灯
 class TrafficLight {
     constructor() {
-      this.colors = ["红色", "黄色", "绿色"];
-      this.times = [3000, 1000, 2000];
+      this.colors = ["红色", "黄色", "绿色",'黄色'];
+      this.times = [3000, 1000, 2000,1000];
       this.isRunning = false;
       this.currentIndex = 0;
     }
@@ -127,7 +127,7 @@ class TrafficLight {
   p.start();
   setTimeout(()=>{
       p.stop();
-  },12000)
+  },14000)
   
 
 // 使用reduce方法实现map方法
