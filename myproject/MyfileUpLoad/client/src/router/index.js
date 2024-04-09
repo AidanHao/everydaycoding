@@ -52,4 +52,25 @@ const router = createRouter({
   ]
 })
 
+
+// 路径白名单
+
+
+// 路由守卫
+router.beforeEach((to,from,next)=>{//to是目的地，from是来源地
+
+  document.title = to.meta.title//可以修改浏览器标签栏上的东西
+
+  if(to.path=='/login'){
+    if(sessionStorage.getItem('userInfo')){
+      router.push('/first')
+      return
+    }
+    next()
+    return
+  }
+  next()
+})
+
+
 export default router

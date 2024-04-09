@@ -7,13 +7,13 @@
                 <img src="https://b0.bdstatic.com/634cb3e7326edc02d9eddeaac9cf5491.jpg@h_1280" alt="">
             </div>
             <div class="input-wrapper">
-                <el-input v-model="state.account" style="width: 240px" placeholder="账号" />
+                <el-input v-model="state.username" style="width: 240px" placeholder="账号" />
             </div>
             <div class="password-wrapper">
                 <el-input v-model="state.password" style="width: 240px" type="password" placeholder="请输入密码" show-password />
             </div>
             <div class="login-button">
-                <el-button type="primary" plain>登录</el-button>
+                <el-button type="primary" plain @click="onSubmit">登录</el-button>
                 <el-button type="danger" plain @click="loginoff">取消</el-button>
             </div>
 
@@ -26,12 +26,30 @@
 
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-const state = reactive({
-    account: '',
-    password: ''
+
+// 引入封装好的axios
+import axios from '../api'
+
+const router = useRouter()//路由
+const state = reactive({//账号密码
+    username: '',
+    password: '',
 })
 
-const router = useRouter()
+// 发送请求
+const onSubmit = async ()=>{
+    // 将账号密码发送给后端
+    console.log(state.username,state.password);
+    const res = await axios.post('/login',{
+        username:state.username,
+        password:state.password
+    })
+
+    // 保存用户信息
+    sessionStorage.setItem('userInfo',JSON.stringify(res.data))//使用json将对象转为字符串，存储在session当中，session只能存字符串
+    router.push('first')
+}
+
 
 
 const loginoff = function () {

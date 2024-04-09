@@ -1,5 +1,5 @@
 <template>
-  <Newjoin v-if="state.showNewJoin" :showNewJoin="state.showNewJoin" :Show="ShowNewJoin"/>
+  <Newjoin v-if="state.showNewJoin" :showNewJoin="state.showNewJoin" :Show="ShowNewJoin" />
   <div class="common-layout">
     <el-container>
       <el-header class="head_all">
@@ -13,16 +13,16 @@
           <div class="head_right">
             <el-dropdown>
               <span class="el-dropdown-link">
-                <text>未登录</text>
+                <text>{{ state.islogin?state.nickname:'未登录' }}</text>
                 <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="handleLogin">登录</el-dropdown-item>
+                  <el-dropdown-item @click="handleLogin" v-if="!state.islogin">登录</el-dropdown-item>
                   <el-dropdown-item @click="ShowNewJoin">查看弹窗</el-dropdown-item>
-                  <el-dropdown-item disabled>退出登录</el-dropdown-item>
+                  <el-dropdown-item @click="handleExit" v-if="state.islogin">退出登录</el-dropdown-item>
                   <!-- <el-dropdown-item divided>退出登录</el-dropdown-item> -->
                 </el-dropdown-menu>
               </template>
@@ -33,7 +33,7 @@
 
       <!-- 侧边和body -->
       <el-container class="body_all">
-        
+
         <!-- 侧边 -->
         <el-aside class="body_side">
           <el-row class="tac">
@@ -100,8 +100,8 @@
 <script setup>
 // 引入一个组件
 import Newjoin from "../components/NewJoin.vue";
-import {useRoute,useRouter} from 'vue-router';
-import { reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+import { onBeforeMount, reactive } from 'vue'
 import {
   Document,
   Menu as IconMenu,
@@ -114,7 +114,9 @@ const router = useRouter()
 const route = useRoute()
 
 const state = reactive({
-  showNewJoin:false
+  showNewJoin: false,
+  islogin:false,
+  nickname:'你是'
 })
 
 
@@ -126,6 +128,27 @@ const nowurl = window.location.pathname
 const numindex = allurl.indexOf(nowurl) + 1
 const nowindex = '' + numindex
 
+// 获取登录状态
+onBeforeMount(() => {
+  let userdata = sessionStorage.getItem("userInfo");
+  userdata = JSON.parse(userdata)
+  if (userdata !== null) {
+    state.islogin = true
+    state.nickname = userdata.nickname
+    console.log(state.nicakname);
+  }
+  console.log(userdata);
+})
+
+
+const handleExit = ()=>{
+  sessionStorage.removeItem("userInfo")
+  state.islogin = false
+  state.nickname = '未登录'
+  router.push('/login')
+}
+
+
 const handleSelect = (key, path) => {
 
 }
@@ -134,11 +157,11 @@ const handleClick = (item) => {
   // console.log(item);
 }
 
-const handleLogin = function(){
+const handleLogin = function () {
   router.push('/login')
 }
 
-const ShowNewJoin = (showNewJoin)=>{
+const ShowNewJoin = (showNewJoin) => {
   state.showNewJoin = !state.showNewJoin
 }
 
@@ -188,6 +211,10 @@ const ShowNewJoin = (showNewJoin)=>{
 
       .head_right {
         float: right;
+
+        text {
+          font-size: 1rem;
+        }
       }
     }
   }
