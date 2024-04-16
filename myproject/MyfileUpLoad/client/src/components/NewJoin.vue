@@ -8,7 +8,17 @@
                 <hr>
             </div>
             <div class="newshow-desc">
-                <text>简单地用父子组件传参，传方法实现了一个自己写的弹窗</text>
+                <p>日志</p>
+                <br>
+                <p>2024.4.15实现基本的登录注册功能</p>
+                <br>
+                <p>1. Echart可视化模型</p>
+                <br>
+                <p>2. 文件上传切片</p>
+
+
+                
+
             </div>
             <div class="newshow-btn">
                 <el-button type="danger" round @click="closeNewJoin">关闭</el-button>
@@ -39,24 +49,22 @@ const closeNewJoin = () => {
     width: 100vw;
     height: 100vh;
     position: absolute;
-    background-color: rgba(187, 187, 187, 1);
-    opacity: 0.5;
-    z-index: 1;
+    background-color: rgba(187, 187, 187, 0.5);
+    z-index: 100;
 
     .newshow {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 2;
-        opacity: 1;
+        z-index: 101;
         background-color: #fff;
         width: 30rem;
         height: 30rem;
         border: 1px solid rgba(187, 187, 187, 1);
         margin: 0 auto;
         border-radius: 0.3rem;
-        box-shadow: 0 0 0.533rem 0 rgb(37, 37, 37);
+        box-shadow: 0 0 0.533rem 0 rgb(134, 134, 134);
 
         .newshow-title {
             text-align: center;

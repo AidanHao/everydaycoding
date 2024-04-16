@@ -39,8 +39,22 @@ const userLogin = (username,password)=>{
     let _sql = `select * from users where username='${username}' and password='${password}'`
     return allService.query(_sql)//返回一个promise对象
 }
+//  注册
+const userFind = (username)=>{
+    let _sql = `select * from users where username='${username}'`
+    return allService.query(_sql)
+}
+//注册成功的sql
+const userRegister = (values)=>{//values = [username,password,nickname]要写成整体就用数组
+    let _sql = `insert into users set username = ? , password = ?, nickname = ?;`
+    return allService.query(_sql,values)//value必须要和sql语句中的顺序一一对应上
+}
+
+
 
 //抛出这个函数
 module.exports ={
     userLogin,
+    userFind,
+    userRegister
 }

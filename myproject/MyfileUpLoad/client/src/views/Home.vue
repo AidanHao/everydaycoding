@@ -10,10 +10,15 @@
           <div class="head_center">
             <text>Aidan资源库</text>
           </div>
+          <div class="head_avatar">
+            <el-avatar src="../../public/img/login-avatar.jpg" v-if="state.islogin" </el-avatar>
+              <el-avatar v-else>null</el-avatar>
+          </div>
           <div class="head_right">
             <el-dropdown>
+
               <span class="el-dropdown-link">
-                <text>{{ state.islogin?state.nickname:'未登录' }}</text>
+                <text>{{ state.islogin ? state.nickname : '未登录' }}</text>
                 <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
@@ -86,7 +91,6 @@
 
         <!-- 主体 -->
         <el-main class="body_main">
-          你好，这里是主页面
           <router-view></router-view>
         </el-main>
 
@@ -109,15 +113,25 @@ import {
   Setting,
 } from '@element-plus/icons-vue'
 
+// 引入pinia
+import { userStore } from '../store'
+import { storeToRefs } from 'pinia'
+const store = userStore()
+
 // 声明路由
 const router = useRouter()
 const route = useRoute()
 
 const state = reactive({
   showNewJoin: false,
-  islogin:false,
-  nickname:'你是'
+  islogin: false,
+  nickname: '未登录'
 })
+
+// 保存用户登录状态
+const { nickname, islogin } = storeToRefs(store)
+nickname.value = state.nickname
+islogin.value = state.islogin
 
 
 // 当前总和路径
@@ -135,13 +149,17 @@ onBeforeMount(() => {
   if (userdata !== null) {
     state.islogin = true
     state.nickname = userdata.nickname
-    console.log(state.nicakname);
+    // 保存到pinia
+    nickname.value = state.nickname
+    islogin.value = state.islogin
+    // console.log(state.nicakname);
+
   }
-  console.log(userdata);
+  // console.log(userdata);
 })
 
 
-const handleExit = ()=>{
+const handleExit = () => {
   sessionStorage.removeItem("userInfo")
   state.islogin = false
   state.nickname = '未登录'
@@ -178,11 +196,11 @@ const ShowNewJoin = (showNewJoin) => {
   margin: auto;
 
   .head_all {
-    margin-bottom: 1rem;
 
+    // margin-bottom: 10px;
     text {
       // 设置字体颜色渐变
-      background: linear-gradient(to right, rgb(5, 246, 250), rgb(238, 0, 255));
+      background: linear-gradient(to right, rgb(5, 246, 250), rgb(224, 41, 241));
       -webkit-background-clip: text;
       /*将设置的背景颜色限制在文字中*/
       -webkit-text-fill-color: transparent;
@@ -190,7 +208,8 @@ const ShowNewJoin = (showNewJoin) => {
     }
 
     // background: linear-gradient(to right, rgb(0, 217, 255), rgb(197, 5, 250));
-    background: url(https://img95.699pic.com/photo/40162/1594.jpg_wh860.jpg);
+    // background: url(https://img95.699pic.com/photo/40162/1594.jpg_wh860.jpg);
+    background-color: rgb(232, 235, 191);
     width: 100%;
     height: 5rem;
 
@@ -209,8 +228,11 @@ const ShowNewJoin = (showNewJoin) => {
         text-align: center;
       }
 
+      .head_avatar {}
+
       .head_right {
         float: right;
+        text-align: center;
 
         text {
           font-size: 1rem;
@@ -221,6 +243,8 @@ const ShowNewJoin = (showNewJoin) => {
 
   .body_all {
     flex: 1;
+    // background-color: rgb(213, 218, 223);
+
 
     .body_side {
       height: 100%;
