@@ -7,11 +7,11 @@
                 <img src="../../public/img/login-avatar.jpg" alt="">
             </div>
             <div class="input-wrapper">
-                <el-input v-model="state.username" style="width: 240px" placeholder="账号" clearable/>
+                <el-input v-model="state.username" style="width: 240px" placeholder="账号" clearable />
             </div>
             <div class="password-wrapper">
                 <el-input v-model="state.password" style="width: 240px" type="password" placeholder="请输入密码"
-                    show-password  clearable/>
+                    show-password clearable />
             </div>
             <div class="login-button">
                 <el-button type="primary" plain @click="onSubmit">登录</el-button>
@@ -28,6 +28,9 @@
 
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { h } from 'vue'
+
 
 // 引入封装好的axios
 import axios from '../api'
@@ -40,16 +43,32 @@ const state = reactive({//账号密码
 
 // 发送请求
 const onSubmit = async () => {
-    // 将账号密码发送给后端
-    // console.log(state.username, state.password);
-    const res = await axios.post('/login', {
-        username: state.username,
-        password: state.password
-    })
-
-    // 保存用户信息
-    sessionStorage.setItem('userInfo', JSON.stringify(res.data))//使用json将对象转为字符串，存储在session当中，session只能存字符串
-    router.push('first')
+    if (state.username == '') {
+        ElMessage({
+            message: h('p', { style: 'line-height: 1; font-size: 14px' }, [
+                h('span', null, ' 错误！ '),
+                h('i', { style: 'color: red' }, '账号不能为空'),
+            ]),
+        })
+    } else if (state.password == '') {
+        ElMessage({
+            message: h('p', { style: 'line-height: 1; font-size: 14px' }, [
+                h('span', null, ' 错误！ '),
+                h('i', { style: 'color: red' }, '密码不能为空'),
+            ]),
+        })
+    } else {
+        // 将账号密码发送给后端
+        // console.log(state.username, state.password);
+        const res = await axios.post('/login', {
+            username: state.username,
+            password: state.password
+        })
+        // console.log(res);
+        // 保存用户信息
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))//使用json将对象转为字符串，存储在session当中，session只能存字符串
+        router.push('first')
+    }
 }
 
 
@@ -58,7 +77,7 @@ const loginoff = function () {
     router.push('/first')
 }
 
-const register = function(){
+const register = function () {
     router.push('/register')
 }
 </script>
@@ -125,7 +144,7 @@ const register = function(){
             align-items: center;
         }
 
-        .register{
+        .register {
             text-align: center;
             position: absolute;
             bottom: 1rem;

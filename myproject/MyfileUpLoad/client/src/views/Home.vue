@@ -8,7 +8,7 @@
             <text>欢迎您！！</text>
           </div>
           <div class="head_center">
-            <text>Aidan资源库</text>
+            <text>项目库</text>
           </div>
           <div class="head_avatar">
             <el-avatar src="../../public/img/login-avatar.jpg" v-if="state.islogin" </el-avatar>
@@ -43,8 +43,7 @@
         <el-aside class="body_side">
           <el-row class="tac">
             <el-col>
-              <el-menu router :default-active='nowindex' class="el-menu-vertical-demo" @select="handleSelect">
-
+              <el-menu router :default-active='nowindex' class="el-menu-vertical-demo" @select="handleSelect" background-color="#ecf5ff" >     
                 <el-menu-item index="1" route="/first" @click="handleClick">
                   <el-icon><icon-menu /></el-icon>
                   <span>首页</span>
@@ -152,10 +151,7 @@ onBeforeMount(() => {
     // 保存到pinia
     nickname.value = state.nickname
     islogin.value = state.islogin
-    // console.log(state.nicakname);
-
   }
-  // console.log(userdata);
 })
 
 
@@ -163,6 +159,9 @@ const handleExit = () => {
   sessionStorage.removeItem("userInfo")
   state.islogin = false
   state.nickname = '未登录'
+  // 保存到pinia
+  nickname.value = state.nickname
+  islogin.value = state.islogin
   router.push('/login')
 }
 
@@ -200,7 +199,7 @@ const ShowNewJoin = (showNewJoin) => {
     // margin-bottom: 10px;
     text {
       // 设置字体颜色渐变
-      background: linear-gradient(to right, rgb(5, 246, 250), rgb(224, 41, 241));
+      background: linear-gradient(to right, rgb(50, 5, 250), rgb(224, 41, 241));
       -webkit-background-clip: text;
       /*将设置的背景颜色限制在文字中*/
       -webkit-text-fill-color: transparent;
@@ -209,7 +208,7 @@ const ShowNewJoin = (showNewJoin) => {
 
     // background: linear-gradient(to right, rgb(0, 217, 255), rgb(197, 5, 250));
     // background: url(https://img95.699pic.com/photo/40162/1594.jpg_wh860.jpg);
-    background-color: rgb(232, 235, 191);
+    background-color: #c6e2ff;
     width: 100%;
     height: 5rem;
 
@@ -243,13 +242,13 @@ const ShowNewJoin = (showNewJoin) => {
 
   .body_all {
     flex: 1;
-    // background-color: rgb(213, 218, 223);
+    background-color: #d9ecff;
 
 
     .body_side {
       height: 100%;
 
-      // background: #000;
+      // background: #ecf5ff;
       .tac {
         height: 100%;
 
@@ -260,7 +259,8 @@ const ShowNewJoin = (showNewJoin) => {
     }
 
     .body_main {
-      // background: #000;
+      padding: 0;
+      padding-left: 10px;
     }
 
   }

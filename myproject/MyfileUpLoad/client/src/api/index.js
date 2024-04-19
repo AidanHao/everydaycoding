@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { h } from 'vue'
+import { ElMessage } from 'element-plus'
 
 // 封装axios将相应的功能封装好
 axios.defaults.baseURL = 'http://localhost:3000'//基本机制
@@ -24,7 +26,11 @@ axios.interceptors.response.use(res=>{
     }else{
         //判断是否有逻辑错误
         if(res.data.code!='8000'){
-            // console.log(res.data.msg);
+            ElMessage({
+                showClose: true,
+                message: `${res.data.msg}`,
+                type: 'error',
+              })
             return Promise.reject(res)
         }else{
             return res.data
