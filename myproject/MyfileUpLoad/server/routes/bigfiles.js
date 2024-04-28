@@ -14,7 +14,6 @@ if (!fse.existsSync(UPLOAD_DIR)) {
   fse.mkdirSync(UPLOAD_DIR);
 }
 
-// 用全局变量存储文件名和切片名
 
 // 定义上传接口
 router.post("/upload", multiparty(), async (ctx) => {
@@ -56,11 +55,9 @@ const mergeFileChunks = async (filePath, fileName, size) => {
   chunks.sort((a, b) => a.split("-")[1] - b.split("-")[1]);
 
   // 创建一个用于合并的WriteStream
-  const writeStream = fse.createWriteStream(path.resolve(filePath, fileName));
+  // const writeStream = fse.createWriteStream(path.resolve(filePath, fileName));
 
   // 合并之前需要将切片转为流类型 chunkPath相当于item
-
-
   const arr = chunks.map((chunkPath, index) => {
     return pipeStream(
       path.resolve(filePath, chunkPath),

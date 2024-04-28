@@ -247,7 +247,7 @@ const ShowNewJoin = (showNewJoin) => {
 
     .body_side {
       height: 100%;
-
+      width: 11rem;
       // background: #ecf5ff;
       .tac {
         height: 100%;

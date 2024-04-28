@@ -13,6 +13,9 @@ import './assets/style/reset.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+// 引入Echart
+
+
 const app = createApp(App)
 const pinia = createPinia()
 
@@ -20,5 +23,6 @@ app.use(createPinia())
 app.use(router)
 app.use(ElementPlus)
 app.use(pinia)
+// app.config.globalProperties.$echarts = echarts;
 
 app.mount('#app')
