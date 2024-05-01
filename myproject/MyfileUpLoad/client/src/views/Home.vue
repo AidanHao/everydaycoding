@@ -49,35 +49,42 @@
                   <span>首页</span>
                 </el-menu-item>
 
-                <el-menu-item index="2" route="/bigfiles" @click="handleClick">
+                <el-menu-item index="2" route="/usercontrol"  @click="handleUserControl" :disabled=!state.isAdmin >
+                  <el-icon><icon-menu /></el-icon>
+                  <span>用户管理</span>
+                </el-menu-item>
+
+                <el-menu-item index="3" route="/bigfiles" @click="handleClick">
                   <el-icon><icon-menu /></el-icon>
                   <span>大文件资源</span>
                 </el-menu-item>
 
-                <el-menu-item index="3" route="/video" @click="handleClick">
+                <el-menu-item index="4" route="/video" @click="handleClick">
                   <el-icon>
                     <document />
                   </el-icon>
                   <span>视频资源</span>
                 </el-menu-item>
 
-                <el-menu-item index="4" route="/radio" @click="handleClick">
+                <el-menu-item index="5" route="/radio" @click="handleClick">
                   <el-icon>
                     <setting />
                   </el-icon>
                   <span>音频资源</span>
                 </el-menu-item>
 
-                <el-menu-item index="5" route="/image" @click="handleClick">
+                <el-menu-item index="6" route="/image" @click="handleClick">
                   <el-icon><icon-menu /></el-icon>
                   <span>图片资源</span>
                 </el-menu-item>
 
-                <el-menu-item index="6" route="/another" @click="handleClick">
+                <el-menu-item index="7" route="/another" @click="handleClick">
                   <el-icon><icon-menu /></el-icon>
                   <span>其他资源</span>
                 </el-menu-item>
-                <el-menu-item index="7" disabled>
+                
+                
+                <el-menu-item index="8" disabled>
                   <el-icon><icon-menu /></el-icon>
                   <span>敬请期待</span>
                 </el-menu-item>
@@ -112,10 +119,17 @@ import {
   Setting,
 } from '@element-plus/icons-vue'
 
+// 引入封装好的axios
+import axios from '../api'
+
 // 引入pinia
 import { userStore } from '../store'
 import { storeToRefs } from 'pinia'
 const store = userStore()
+
+// 引入弹窗
+import { ElMessage } from 'element-plus'
+import { h } from 'vue'
 
 // 声明路由
 const router = useRouter()
@@ -124,17 +138,18 @@ const route = useRoute()
 const state = reactive({
   showNewJoin: false,
   islogin: false,
-  nickname: '未登录'
+  nickname: '未登录',
+  isAdmin:false
 })
 
 // 保存用户登录状态
-const { nickname, islogin } = storeToRefs(store)
+const { nickname, islogin ,isAdmin} = storeToRefs(store)
 nickname.value = state.nickname
 islogin.value = state.islogin
 
 
 // 当前总和路径
-const allurl = ['/first', '/bigfiles', '/video', '/radio', '/image', '/another']
+const allurl = ['/first', '/usercontrol','/bigfiles', '/video', '/radio', '/image', '/another']
 // 拿到当前路径
 const nowurl = window.location.pathname
 // 拿到当前下标
@@ -142,7 +157,7 @@ const numindex = allurl.indexOf(nowurl) + 1
 const nowindex = '' + numindex
 
 // 获取登录状态
-onBeforeMount(() => {
+onBeforeMount(async() => {
   let userdata = sessionStorage.getItem("userInfo");
   userdata = JSON.parse(userdata)
   if (userdata !== null) {
@@ -151,6 +166,11 @@ onBeforeMount(() => {
     // 保存到pinia
     nickname.value = state.nickname
     islogin.value = state.islogin
+
+    // 发送请求，查看权限
+    const res = await axios.post('/first')
+    isAdmin.value = res.data.userpower == 'admin' ? true : false
+    state.isAdmin = isAdmin.value
   }
 })
 
@@ -182,6 +202,10 @@ const ShowNewJoin = (showNewJoin) => {
   state.showNewJoin = !state.showNewJoin
 }
 
+// 用户管理权限校验
+const handleUserControl = async()=>{
+  
+}
 
 
 </script>

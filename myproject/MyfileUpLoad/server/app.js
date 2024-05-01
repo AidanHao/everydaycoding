@@ -12,6 +12,7 @@ const bodyParser = require('koa-bodyparser');//让koa能解析post参数
 // 拿到对应模块
 const user = require("./routes/user.js")
 const upload = require("./routes/bigfiles.js")
+const filecontrol = require("./routes/filecontrol.js")
 
 
 const cors = require('koa2-cors')//解决跨域问题，告诉浏览器允许跨域
@@ -25,6 +26,7 @@ app.use(bodyParser())
 //必须.routes调用,允许所有请求方法 调用routes里面的内容
 app.use(user.routes(),user.allowedMethods())
 app.use(upload.routes(),upload.allowedMethods())
+app.use(filecontrol.routes(),filecontrol.allowedMethods()   )
 
 
 // 3000表示3000端口

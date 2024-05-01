@@ -41,6 +41,11 @@ const router = createRouter({
           path:'/another',
           name:'another',
           component: () => import('../views/Another.vue')
+        },
+        {
+          path:'/usercontrol',
+          name:'usercontrol',
+          component: () => import('../views/UserControl.vue')
         }
       ]
     },
