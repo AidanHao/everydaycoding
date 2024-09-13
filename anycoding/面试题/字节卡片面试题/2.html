@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 100vw;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+    }
+    .card{
+        width: calc( (100vw - 20px) / 3 );
+        height: calc( (100vw - 20px) / 3 );
+        /* margin: auto; */
+        margin-bottom: 10px;
+        background-color: aqua;
+        position: relative;
+    }
+    .card::after{
+        content: '';
+        width: 10px;
+        height: calc( (100vw - 20px) / 3 );
+        position: absolute;
+        background-color: white;
+    }
+</style>
+<body>
+    <div class="box">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+    </div>
+</body>
+</html>

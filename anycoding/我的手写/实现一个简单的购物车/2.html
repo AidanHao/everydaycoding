@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="item-list">
+        <div class="item" id="1" price="100">
+            <h1>商品1</h1>
+            <span>价格：100元</span>
+            <button onclick="addToCar(1)">加入购物车</button>
+        </div>
+        <div class="item" id="2" price="100">
+            <h1>商品2</h1>
+            <span>价格：100元</span>
+            <button onclick="addToCar(2)">加入购物车</button>
+        </div>
+    </div>
+    <div class="car">
+        <h1>购物车</h1>
+        <ul id="list"></ul>
+        <div class="allprice">总结为<span>0</span>元</div>
+        <button>结账</button>
+    </div>
+</body>
+<script>
+    let carlist = []
+    const addToCar = function(id){
+        let item = document.querySelector(`.item[id="${id}"]`)
+        const price = parseFloat(item.getAttribute("price"))
+        carlist.push({id: id, price: price})
+        updataUI()
+    }
+    const updataUI = function(){
+        let ul = document.getElementById('list')
+        console.log(ul);
+        carlist.forEach(element => {
+            const li = document.createElement("li")
+            li.innerHTML = `<span>商品id：${element.id} 商品价格: ${element.price}</span>`
+            ul.appendChild(li)
+        })
+        carlist = []
+    }
+</script>
+</html>

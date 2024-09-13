@@ -14,3 +14,11 @@ function myNew(fn,...arguments){
 
 let car = myNew(Car, "宝马",12000000);
 console.log(car);
+
+// 二刷
+function myNew(fn, ...args){
+  let obj = {}
+  obj.__proto__ = fn.prototype;
+  let result = fn.call(obj, ...args);
+  return result instanceof Object ? result : obj;
+}

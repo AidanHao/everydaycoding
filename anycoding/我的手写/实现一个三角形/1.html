@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box1{
+        width: 0;
+        height: 0;
+        border-top: 10rem solid ;
+        border-left: 10rem solid transparent;
+        border-right: 10rem solid transparent;
+    }
+    .box2{
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent transparent green transparent;
+        border-width: 50px;
+        border-top: 0;
+        position: relative;
+    }
+    .box2::after{
+        content: '';
+        border-style: solid;
+        border-color: transparent transparent white transparent;
+        border-width: 40px;
+        border-top: 0;
+        position: absolute;
+        top: 5.8px;
+        left: -40px;
+    }
+</style>
+<body>
+    <div class="box1">
+
+    </div>
+    <div class="box2">
+
+    </div>
+</body>
+</html>
