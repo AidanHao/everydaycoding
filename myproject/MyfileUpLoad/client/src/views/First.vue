@@ -195,8 +195,8 @@ onBeforeMount(async () => {
 <style lang="less" scoped>
 .first {
     width: 100%;
-    height: 100%;
-
+    height: calc(100vh - 5rem);
+    overflow: scroll;
     // margin-top: -20px;
     .first-headbox {
         width: 100%;

@@ -10,13 +10,14 @@ class TrafficLight{
         this.run();
     }
     async run(){
-        await new Promise((resolve, reject) => {
-            console.log(this.color[this.current]);
-            setTimeout(() => {
-                resolve();
-            }, this.time[this.current]);
-            this.current = ++this.current % this.color.length;
-            
-        })
+        while(this.isRun){
+            await new Promise((resolve, reject) => {
+                console.log(this.color[this.current]);
+                setTimeout(() => {
+                    resolve();
+                }, this.time[this.current]);
+                this.current = ++this.current % this.color.length;
+            })
+        }
     }
 }

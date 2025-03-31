@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./index.js"></script>
+</head>
+<body>
+    <button id="btn">click</button>
+    <div id="text"></div>
+</body>
+<script>
+    // let effct = null;
+    // function reactive(obj) {
+    //     let effcts = {};
+    //     return new Proxy(obj, {
+    //         get(target, key){
+    //             console.log('依赖收集');
+    //             if(effct){
+    //                 if(!effcts[key]){
+    //                     effcts[key] = [];
+    //                 }
+    //                 effcts[key].push(effct);
+    //             }
+    //             effcts.key?.push(effct)
+    //             return target[key];
+    //         },
+    //         set(target, key, val){
+    //             target[key] = val;
+    //             if(effcts[key].length){
+    //                 effcts[key].forEach(fn => fn())
+    //             }
+
+    //             return true;
+    //         }
+    //     })
+    // };
+    // function useEffect(fn) {
+    //     effct = fn;
+    //     fn()
+    //     effct = null;
+    // }
+    let btn = document.getElementById("btn");
+    let div = document.getElementById("text");
+    let state = reactive({ value: 0 });
+    useEffect(() => {
+        div.textContent = state.value;
+    });
+    btn.addEventListener("click", () => {
+        state.value++;
+        console.log(state.value);
+    })
+</script>
+
+</html>

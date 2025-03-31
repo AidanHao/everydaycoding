@@ -1,5 +1,5 @@
 class MyPromise{
-    constructor(){
+    constructor(executor){
         this.state = 'pending'//定义状态
         this.value = undefined;//存储resolve的值
         this.reason = undefined;//存储reject的值

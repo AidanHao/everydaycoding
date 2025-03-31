@@ -79,6 +79,19 @@ router.beforeEach((to,from,next)=>{//to是目的地，from是来源地
     next()
     return
   }
+  if(to.path=='/register'){
+    if(sessionStorage.getItem('userInfo')){
+      router.push('/first')
+      return
+    }
+    next()
+    return
+  }
+  if(to.path=='/usercontrol'){
+    if(true){
+
+    }
+  }
   next()
 })
 
