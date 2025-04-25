@@ -1,14 +1,13 @@
 <template>
     <div class="Entry">
         <el-container class="Entry-Container">
-            <el-header class="Entry-Container-Header">
-                
+            <el-header class="Entry-Container-Header" v-if="!isArticleDetail">
                 <div class="Entry-Container-Header-menu">
-                    <el-menu default-active="Home" mode="horizontal" @select="HandleMenuSelect" router=true
+                    <el-menu mode="horizontal" @select="HandleMenuSelect" router=true
                         background-color="transParent" text-color="#F5F0DC" active-text-color="#F2D356" :ellipsis="false"
                         class="Entry-Container-Header-menu-detail"> 
-                        <el-menu-item index="Home">首页 </el-menu-item>
-                        <el-menu-item index="Self">个人中心</el-menu-item>
+                        <el-menu-item index="Home" :class="{ 'is-active': menuKey === 'Home' }">首页 </el-menu-item>
+                        <el-menu-item index="Self" :class="{ 'is-active': menuKey === 'Self' }">个人中心</el-menu-item>
 
                         <!-- <el-menu-item index="Public">公共聊天室 </el-menu-item> -->
                         <!-- <el-menu-item index="Img">图片库 </el-menu-item> -->
@@ -32,12 +31,40 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-import { ref } from 'vue';
-const menuKey = ref('Home');
-const HandleMenuSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
+import { RouterLink, RouterView, useRoute } from 'vue-router';
+import { ref, computed, watch, onMounted } from 'vue';
 
+const route = useRoute();
+const menuKey = ref('Home');
+
+const isArticleDetail = computed(() => {
+    return route.path.startsWith('/article/');
+});
+
+// 设置初始菜单激活状态
+const setMenuKey = () => {
+    if (route.path === '/') {
+        menuKey.value = 'Home';
+    } else if (route.path === '/self') {
+        menuKey.value = 'Self';
+    } else if (route.path.startsWith('/article/')) {
+        menuKey.value = 'Home';
+    }
+};
+
+// 组件挂载时设置初始值
+onMounted(() => {
+    setMenuKey();
+});
+
+// 监听路由变化，更新菜单激活状态
+watch(() => route.path, () => {
+    setMenuKey();
+}, { immediate: true });
+
+const HandleMenuSelect = (key: string, keyPath: string[]) => {
+    menuKey.value = key;
+    console.log(key, keyPath);
 }
 
 </script>
@@ -89,6 +116,7 @@ const HandleMenuSelect = (key: string, keyPath: string[]) => {
             display: flex;
             justify-content: center;
             padding: 0;
+            padding-top: 4rem;
         }
     }
 }

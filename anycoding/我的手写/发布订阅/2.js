@@ -1,38 +1,34 @@
-//发布订阅复习
 class EventEmitter{
     constructor(){
         this.event = {}
     }
     on(type, fn){
-        if(!this.event[type]){
-            this.event[type] = [fn]
-        }else{
+        if(this.event[type]){
             this.event[type].push(fn)
         }
-    }
-    emit(type, ...args){
-        if(!this.event[type]){
-            return
-        }else{
-            this.event[type].forEach((fn) => {
-                fn(...args)
-            })
+        else{
+            this.event[type] = [fn]
         }
     }
     off(type, fn){
         if(!this.event[type]){
             return
         }else{
-            this.event[type] = this.event[type].filter((cb) => {
-                return cb!==fn
-            })
+            this.event[type] = this.event[type].filter(item => item !== fn)
         }
     }
-    once(type,fn){
-        const cb = (...args) => {
+    once(type, fn){
+        const cb = (...args) =>{
             fn(...args)
-            this.off(type, fn)
+            this.off(type, cb)
         }
         this.on(type, cb)
+    }
+    emit(type, ...args){
+        if(!this.event[type]){
+            return
+        }else{
+            this.event[type].forEach(fn => {fn(...args)})
+        }
     }
 }

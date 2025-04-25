@@ -14,7 +14,7 @@
                 </div>
                 <div class="Home_Welcome_main_myname">小王同志</div>
                 <div class="Home_Welcome_main_text">
-                    <div class="Home_Welcome_main_text_content">欢迎来到我的个人站</div>
+                    <div class="Home_Welcome_main_text_content">{{ displayText }}<span class="cursor">|</span></div>
                 </div>
             </div>
             <div class="Home_Welcome_animation">
@@ -43,18 +43,47 @@
 </template>
 
 <script setup lang="ts">
-
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import HomeIntroduce from './components/HomeIntroduce.vue';
 
 const avaterShowDetail = ref(false);
+const displayText = ref('');
+const fullText = '欢迎来到我的个人站';
+let currentIndex = 0;
+let isDeleting = false;
+let typingSpeed = 300;
+
+const typeWriter = () => {
+    if (!isDeleting && currentIndex < fullText.length) {
+        // 打字阶段
+        displayText.value += fullText[currentIndex];
+        currentIndex++;
+        typingSpeed = 300;
+    } else if (isDeleting && currentIndex > 0) {
+        // 删除阶段
+        displayText.value = displayText.value.slice(0, -1);
+        currentIndex--;
+        typingSpeed = 200;
+    } else {
+        // 切换阶段
+        isDeleting = !isDeleting;
+        typingSpeed = isDeleting ? 200 : 300;
+    }
+    
+    setTimeout(typeWriter, typingSpeed);
+};
+
+onMounted(() => {
+    typeWriter();
+});
+
 const mouseenter = () => {
     console.log("进入了");
     if(avaterShowDetail.value == false){
         avaterShowDetail.value = true;
     }
-    // avaterShowDetail.value = true;
 };
+
 const mouseleave = () => {
     if(avaterShowDetail.value === true){
         avaterShowDetail.value = false;
@@ -65,7 +94,7 @@ const mouseleave = () => {
 <style lang="less" scoped>
 .Home {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
     .Home_Welcome {
         height: 100%;
@@ -74,6 +103,7 @@ const mouseleave = () => {
         background-size: cover;
         background-color: rgba(104, 104, 99);
         z-index: 0;
+        position: relative;
 
         .Home_Welcome_main {
             display: flex;
@@ -84,139 +114,137 @@ const mouseleave = () => {
             position: relative;
 
             .Home_Welcome_main_avatar {
-                width: 4.5rem;
-                height: 4.5rem;
+                width: 8rem;
+                height: 8rem;
                 border-radius: 50%;
                 background: url(../../public/头像.jpg);
                 background-size: cover;
                 animation: aperture 2s linear infinite;
+                cursor: pointer;
+                transition: transform 0.3s ease;
+                
+                &:hover {
+                    transform: scale(1.05);
+                }
             }
 
             .Home_Welcome_main_avatar::after {
                 content: '';
                 display: block;
-                width: 4.5rem;
-                height: 4.5rem;
+                width: 8rem;
+                height: 8rem;
                 border-radius: 50%;
                 animation: aperture 2s linear infinite 0.6s;
             }
             .Home_Welcome_main_showDetail {
-                width: 22rem;
-                height: 22rem;
+                width: 30rem;
+                height: 30rem;
                 border-radius: 50%;
                 position: absolute;
-                margin-top: 8rem;
+                margin-top: 12rem;
 
                 .detailCard {
-                    width: 2rem;
-                    height: 2rem;
+                    width: 3rem;
+                    height: 3rem;
                     background: #ffffff;
                     border-radius: 10px;
-                    box-shadow: 0 0 5px white;
+                    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
                     position: absolute;
                     top: 50%;
                     left: 50%;
-                    /* 初始位置设置为父容器的中心 */
                     transform-origin: center;
-                    /* 旋转中心设置为元素自身中心 */
                     transform: translate(-50%, -50%) rotate(0deg);
-                    /* 先平移回中心，再旋转0度（默认） */
+                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    
+                    &:hover {
+                        transform: translate(-50%, -50%) scale(1.2) rotate(360deg);
+                        box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+                        z-index: 1;
+                    }
                 }
 
                 .js {
                     background: url(../../public/js.jpg);
                     background-size: cover;
-                    // transform: translate(-11rem * sin(60deg) - 1rem, -11rem * cos(60deg) - 1rem);
-                    animation: around1 30s linear infinite;
+                    animation: around1 40s linear infinite;
                 }
 
                 .ts {
                     background: url(../../public/ts.jpg);
                     background-size: cover;
-                    // transform: translate(-11rem * sin(120deg) - 1rem, -11rem * cos(120deg) - 1rem);
-                    animation: around2 30s linear infinite;
+                    animation: around2 40s linear infinite;
                 }
 
                 .node {
                     background: url(../../public/node.jpg);
                     background-size: cover;
-                    // transform: translate(-11rem * sin(180deg) - 1rem, -11rem * cos(180deg) - 1rem);
-                    animation: around3 30s linear infinite;
+                    animation: around3 40s linear infinite;
                 }
 
                 .vue {
                     background: url(../../public/vue.jpg);
                     background-size: cover;
-                    // transform: translate(-11rem * sin(240deg) - 1rem, -11rem * cos(240deg) - 1rem);
-                    animation: around4 30s linear infinite;
+                    animation: around4 40s linear infinite;
                 }
 
                 .mysql {
                     background: url(../../public/mysql.jpg);
                     background-size: cover;
-                    // transform: translate(-11rem * sin(300deg) - 1rem, -11rem * cos(300deg) - 1rem);
-                    animation: around5 30s linear infinite;
+                    animation: around5 40s linear infinite;
                 }
 
                 .vite {
                     background: url(../../public/vite.jpg);
                     background-size: cover;
-                    // transform: translate(-11rem * sin(0) - 1rem, -11rem * cos(0deg) - 1rem);
-                    animation: around6 30s linear infinite;
+                    animation: around6 40s linear infinite;
                 }
 
                 @keyframes around1 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(0deg) translate(16rem) rotate(0deg);
+                        transform: translate(-50%, -50%) rotate(0deg) translate(20rem) rotate(0deg);
                     }
-
                     100% {
-                        transform: translate(-50%, -50%) rotate(360deg) translate(16rem) rotate(-360deg);
+                        transform: translate(-50%, -50%) rotate(360deg) translate(20rem) rotate(-360deg);
                     }
                 }
                 @keyframes around2 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(60deg) translate(14rem) rotate(-60deg);
+                        transform: translate(-50%, -50%) rotate(60deg) translate(20rem) rotate(-60deg);
                     }
-
                     100% {
-                        transform: translate(-50%, -50%) rotate(420deg) translate(14rem) rotate(-420deg);
+                        transform: translate(-50%, -50%) rotate(420deg) translate(20rem) rotate(-420deg);
                     }
                 }
                 @keyframes around3 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(120deg) translate(12rem) rotate(-120deg);
+                        transform: translate(-50%, -50%) rotate(120deg) translate(20rem) rotate(-120deg);
                     }
-
                     100% {
-                        transform: translate(-50%, -50%) rotate(480deg) translate(12rem) rotate(-480deg);
+                        transform: translate(-50%, -50%) rotate(480deg) translate(20rem) rotate(-480deg);
                     }
                 }
                 @keyframes around4 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(180deg) translate(10rem) rotate(-180deg);
+                        transform: translate(-50%, -50%) rotate(180deg) translate(20rem) rotate(-180deg);
                     }
-
                     100% {
-                        transform: translate(-50%, -50%) rotate(540deg) translate(10rem) rotate(-540deg);
+                        transform: translate(-50%, -50%) rotate(540deg) translate(20rem) rotate(-540deg);
                     }
                 }
                 @keyframes around5 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(240deg) translate(9rem) rotate(-240deg);
+                        transform: translate(-50%, -50%) rotate(240deg) translate(20rem) rotate(-240deg);
                     }
-
                     100% {
-                        transform: translate(-50%, -50%) rotate(600deg) translate(9rem) rotate(-600deg);
+                        transform: translate(-50%, -50%) rotate(600deg) translate(20rem) rotate(-600deg);
                     }
                 }
                 @keyframes around6 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(300deg) translate(8rem) rotate(-300deg);
+                        transform: translate(-50%, -50%) rotate(300deg) translate(20rem) rotate(-300deg);
                     }
-
                     100% {
-                        transform: translate(-50%, -50%) rotate(660deg) translate(8rem) rotate(-660deg);
+                        transform: translate(-50%, -50%) rotate(660deg) translate(20rem) rotate(-660deg);
                     }
                 }
 
@@ -225,32 +253,40 @@ const mouseleave = () => {
             .Home_Welcome_main_myname {
                 width: fit-content;
                 position: absolute;
-                // top: 60%;
-                margin-top: 8rem;
-                font-size: 2rem;
+                margin-top: 12rem;
+                font-size: 3rem;
                 font-weight: bold;
+                color: #fff;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             }
 
             .Home_Welcome_main_text {
-
                 width: fit-content;
                 overflow: hidden;
                 position: absolute;
-                // top: 70%;
-                margin-top: 13rem;
+                margin-top: 18rem;
 
                 .Home_Welcome_main_text_content {
                     white-space: nowrap;
                     overflow: hidden;
-                    font-size: 1em;
+                    font-size: 1.5rem;
+                    color: #fff;
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 1.5rem; // 确保文字区域高度固定
+
+                    .cursor {
+                        display: inline-block;
+                        width: 2px;
+                        height: 1.2em;
+                        background-color: #fff;
+                        margin-left: 2px;
+                        animation: blink 0.7s infinite;
+                    }
                 }
-
-
-
             }
-
-
-
 
             @keyframes aperture {
                 0% {
@@ -258,11 +294,11 @@ const mouseleave = () => {
                 }
 
                 60% {
-                    box-shadow: 0 0 0 1rem rgba(255, 255, 255, 0%);
+                    box-shadow: 0 0 0 2rem rgba(255, 255, 255, 0%);
                 }
 
                 100% {
-                    box-shadow: 0 0 0 3rem rgba(255, 255, 255, 0%);
+                    box-shadow: 0 0 0 4rem rgba(255, 255, 255, 0%);
                 }
             }
 
@@ -271,6 +307,8 @@ const mouseleave = () => {
         .Home_Welcome_animation {
             height: 20%;
             width: 100%;
+            position: absolute;
+            bottom: 0;
 
             .Home_Welcome_animation_waves {
                 width: 100%;
@@ -317,16 +355,25 @@ const mouseleave = () => {
     }
 
     .Home_Introduce {
-        // height: 100%;
         width: 100%;
+        min-height: 100vh;
         background-color: rgb(255, 255, 255);
     }
 
     .Home_Last {
-        height: 100%;
         width: 100%;
+        min-height: 100vh;
         background: url(../../public/木鱼.jpg);
         background-size: cover;
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
     }
 }
 </style>
