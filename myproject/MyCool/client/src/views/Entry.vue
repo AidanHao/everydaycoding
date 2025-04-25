@@ -116,7 +116,6 @@ const HandleMenuSelect = (key: string, keyPath: string[]) => {
             display: flex;
             justify-content: center;
             padding: 0;
-            padding-top: 4rem;
         }
     }
 }
