@@ -78,38 +78,38 @@ onUnmounted(() => {
 <style lang="less" scoped>
 .DateTimeCard {
     position: sticky;
-    top: 6rem;
-    width: 14rem;
+    top: 5rem;
+    width: 12rem;
     background: #ffffff;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    margin-left: 2rem;
+    border-radius: 0.8rem;
+    padding: 1.2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    margin-left: 1.5rem;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(14, 165, 233, 0.1);
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
 
     .DateTimeCard_time {
         text-align: center;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
+        padding-bottom: 1.2rem;
         border-bottom: 1px solid rgba(14, 165, 233, 0.15);
 
         .time {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 600;
             color: #0369a1;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .date {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #64748b;
             font-weight: 500;
         }
@@ -119,8 +119,8 @@ onUnmounted(() => {
         .calendar-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
             color: #0369a1;
             font-weight: 600;
         }
@@ -128,28 +128,65 @@ onUnmounted(() => {
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0.4rem;
+            gap: 0.3rem;
 
             .calendar-day {
                 aspect-ratio: 1;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 color: #64748b;
-                border-radius: 0.4rem;
+                border-radius: 0.3rem;
                 transition: all 0.3s ease;
                 font-weight: 500;
 
                 &.today {
                     background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
                     color: #ffffff;
-                    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+                    box-shadow: 0 2px 6px rgba(14, 165, 233, 0.3);
                 }
 
                 &:hover {
                     background: rgba(14, 165, 233, 0.1);
                     transform: scale(1.05);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .DateTimeCard {
+        position: relative;
+        top: 0;
+        width: 100%;
+        margin: 1rem 0;
+        padding: 1rem;
+
+        .DateTimeCard_time {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+
+            .time {
+                font-size: 1.8rem;
+            }
+
+            .date {
+                font-size: 0.85rem;
+            }
+        }
+
+        .DateTimeCard_calendar {
+            .calendar-header {
+                font-size: 0.85rem;
+            }
+
+            .calendar-grid {
+                gap: 0.2rem;
+
+                .calendar-day {
+                    font-size: 0.75rem;
                 }
             }
         }

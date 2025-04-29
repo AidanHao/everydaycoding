@@ -6,7 +6,8 @@
                     <el-menu mode="horizontal" @select="HandleMenuSelect" router=true
                         background-color="transParent" text-color="#F5F0DC" active-text-color="#F2D356" :ellipsis="false"
                         class="Entry-Container-Header-menu-detail"> 
-                        <el-menu-item index="Home" :class="{ 'is-active': menuKey === 'Home' }">首页 </el-menu-item>
+                        <el-menu-item index="Home" :class="{ 'is-active': menuKey === 'Home' }">首页</el-menu-item>
+                        <el-menu-item index="Community" :class="{ 'is-active': menuKey === 'Community' }">社区</el-menu-item>
                         <el-menu-item index="Self" :class="{ 'is-active': menuKey === 'Self' }">个人中心</el-menu-item>
 
                         <!-- <el-menu-item index="Public">公共聊天室 </el-menu-item> -->
@@ -45,6 +46,8 @@ const isArticleDetail = computed(() => {
 const setMenuKey = () => {
     if (route.path === '/') {
         menuKey.value = 'Home';
+    } else if (route.path === '/community') {
+        menuKey.value = 'Community';
     } else if (route.path === '/self') {
         menuKey.value = 'Self';
     } else if (route.path.startsWith('/article/')) {

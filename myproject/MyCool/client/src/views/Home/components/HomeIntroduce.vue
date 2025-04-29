@@ -115,30 +115,46 @@
 
 <style lang="less" scoped>
     .Introduce {
-        padding: 2rem;
-        width: 90%;
+        padding: 1.5rem;
+        width: 95%;
         height: fit-content;
-        margin: 2rem auto;
-        border-radius: 1rem;
+        margin: 1.5rem auto;
+        border-radius: 0.8rem;
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        box-shadow: 0 0 2rem rgba(14, 165, 233, 0.05);
+        box-shadow: 0 0 1.5rem rgba(14, 165, 233, 0.05);
         transition: all 0.3s ease;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
 
         &:hover {
-            box-shadow: 0 0 2.5rem rgba(14, 165, 233, 0.08);
+            box-shadow: 0 0 2rem rgba(14, 165, 233, 0.08);
         }
 
         .Introduce_content {
             flex: 1;
-            margin-right: 2rem;
+            margin-right: 1.5rem;
 
             > div {
-                margin-bottom: 3rem;
+                margin-bottom: 2rem;
                 &:last-child {
                     margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .Introduce {
+            padding: 1rem;
+            width: 98%;
+            margin: 1rem auto;
+
+            .Introduce_content {
+                margin-right: 1rem;
+
+                > div {
+                    margin-bottom: 1.5rem;
                 }
             }
         }

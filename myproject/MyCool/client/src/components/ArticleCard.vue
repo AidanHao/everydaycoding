@@ -148,12 +148,12 @@ const handleDelete = () => {
 
 <style lang="less" scoped>
 .ArticleCard {
-    width: 90%;
-    height: 16rem;
+    width: 95%;
+    height: 14rem;
     margin: auto;
     border-radius: 0.8rem;
-    margin-top: 1.2rem;
-    margin-bottom: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     overflow: hidden;
@@ -164,12 +164,12 @@ const handleDelete = () => {
     border: 1px solid rgba(14, 165, 233, 0.1);
 
     .ArticleCard_cover {
-        width: 20%;
+        width: 18%;
         height: 100%;
         position: relative;
         overflow: hidden;
         flex-shrink: 0;
-        min-width: 120px;
+        min-width: 100px;
 
         &::after {
             content: '';
@@ -198,7 +198,7 @@ const handleDelete = () => {
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: 1.5rem;
+        padding: 1.2rem;
         min-width: 0;
         background: #ffffff;
         position: relative;
@@ -208,19 +208,19 @@ const handleDelete = () => {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 0.8rem;
-            min-height: 3.5rem;
+            margin-bottom: 0.6rem;
+            min-height: 3rem;
 
             .ArticleCard_content_title {
                 display: flex;
                 align-items: center;
-                gap: 0.8rem;
-                min-height: 2rem;
+                gap: 0.6rem;
+                min-height: 1.8rem;
                 flex: 1;
-                margin-right: 1rem;
+                margin-right: 0.8rem;
 
                 .title-text {
-                    font-size: 1.4rem;
+                    font-size: 1.2rem;
                     font-weight: 600;
                     color: #0369a1;
                     flex: 1;
@@ -230,82 +230,27 @@ const handleDelete = () => {
                 }
 
                 .status-tag {
-                    font-size: 0.9rem;
-                    padding: 0.3rem 0.6rem;
+                    font-size: 0.8rem;
+                    padding: 0.2rem 0.4rem;
                     flex-shrink: 0;
-                }
-            }
-
-            .action-buttons {
-                display: flex;
-                gap: 1.2rem;
-                flex-shrink: 0;
-                margin-top: 0.2rem;
-
-                .el-button {
-                    padding: 1rem 2rem;
-                    border-radius: 1rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    min-width: 5rem;
-                    height: 5rem;
-                    font-size: 1.6rem;
-                    font-weight: 600;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-                    .el-icon {
-                        font-size: 2.4rem;
-                    }
-
-                    &.el-button--primary {
-                        background: linear-gradient(135deg, #0ea5e9, #0369a1);
-                        border: none;
-                        color: white;
-                    }
-
-                    &.el-button--danger {
-                        background: linear-gradient(135deg, #ef4444, #dc2626);
-                        border: none;
-                        color: white;
-                    }
-
-                    &:hover {
-                        transform: translateY(-5px);
-                        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-                        
-                        &.el-button--primary {
-                            background: linear-gradient(135deg, #0369a1, #0ea5e9);
-                        }
-                        
-                        &.el-button--danger {
-                            background: linear-gradient(135deg, #dc2626, #ef4444);
-                        }
-                    }
-
-                    &:active {
-                        transform: translateY(0);
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                    }
                 }
             }
         }
 
         .ArticleCard_content_meta {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             color: #64748b;
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
             flex-wrap: wrap;
 
             .meta_item {
                 display: flex;
                 align-items: center;
-                gap: 0.4rem;
+                gap: 0.3rem;
                 transition: all 0.3s ease;
-                padding: 0.4rem 0.8rem;
+                padding: 0.3rem 0.6rem;
                 border-radius: 0.4rem;
                 background: rgba(14, 165, 233, 0.1);
                 color: #0ea5e9;
@@ -321,9 +266,9 @@ const handleDelete = () => {
 
         .ArticleCard_content_text {
             flex: 1;
-            margin: 0.8rem 0;
-            font-size: 1.1rem;
-            line-height: 1.8rem;
+            margin: 0.6rem 0;
+            font-size: 0.95rem;
+            line-height: 1.6rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -331,23 +276,23 @@ const handleDelete = () => {
             -webkit-box-orient: vertical;
             color: #475569;
             transition: color 0.3s ease;
-            min-height: 5.4rem;
-            max-height: 5.4rem;
+            min-height: 4.8rem;
+            max-height: 4.8rem;
         }
 
         .ArticleCard_content_footer {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            padding: 0.8rem 0;
+            padding: 0.6rem 0;
             color: #64748b;
             border-top: 1px solid rgba(14, 165, 233, 0.1);
             margin-top: auto;
-            min-height: 3rem;
+            min-height: 2.5rem;
 
             .footer_left {
                 display: flex;
-                gap: 0.8rem;
+                gap: 0.6rem;
                 flex-wrap: wrap;
                 flex: 1;
                 min-width: 0;
@@ -355,13 +300,13 @@ const handleDelete = () => {
                 .footer_item {
                     display: flex;
                     align-items: center;
-                    gap: 0.4rem;
+                    gap: 0.3rem;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    padding: 0.4rem 0.8rem;
+                    padding: 0.3rem 0.6rem;
                     border-radius: 0.4rem;
                     background: rgba(14, 165, 233, 0.1);
                     color: #0ea5e9;
-                    font-size: 1rem;
+                    font-size: 0.9rem;
                     flex-shrink: 0;
 
                     &:hover {
@@ -375,22 +320,22 @@ const handleDelete = () => {
             .footer_right {
                 .el-button-group {
                     display: flex;
-                    gap: 0.8rem;
-                    margin-left: 1rem;
+                    gap: 0.6rem;
+                    margin-left: 0.8rem;
 
                     .el-button {
-                        padding: 0.8rem 1.2rem;
-                        border-radius: 0.6rem;
-                        font-size: 1.2rem;
+                        padding: 0.6rem 1rem;
+                        border-radius: 0.5rem;
+                        font-size: 1rem;
                         font-weight: 600;
                         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                         border: none;
-                        min-width: 3.5rem;
-                        height: 3.5rem;
+                        min-width: 3rem;
+                        height: 3rem;
 
                         .el-icon {
-                            font-size: 1.6rem;
+                            font-size: 1.4rem;
                         }
 
                         &.el-button--primary {
@@ -399,7 +344,7 @@ const handleDelete = () => {
                             
                             &:hover {
                                 background: linear-gradient(135deg, #0369a1, #0ea5e9);
-                                transform: translateY(-3px);
+                                transform: translateY(-2px);
                                 box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
                             }
                         }
@@ -410,7 +355,7 @@ const handleDelete = () => {
                             
                             &:hover {
                                 background: linear-gradient(135deg, #dc2626, #ef4444);
-                                transform: translateY(-3px);
+                                transform: translateY(-2px);
                                 box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
                             }
                         }
@@ -431,9 +376,9 @@ const handleDelete = () => {
 }
 
 .ArticleCard:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.2);
-    border-color: rgba(14, 165, 233, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    border-color: rgba(14, 165, 233, 0.2);
     
     .ArticleCard_content {
         background-color: #f8fafc;
@@ -448,24 +393,54 @@ const handleDelete = () => {
 
         .ArticleCard_cover {
             width: 100%;
-            height: 6rem;
+            height: 5rem;
             min-width: auto;
         }
 
         .ArticleCard_content {
-            .ArticleCard_content_title {
-                .title-text {
-                    font-size: 1rem;
+            padding: 1rem;
+
+            .ArticleCard_content_header {
+                .ArticleCard_content_title {
+                    .title-text {
+                        font-size: 1.1rem;
+                    }
                 }
             }
 
             .ArticleCard_content_meta {
                 gap: 0.3rem;
+                font-size: 0.8rem;
+            }
+
+            .ArticleCard_content_text {
+                font-size: 0.9rem;
+                line-height: 1.5rem;
+                min-height: 4.5rem;
+                max-height: 4.5rem;
             }
 
             .ArticleCard_content_footer {
                 .footer_left {
                     gap: 0.3rem;
+                    
+                    .footer_item {
+                        font-size: 0.8rem;
+                    }
+                }
+
+                .footer_right {
+                    .el-button-group {
+                        .el-button {
+                            padding: 0.5rem 0.8rem;
+                            min-width: 2.5rem;
+                            height: 2.5rem;
+                            
+                            .el-icon {
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
                 }
             }
         }

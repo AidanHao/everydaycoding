@@ -84,11 +84,11 @@ const goToArticle = () => {
 
 <style lang="less" scoped>
 .TextCard {
-    width: 90%;
-    height: 18rem;
+    width: 95%;
+    height: 16rem;
     margin: auto;
-    border-radius: 1rem;
-    margin-top: 2rem;
+    border-radius: 0.8rem;
+    margin-top: 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     display: flex;
     overflow: hidden;
@@ -98,7 +98,7 @@ const goToArticle = () => {
     cursor: pointer;
 
     .TextCard_cover {
-        width: 35%;
+        width: 30%;
         height: 100%;
         position: relative;
         overflow: hidden;
@@ -131,21 +131,21 @@ const goToArticle = () => {
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: 1.5rem;
+        padding: 1.2rem;
         min-width: 0;
         background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
 
         .TextCard_content_header {
             .TextCard_content_title {
                 color: #0369a1;
-                font-size: 1.8rem;
+                font-size: 1.5rem;
                 width: 100%;
                 text-align: center;
                 font-weight: 600;
-                margin-bottom: 1rem;
+                margin-bottom: 0.8rem;
                 transition: color 0.3s ease;
                 position: relative;
-                padding-bottom: 0.5rem;
+                padding-bottom: 0.4rem;
 
                 &::after {
                     content: '';
@@ -153,8 +153,8 @@ const goToArticle = () => {
                     bottom: 0;
                     left: 50%;
                     transform: translateX(-50%);
-                    width: 3rem;
-                    height: 3px;
+                    width: 2.5rem;
+                    height: 2px;
                     background: linear-gradient(to right, transparent, #0ea5e9, transparent);
                     transition: width 0.3s ease;
                 }
@@ -163,18 +163,18 @@ const goToArticle = () => {
             .TextCard_content_meta {
                 display: flex;
                 justify-content: center;
-                gap: 1.5rem;
+                gap: 1.2rem;
                 color: #64748b;
-                font-size: 0.9rem;
-                margin-bottom: 1rem;
+                font-size: 0.85rem;
+                margin-bottom: 0.8rem;
 
                 .meta_item {
                     display: flex;
                     align-items: center;
-                    gap: 0.4rem;
+                    gap: 0.3rem;
                     transition: all 0.3s ease;
-                    padding: 0.3rem 0.8rem;
-                    border-radius: 1rem;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 0.8rem;
                     background: rgba(14, 165, 233, 0.1);
                     color: #0ea5e9;
 
@@ -189,9 +189,9 @@ const goToArticle = () => {
 
         .TextCard_content_text {
             flex: 1;
-            margin: 1rem 0;
-            font-size: 1rem;
-            line-height: 1.8rem;
+            margin: 0.8rem 0;
+            font-size: 0.9rem;
+            line-height: 1.6rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -199,27 +199,27 @@ const goToArticle = () => {
             -webkit-box-orient: vertical;
             color: #475569;
             transition: color 0.3s ease;
-            padding: 0 1rem;
+            padding: 0 0.8rem;
         }
 
         .TextCard_content_footer {
             display: flex;
             justify-content: flex-end;
-            gap: 1.5rem;
-            padding: 1rem;
+            gap: 1.2rem;
+            padding: 0.8rem;
             color: #64748b;
             border-top: 1px solid rgba(14, 165, 233, 0.1);
             margin-top: auto;
-            height: 3rem;
+            height: 2.5rem;
 
             .footer_item {
                 display: flex;
                 align-items: center;
-                gap: 0.4rem;
+                gap: 0.3rem;
                 cursor: pointer;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                padding: 0.5rem 1rem;
-                border-radius: 0.5rem;
+                padding: 0.4rem 0.8rem;
+                border-radius: 0.4rem;
                 background: rgba(14, 165, 233, 0.1);
                 color: #0ea5e9;
 
@@ -238,11 +238,49 @@ const goToArticle = () => {
 }
 
 .TextCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.15);
 
     .TextCard_content_title::after {
-        width: 6rem;
+        width: 5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .TextCard {
+        height: 14rem;
+        margin-top: 1rem;
+
+        .TextCard_cover {
+            width: 25%;
+        }
+
+        .TextCard_content {
+            padding: 1rem;
+
+            .TextCard_content_header {
+                .TextCard_content_title {
+                    font-size: 1.3rem;
+                    margin-bottom: 0.6rem;
+                }
+
+                .TextCard_content_meta {
+                    gap: 1rem;
+                    font-size: 0.8rem;
+                }
+            }
+
+            .TextCard_content_text {
+                font-size: 0.85rem;
+                line-height: 1.5rem;
+                margin: 0.6rem 0;
+            }
+
+            .TextCard_content_footer {
+                height: 2.2rem;
+                padding: 0.6rem;
+            }
+        }
     }
 }
 </style>

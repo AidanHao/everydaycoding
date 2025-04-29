@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../../api'
 import { ElMessage } from 'element-plus'
@@ -85,6 +85,19 @@ const isLoading = ref(false)
 const isTransitioning = ref(false)
 const rememberMe = ref(false)
 const showPassword = ref(false)
+
+// 组件加载时检查localStorage中的用户信息
+onMounted(() => {
+  const userInfo = localStorage.getItem('userToken')
+  if (userInfo) {
+    const parsedUserInfo = JSON.parse(userInfo)
+    if (parsedUserInfo.rememberMe) {
+      userName.value = parsedUserInfo.userName || ''
+      passWord.value = parsedUserInfo.passWord || ''
+      rememberMe.value = true
+    }
+  }
+})
 
 const errors = reactive({
   userName: '',
@@ -130,15 +143,25 @@ const handleLogin = async () => {
     })
     response.data.data.rememberMe = rememberMe.value
     // 保存用户信息
-    const userInfo = {
+    let userInfo = {
       ...response?.data?.data,
+      rememberMe: rememberMe.value,
     }
-    
     if (rememberMe.value) {
-      localStorage.setItem('userToken', JSON.stringify(userInfo))
+      userInfo = {
+        ...response?.data?.data,
+        rememberMe: rememberMe.value,
+        passWord: passWord.value,
+        userName: userName.value,
+      }
     } else {
-      sessionStorage.setItem('userToken', JSON.stringify(userInfo))
+      userInfo = {
+        ...response?.data?.data,
+        rememberMe: rememberMe.value,
+        userName: userName.value,
+      }
     }
+    localStorage.setItem('userToken', JSON.stringify(userInfo))
     
     // ElMessage({
     //   message: '登录成功',
@@ -191,16 +214,17 @@ const handleLogin = async () => {
 
 .login-box {
   background: rgba(255, 255, 255, 0.95);
-  padding: 2.5rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 420px;
+  max-width: 360px;
   transform: translateY(-20px);
   animation: fadeIn 0.5s ease-out;
   transition: transform 0.3s ease, opacity 0.3s ease;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem;
 }
 
 .slide-out {
@@ -226,8 +250,8 @@ const handleLogin = async () => {
 
 .login-subtitle {
   color: #666;
-  font-size: 1rem;
-  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
 }
 
 .input-wrapper {
@@ -235,7 +259,7 @@ const handleLogin = async () => {
   display: flex;
   align-items: center;
   background-color: #f8f9fa;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 2px solid #e0e0e0;
   transition: all 0.3s ease;
 }
@@ -247,12 +271,12 @@ const handleLogin = async () => {
 }
 
 .input-wrapper input {
-  padding: 1rem;
+  padding: 0.8rem;
   border: none;
   background: transparent;
   width: 100%;
-  font-size: 1rem;
-  border-radius: 12px;
+  font-size: 0.95rem;
+  border-radius: 10px;
 }
 
 .input-wrapper input:focus {
@@ -284,15 +308,15 @@ const handleLogin = async () => {
   position: relative;
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   color: white;
-  padding: 1rem;
+  padding: 0.8rem;
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1.5rem;
-  min-height: 3rem;
+  margin-top: 1.2rem;
+  min-height: 2.5rem;
   overflow: hidden;
   z-index: 1;
 }
@@ -399,8 +423,8 @@ const handleLogin = async () => {
 .login-title {
   text-align: center;
   color: #333;
-  margin-bottom: 2.5rem;
-  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   -webkit-background-clip: text;
@@ -410,13 +434,13 @@ const handleLogin = async () => {
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 1.2rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 
 label {
@@ -484,5 +508,45 @@ label {
 .icon-eye:hover,
 .icon-eye.active {
   color: #4facfe;
+}
+
+/* 修改响应式样式 */
+@media screen and (max-width: 480px) {
+  .login-box {
+    padding: 1.2rem;
+    margin: 0.5rem;
+  }
+
+  .login-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .input-wrapper input {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .login-button {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .login-box {
+    max-width: 320px;
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .login-box {
+    max-width: 360px;
+  }
 }
 </style> 

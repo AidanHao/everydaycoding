@@ -19,7 +19,7 @@ const instance: AxiosInstance = axios.create({
 
 // 请求拦截
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = sessionStorage.getItem('userInfo')
+  const token = sessionStorage.getItem('userToken')
   if (token) {
     const userInfo = JSON.parse(token)
     if (config.headers) {

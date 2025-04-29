@@ -567,8 +567,8 @@ onMounted(() => {
     .Self_User {
         height: 100vh;
         width: 100%;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    position: relative;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        position: relative;
         z-index: 0;
 
         .Self_User_main {
@@ -583,11 +583,11 @@ onMounted(() => {
             box-sizing: border-box;
 
             .Self_User_main_avatar {
-                width: 8rem;
-                height: 8rem;
+                width: 7rem;
+                height: 7rem;
                 border-radius: 50%;
                 overflow: hidden;
-                margin-bottom: 2rem;
+                margin-bottom: 1.5rem;
                 animation: aperture 2s linear infinite;
 
                 .avatar {
@@ -599,22 +599,22 @@ onMounted(() => {
 
             .Self_User_main_info {
                 text-align: center;
-                margin-bottom: 2rem;
+                margin-bottom: 1.5rem;
                 width: 100%;
-                max-width: 600px;
+                max-width: 500px;
 
                 h2 {
-                    font-size: 2.5rem;
+                    font-size: 2rem;
                     color: #333;
-                    margin-bottom: 1rem;
+                    margin-bottom: 0.8rem;
                     word-break: break-word;
                 }
 
                 .role-tag {
                     display: inline-block;
-                    padding: 0.5rem 1.5rem;
-                    border-radius: 2rem;
-                    font-size: 1rem;
+                    padding: 0.4rem 1.2rem;
+                    border-radius: 1.5rem;
+                    font-size: 0.9rem;
                     font-weight: bold;
 
                     &.admin {
@@ -625,40 +625,40 @@ onMounted(() => {
                     &.user {
                         background: #f0f9eb;
                         color: #67c23a;
+                    }
                 }
             }
-        }
 
             .Self_User_main_stats {
-            display: flex;
-                gap: 4rem;
-                margin-top: 3rem;
-            flex-wrap: wrap;
+                display: flex;
+                gap: 3rem;
+                margin-top: 2rem;
+                flex-wrap: wrap;
                 justify-content: center;
                 width: 100%;
-                max-width: 800px;
+                max-width: 700px;
 
-            .stat-item {
-                text-align: center;
-                    min-width: 140px;
-                    padding: 0 1rem;
+                .stat-item {
+                    text-align: center;
+                    min-width: 120px;
+                    padding: 0 0.8rem;
 
-                .number {
-                    display: block;
-                        font-size: 2.5rem;
-                    font-weight: bold;
-                    color: #409eff;
-                        margin-bottom: 0.5rem;
-                }
+                    .number {
+                        display: block;
+                        font-size: 2rem;
+                        font-weight: bold;
+                        color: #409eff;
+                        margin-bottom: 0.4rem;
+                    }
 
-                .label {
-                        font-size: 1.1rem;
-                    color: #606266;
-                        margin-top: 0.5rem;
+                    .label {
+                        font-size: 1rem;
+                        color: #606266;
+                        margin-top: 0.4rem;
+                    }
                 }
             }
         }
-    }
 
         .Self_User_animation {
             height: 20%;
@@ -678,7 +678,7 @@ onMounted(() => {
                 .parallax>use:nth-child(1) {
                     animation-delay: -2s;
                     animation-duration: 7s;
-            }
+                }
 
                 .parallax>use:nth-child(2) {
                     animation-delay: -3s;
@@ -702,23 +702,23 @@ onMounted(() => {
         width: 100%;
         min-height: 100vh;
         background-color: #fff;
-        padding: 3rem;
+        padding: 2rem;
         box-sizing: border-box;
 
         .action-buttons {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 1rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
             justify-content: center;
 
             .el-button {
                 flex: 1;
-                min-width: 150px;
-                max-width: 250px;
-                height: 48px;
-                font-size: 18px;
-                border-radius: 24px;
+                min-width: 120px;
+                max-width: 200px;
+                height: 40px;
+                font-size: 15px;
+                border-radius: 20px;
                 border: none;
                 box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
                 transition: all 0.3s ease;
@@ -732,15 +732,15 @@ onMounted(() => {
 
         .article-list {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 1400px;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
             margin: 0 auto;
 
             :deep(.el-tabs) {
                 .el-tabs__header {
-                    margin-bottom: 2rem;
+                    margin-bottom: 1.5rem;
                     border-bottom: 2px solid rgba(14, 165, 233, 0.1);
                 }
 
@@ -751,13 +751,13 @@ onMounted(() => {
                 }
 
                 .el-tabs__item {
-                    font-size: 1.2rem;
+                    font-size: 1.1rem;
                     font-weight: 600;
                     color: #64748b;
-                    padding: 0.8rem 1.5rem;
+                    padding: 0.6rem 1.2rem;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    border-radius: 0.8rem;
-                    margin-right: 1rem;
+                    border-radius: 0.6rem;
+                    margin-right: 0.8rem;
 
                     &:hover {
                         color: #0ea5e9;
@@ -777,14 +777,14 @@ onMounted(() => {
             }
 
             .article-items {
-                    display: flex;
+                display: flex;
                 flex-direction: column;
-                gap: 3rem;
+                gap: 2rem;
             }
 
             .pagination-container {
-                margin-top: 3rem;
-                    display: flex;
+                margin-top: 2rem;
+                display: flex;
                 justify-content: center;
             }
         }
@@ -797,11 +797,11 @@ onMounted(() => {
     }
 
     60% {
-        box-shadow: 0 0 0 2rem rgba(255, 255, 255, 0);
+        box-shadow: 0 0 0 1.5rem rgba(255, 255, 255, 0);
     }
 
     100% {
-        box-shadow: 0 0 0 4rem rgba(255, 255, 255, 0);
+        box-shadow: 0 0 0 3rem rgba(255, 255, 255, 0);
     }
 }
 
@@ -816,7 +816,7 @@ onMounted(() => {
 }
 
 // 响应式设计
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1366px) {
     .Self {
         .Self_User {
             .Self_User_main {
@@ -827,26 +827,26 @@ onMounted(() => {
 
                 .Self_User_main_info {
                     h2 {
-                        font-size: 2rem;
+                        font-size: 1.8rem;
+                    }
                 }
-            }
 
                 .Self_User_main_stats {
-                    gap: 2.5rem;
-                    margin-top: 2rem;
+                    gap: 2rem;
+                    margin-top: 1.5rem;
 
-                .stat-item {
-                        min-width: 120px;
-                        padding: 0 0.5rem;
+                    .stat-item {
+                        min-width: 100px;
+                        padding: 0 0.6rem;
 
-                    .number {
-                            font-size: 2rem;
+                        .number {
+                            font-size: 1.8rem;
                         }
 
                         .label {
-                            font-size: 1rem;
+                            font-size: 0.9rem;
+                        }
                     }
-                }
                 }
             }
         }
@@ -855,28 +855,94 @@ onMounted(() => {
             padding: 1.5rem;
 
             .action-buttons {
-                gap: 1rem;
-                margin-bottom: 2rem;
+                gap: 0.8rem;
+                margin-bottom: 1.5rem;
 
                 .el-button {
-                    min-width: 120px;
-                    height: 40px;
-                    font-size: 16px;
+                    min-width: 100px;
+                    height: 36px;
+                    font-size: 14px;
+                }
             }
-        }
 
-        .article-list {
+            .article-list {
                 padding: 1.5rem;
 
                 .article-items {
-                    gap: 2rem;
+                    gap: 1.5rem;
                 }
 
                 :deep(.el-tabs) {
                     .el-tabs__item {
                         font-size: 1rem;
-                        padding: 0.6rem 1rem;
-                        margin-right: 0.5rem;
+                        padding: 0.5rem 1rem;
+                        margin-right: 0.6rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .Self {
+        .Self_User {
+            .Self_User_main {
+                .Self_User_main_avatar {
+                    width: 5rem;
+                    height: 5rem;
+                }
+
+                .Self_User_main_info {
+                    h2 {
+                        font-size: 1.6rem;
+                    }
+                }
+
+                .Self_User_main_stats {
+                    gap: 1.5rem;
+
+                    .stat-item {
+                        min-width: 90px;
+
+                        .number {
+                            font-size: 1.6rem;
+                        }
+
+                        .label {
+                            font-size: 0.85rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .Self_Content {
+            padding: 1rem;
+
+            .action-buttons {
+                gap: 0.6rem;
+                margin-bottom: 1.2rem;
+
+                .el-button {
+                    min-width: 90px;
+                    height: 32px;
+                    font-size: 13px;
+                }
+            }
+
+            .article-list {
+                padding: 1.2rem;
+
+                .article-items {
+                    gap: 1.2rem;
+                }
+
+                :deep(.el-tabs) {
+                    .el-tabs__item {
+                        font-size: 0.9rem;
+                        padding: 0.4rem 0.8rem;
+                        margin-right: 0.4rem;
                     }
                 }
             }
@@ -885,7 +951,14 @@ onMounted(() => {
 }
 
 // 对话框响应式
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1366px) {
+    :deep(.el-dialog) {
+        width: 80% !important;
+        margin: 5vh auto !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
     :deep(.el-dialog) {
         width: 90% !important;
         margin: 5vh auto !important;

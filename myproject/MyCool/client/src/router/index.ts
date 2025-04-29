@@ -18,6 +18,16 @@ const router = createRouter({
         component: () => import('../views/Home/Home.vue'),
        },
        {
+        path: '/Community',
+        name: 'Community',
+        component: () => import('../views/Community/Community.vue'),
+       },
+       {
+        path: '/community/post/:id',
+        name: 'PostDetail',
+        component: () => import('../views/Community/PostDetail.vue'),
+       },
+       {
         path: '/Public',
         name: 'Public',
         component: () => import('../views/Public.vue'),
@@ -35,14 +45,45 @@ const router = createRouter({
       ]
     },
     {
-      path: '/login',
+      path: '/Login',
       name: 'Login',
       component: () => import('../views/Login/Login.vue')
     },
     {
-      path: '/register',
+      path: '/Register',
       name: 'Register',
       component: () => import('../views/register/index.vue')
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: () => import('../views/admin/AdminLayout.vue'),
+      children: [
+        {
+          path: '',
+          redirect: '/admin/dashboard'
+        },
+        {
+          path: 'dashboard',
+          name: 'AdminDashboard',
+          component: () => import('../views/admin/Dashboard.vue')
+        },
+        {
+          path: 'articles',
+          name: 'AdminArticles',
+          component: () => import('../views/admin/Articles.vue')
+        },
+        {
+          path: 'users',
+          name: 'AdminUsers',
+          component: () => import('../views/admin/Users.vue')
+        },
+        {
+          path: 'settings',
+          name: 'AdminSettings',
+          component: () => import('../views/admin/Settings.vue')
+        }
+      ]
     }
   ],
 })

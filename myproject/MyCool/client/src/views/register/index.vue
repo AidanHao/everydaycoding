@@ -172,11 +172,11 @@ const handleRegister = async () => {
 
 .register-box {
   background: rgba(255, 255, 255, 0.95);
-  padding: 2.5rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 450px;
+  max-width: 380px;
   transform: translateY(-20px);
   animation: fadeIn 0.5s ease-out;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -201,8 +201,8 @@ const handleRegister = async () => {
 
 .register-title {
   text-align: center;
-  margin-bottom: 2.5rem;
-  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
@@ -213,27 +213,27 @@ const handleRegister = async () => {
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 1.2rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.5rem;
 }
 
 label {
   color: #666;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 input {
-  padding: 1rem;
+  padding: 0.8rem;
   border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
   background-color: rgba(255, 255, 255, 0.9);
   color: #333;
@@ -249,16 +249,16 @@ input:focus {
 .register-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 1.2rem;
+  padding: 0.9rem;
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   position: relative;
-  min-height: 3.5rem;
+  min-height: 3rem;
   letter-spacing: 1px;
 }
 
@@ -310,5 +310,29 @@ input:focus {
   color: #764ba2;
   background-color: rgba(102, 126, 234, 0.1);
   text-decoration: none;
+}
+
+@media screen and (max-width: 480px) {
+  .register-box {
+    padding: 1.5rem;
+    max-width: 320px;
+  }
+  
+  .register-title {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .register-form {
+    gap: 1rem;
+  }
+  
+  input {
+    padding: 0.7rem;
+  }
+  
+  .register-button {
+    padding: 0.8rem;
+  }
 }
 </style> 

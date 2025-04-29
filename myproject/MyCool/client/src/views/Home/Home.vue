@@ -114,8 +114,8 @@ const mouseleave = () => {
             position: relative;
 
             .Home_Welcome_main_avatar {
-                width: 8rem;
-                height: 8rem;
+                width: 5rem;
+                height: 5rem;
                 border-radius: 50%;
                 background: url(../../public/头像.jpg);
                 background-size: cover;
@@ -131,24 +131,25 @@ const mouseleave = () => {
             .Home_Welcome_main_avatar::after {
                 content: '';
                 display: block;
-                width: 8rem;
-                height: 8rem;
+                width: 5rem;
+                height: 5rem;
                 border-radius: 50%;
                 animation: aperture 2s linear infinite 0.6s;
             }
+
             .Home_Welcome_main_showDetail {
-                width: 30rem;
-                height: 30rem;
+                width: 20rem;
+                height: 20rem;
                 border-radius: 50%;
                 position: absolute;
-                margin-top: 12rem;
+                margin-top: 8rem;
 
                 .detailCard {
-                    width: 3rem;
-                    height: 3rem;
+                    width: 2rem;
+                    height: 2rem;
                     background: #ffffff;
-                    border-radius: 10px;
-                    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+                    border-radius: 6px;
+                    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
                     position: absolute;
                     top: 50%;
                     left: 50%;
@@ -158,7 +159,7 @@ const mouseleave = () => {
                     
                     &:hover {
                         transform: translate(-50%, -50%) scale(1.2) rotate(360deg);
-                        box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+                        box-shadow: 0 0 12px rgba(255, 255, 255, 1);
                         z-index: 1;
                     }
                 }
@@ -201,50 +202,50 @@ const mouseleave = () => {
 
                 @keyframes around1 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(0deg) translate(20rem) rotate(0deg);
+                        transform: translate(-50%, -50%) rotate(0deg) translate(12rem) rotate(0deg);
                     }
                     100% {
-                        transform: translate(-50%, -50%) rotate(360deg) translate(20rem) rotate(-360deg);
+                        transform: translate(-50%, -50%) rotate(360deg) translate(12rem) rotate(-360deg);
                     }
                 }
                 @keyframes around2 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(60deg) translate(20rem) rotate(-60deg);
+                        transform: translate(-50%, -50%) rotate(60deg) translate(12rem) rotate(-60deg);
                     }
                     100% {
-                        transform: translate(-50%, -50%) rotate(420deg) translate(20rem) rotate(-420deg);
+                        transform: translate(-50%, -50%) rotate(420deg) translate(12rem) rotate(-420deg);
                     }
                 }
                 @keyframes around3 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(120deg) translate(20rem) rotate(-120deg);
+                        transform: translate(-50%, -50%) rotate(120deg) translate(12rem) rotate(-120deg);
                     }
                     100% {
-                        transform: translate(-50%, -50%) rotate(480deg) translate(20rem) rotate(-480deg);
+                        transform: translate(-50%, -50%) rotate(480deg) translate(12rem) rotate(-480deg);
                     }
                 }
                 @keyframes around4 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(180deg) translate(20rem) rotate(-180deg);
+                        transform: translate(-50%, -50%) rotate(180deg) translate(12rem) rotate(-180deg);
                     }
                     100% {
-                        transform: translate(-50%, -50%) rotate(540deg) translate(20rem) rotate(-540deg);
+                        transform: translate(-50%, -50%) rotate(540deg) translate(12rem) rotate(-540deg);
                     }
                 }
                 @keyframes around5 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(240deg) translate(20rem) rotate(-240deg);
+                        transform: translate(-50%, -50%) rotate(240deg) translate(12rem) rotate(-240deg);
                     }
                     100% {
-                        transform: translate(-50%, -50%) rotate(600deg) translate(20rem) rotate(-600deg);
+                        transform: translate(-50%, -50%) rotate(600deg) translate(12rem) rotate(-600deg);
                     }
                 }
                 @keyframes around6 {
                     0% {
-                        transform: translate(-50%, -50%) rotate(300deg) translate(20rem) rotate(-300deg);
+                        transform: translate(-50%, -50%) rotate(300deg) translate(12rem) rotate(-300deg);
                     }
                     100% {
-                        transform: translate(-50%, -50%) rotate(660deg) translate(20rem) rotate(-660deg);
+                        transform: translate(-50%, -50%) rotate(660deg) translate(12rem) rotate(-660deg);
                     }
                 }
 
@@ -253,8 +254,8 @@ const mouseleave = () => {
             .Home_Welcome_main_myname {
                 width: fit-content;
                 position: absolute;
-                margin-top: 12rem;
-                font-size: 3rem;
+                margin-top: 8rem;
+                font-size: 2rem;
                 font-weight: bold;
                 color: #fff;
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -264,18 +265,18 @@ const mouseleave = () => {
                 width: fit-content;
                 overflow: hidden;
                 position: absolute;
-                margin-top: 18rem;
+                margin-top: 12rem;
 
                 .Home_Welcome_main_text_content {
                     white-space: nowrap;
                     overflow: hidden;
-                    font-size: 1.5rem;
+                    font-size: 1rem;
                     color: #fff;
                     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    min-height: 1.5rem; // 确保文字区域高度固定
+                    min-height: 1rem;
 
                     .cursor {
                         display: inline-block;
@@ -374,6 +375,48 @@ const mouseleave = () => {
     }
     50% {
         opacity: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Home {
+        .Home_Welcome {
+            .Home_Welcome_main {
+                .Home_Welcome_main_avatar {
+                    width: 4rem;
+                    height: 4rem;
+                }
+
+                .Home_Welcome_main_avatar::after {
+                    width: 4rem;
+                    height: 4rem;
+                }
+
+                .Home_Welcome_main_showDetail {
+                    width: 16rem;
+                    height: 16rem;
+                    margin-top: 6rem;
+
+                    .detailCard {
+                        width: 1.8rem;
+                        height: 1.8rem;
+                    }
+                }
+
+                .Home_Welcome_main_myname {
+                    font-size: 1.8rem;
+                    margin-top: 6rem;
+                }
+
+                .Home_Welcome_main_text {
+                    margin-top: 10rem;
+                    
+                    .Home_Welcome_main_text_content {
+                        font-size: 0.9rem;
+                    }
+                }
+            }
+        }
     }
 }
 </style>

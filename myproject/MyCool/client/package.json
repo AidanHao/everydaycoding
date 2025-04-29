@@ -13,8 +13,13 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@types/axios": "^0.14.4",
+    "@types/highlight.js": "^10.1.0",
+    "@types/markdown-it": "^14.1.2",
     "axios": "^1.8.4",
+    "echarts": "^5.6.0",
     "element-plus": "^2.8.8",
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.0",
     "pinia": "^2.3.1",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
