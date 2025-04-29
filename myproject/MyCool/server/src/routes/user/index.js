@@ -11,7 +11,6 @@ let sessionData = {};
 router.post("/login", async (ctx) => {
   //从前端获取账户和密码，去数据库校验
   const { userName, passWord } = ctx.request.body; //前端参数在请求体当中，使用解构语法
-  console.log(userName, passWord);
   try {
     const result = await userLogin(userName, passWord); //调用数据库校验方法
     if (result.length) {

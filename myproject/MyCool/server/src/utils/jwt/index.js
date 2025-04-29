@@ -6,6 +6,7 @@ function sign(option){//生成token
         expiresIn:86400
     })
 }
+
 const verify = ()=>(ctx,next)=>{
     let jwtToken = ctx.req.headers.authorization; //前端传过来要写成小写
     if (jwtToken) {
@@ -28,17 +29,30 @@ const verify = ()=>(ctx,next)=>{
     }
 }
 
-// 解密函数
-const resign = ()=>{
-    let jwtToken = ctx.req.headers.authorization; //前端传过来要写成小写
-    let jwtArray = jwtToken.split('.')
-    let jwtHeader = Buffer.from(jwtArray[0],'utf8').toString('base64')
-    let jwtBody= Buffer.from(jwtArray[1],'utf8').toString('base64')
-    let jwtFooter = Buffer.from(jwtArray[2],'utf8').toString('base64')
-
+// 解析token内容
+const parseToken = (token) => {
+    try {
+        // 移除可能的Bearer前缀
+        if (token.startsWith('Bearer ')) {
+            token = token.slice(7);
+        }
+        
+        // 直接使用jwt.verify解析token
+        const decoded = jwt.verify(token, 'userInfo');
+        return {
+            success: true,
+            data: decoded
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        };
+    }
 }
 
 module.exports ={
     sign,
-    verify
+    verify,
+    parseToken
 }
