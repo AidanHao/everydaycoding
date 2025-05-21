@@ -152,67 +152,93 @@
             </div>
         </div>
 
-        <!-- 发布新文章对话框 -->
-        <el-dialog
+        <!-- 发布新文章抽屉 -->
+        <el-drawer
             v-model="newArticleDialogVisible"
             title="发布新文章"
-            width="70%"
-            :before-close="handleClose"
+            size="100%"
+            :with-header="true"
+            :destroy-on-close="true"
+            class="article-drawer"
         >
-            <el-form :model="newArticle" label-width="80px">
-                <el-form-item label="标题">
-                    <el-input v-model="newArticle.title" placeholder="请输入文章标题"></el-input>
-                </el-form-item>
-                <el-form-item label="摘要">
-                    <el-input v-model="newArticle.summary" type="textarea" :rows="3" placeholder="请输入文章摘要"></el-input>
-                </el-form-item>
-                <el-form-item label="封面">
-                    <el-input v-model="newArticle.cover" placeholder="请输入封面图片URL"></el-input>
-                </el-form-item>
-                <el-form-item label="分类">
-                    <el-select v-model="newArticle.category" placeholder="请选择分类">
-                        <el-option
-                            v-for="item in categories"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        />
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="标签">
-                    <el-select
-                        v-model="newArticle.tags"
-                        multiple
-                        filterable
-                        allow-create
-                        default-first-option
-                        placeholder="请选择标签"
-                    >
-                        <el-option
-                            v-for="item in tagOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        />
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="内容">
-                    <el-input
-                        v-model="newArticle.content"
-                        type="textarea"
-                        :rows="15"
-                        placeholder="请输入文章内容"
-                    />
-                </el-form-item>
-            </el-form>
-            <template #footer>
-                <span class="dialog-footer">
+            <div class="drawer-content">
+                <el-form :model="newArticle" label-width="80px" class="article-form">
+                    <div class="form-header">
+                        <el-form-item label="标题" required>
+                            <el-input v-model="newArticle.title" placeholder="请输入文章标题"></el-input>
+                        </el-form-item>
+                        <el-form-item label="摘要">
+                            <el-input v-model="newArticle.summary" type="textarea" :rows="3" placeholder="请输入文章摘要"></el-input>
+                        </el-form-item>
+                        <el-form-item label="封面">
+                            <div class="cover-upload">
+                                <el-upload
+                                    class="cover-uploader"
+                                    action="#"
+                                    :auto-upload="false"
+                                    :show-file-list="false"
+                                    :on-change="handleCoverChange"
+                                    accept="image/*"
+                                >
+                                    <img v-if="newArticle.cover" :src="newArticle.cover" class="cover-image" />
+                                    <el-icon v-else class="cover-uploader-icon"><Plus /></el-icon>
+                                </el-upload>
+                                <div class="cover-tip">点击上传封面图片</div>
+                            </div>
+                        </el-form-item>
+                        <div class="form-row">
+                            <el-form-item label="分类">
+                                <el-select v-model="newArticle.category" placeholder="请选择分类">
+                                    <el-option
+                                        v-for="item in categories"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                    />
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="标签">
+                                <el-select
+                                    v-model="newArticle.tags"
+                                    multiple
+                                    filterable
+                                    allow-create
+                                    default-first-option
+                                    placeholder="请选择标签"
+                                >
+                                    <el-option
+                                        v-for="item in tagOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value"
+                                    />
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                    </div>
+                    <el-form-item label="内容" required class="markdown-form-item">
+                        <div class="markdown-editor">
+                            <MdEditor
+                                v-model="newArticle.markdown"
+                                :preview="true"
+                                :toolbars="[
+                                    'bold', 'italic', 'strikeThrough', 'title', 'sub', 'sup', 'quote', 'unorderedList',
+                                    'orderedList', 'task', 'code', 'link', 'image', 'table', 'preview',
+                                    'fullscreen'
+                                ]"
+                                @onChange="(v) => newArticle.markdown = v"
+                                @onUploadImg="handleMarkdownImageUpload"
+                            />
+                        </div>
+                    </el-form-item>
+                </el-form>
+                <div class="drawer-footer">
                     <el-button @click="newArticleDialogVisible = false">取消</el-button>
                     <el-button type="primary" @click="saveArticle">保存</el-button>
                     <el-button type="success" @click="publishArticle">发布</el-button>
-                </span>
-            </template>
-        </el-dialog>
+                </div>
+            </div>
+        </el-drawer>
 
         <!-- 编辑个人信息对话框 -->
         <el-dialog
@@ -301,6 +327,9 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ArticleCard from '@/components/ArticleCard.vue'
 import axios from '../../api'
+import { MdEditor } from 'md-editor-v3'
+import 'md-editor-v3/lib/style.css'
+import { Plus } from '@element-plus/icons-vue'
 
 // 使用在线默认头像
 const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
@@ -311,6 +340,7 @@ interface Article {
     title: string
     summary: string
     content: string
+    markdown: string
     createTime: string
     updateTime?: string
     views: number
@@ -367,6 +397,7 @@ const newArticle = ref<Partial<Article>>({
     title: '',
     summary: '',
     content: '',
+    markdown: '',
     category: '',
     tags: [],
     cover: ''
@@ -465,17 +496,53 @@ const deleteDraft = (draft: Article) => {
 }
 
 // 保存文章
-const saveArticle = () => {
-    // 调用保存API
-    ElMessage.success('保存成功')
-    newArticleDialogVisible.value = false
+const saveArticle = async () => {
+    if (!newArticle.value.title) {
+        ElMessage.warning('请输入文章标题')
+        return
+    }
+    if (!newArticle.value.markdown) {
+        ElMessage.warning('请输入文章内容')
+        return
+    }
+
+    try {
+        // 这里应该调用后端API保存文章
+        // const response = await axios.post('/articles', {
+        //     ...newArticle.value,
+        //     content: newArticle.value.markdown // 使用 markdown 内容
+        // })
+        
+        ElMessage.success('保存成功')
+        newArticleDialogVisible.value = false
+    } catch (error) {
+        ElMessage.error('保存失败')
+    }
 }
 
 // 发布文章
-const publishArticle = () => {
-    // 调用发布API
-    ElMessage.success('发布成功')
-    newArticleDialogVisible.value = false
+const publishArticle = async () => {
+    if (!newArticle.value.title) {
+        ElMessage.warning('请输入文章标题')
+        return
+    }
+    if (!newArticle.value.markdown) {
+        ElMessage.warning('请输入文章内容')
+        return
+    }
+
+    try {
+        // 这里应该调用后端API发布文章
+        // const response = await axios.post('/articles/publish', {
+        //     ...newArticle.value,
+        //     content: newArticle.value.markdown // 使用 markdown 内容
+        // })
+        
+        ElMessage.success('发布成功')
+        newArticleDialogVisible.value = false
+    } catch (error) {
+        ElMessage.error('发布失败')
+    }
 }
 
 // 前往管理后台
@@ -769,6 +836,42 @@ const changePassword = async () => {
     })
 }
 
+// 处理封面图片上传
+const handleCoverChange = (file: any) => {
+    if (!file) return
+    
+    // 检查文件类型
+    const isImage = file.raw.type.startsWith('image/')
+    if (!isImage) {
+        ElMessage.error('只能上传图片文件！')
+        return
+    }
+    
+    // 检查文件大小（限制为2MB）
+    const isLt2M = file.raw.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+        ElMessage.error('图片大小不能超过 2MB！')
+        return
+    }
+
+    // 创建临时URL
+    const objectUrl = URL.createObjectURL(file.raw)
+    newArticle.value.cover = objectUrl
+}
+
+// 处理 Markdown 编辑器图片上传
+const handleMarkdownImageUpload = async (files: FileList, callback: (urls: string[]) => void) => {
+    const urls: string[] = [];
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type.startsWith('image/')) {
+            const objectUrl = URL.createObjectURL(file);
+            urls.push(objectUrl);
+        }
+    }
+    callback(urls);
+};
+
 onMounted(() => {
     // 检查登录状态
     checkLoginStatus()
@@ -780,6 +883,7 @@ onMounted(() => {
             title: 'Vue3 组合式 API 最佳实践',
             summary: '本文详细介绍了 Vue3 组合式 API 的使用方法和最佳实践，包括响应式系统、生命周期钩子、组件通信等内容。',
             content: 'Vue3 的组合式 API 是 Vue 3 中最重要的新特性之一。它提供了一种更灵活、更可复用的方式来组织组件代码。本文将深入探讨组合式 API 的核心概念和使用方法...',
+            markdown: '# Vue3 组合式 API 最佳实践\n\nVue3 的组合式 API 是 Vue 3 中最重要的新特性之一。它提供了一种更灵活、更可复用的方式来组织组件代码。本文将深入探讨组合式 API 的核心概念和使用方法...',
             createTime: '2024-03-15T10:30:00',
             views: 256,
             comments: 12,
@@ -790,35 +894,38 @@ onMounted(() => {
         },
         {
             id: '2',
-            title: 'TypeScript 类型系统深入解析',
-            summary: '深入探讨 TypeScript 的类型系统，包括类型推断、泛型、类型守卫等高级特性，帮助开发者更好地使用 TypeScript。',
-            content: 'TypeScript 的类型系统是其最强大的特性之一。它提供了静态类型检查，可以在编译时发现潜在的错误。本文将深入探讨 TypeScript 的类型系统...',
-            createTime: '2024-03-10T14:20:00',
+            title: 'TypeScript 高级类型实战',
+            summary: '深入探讨 TypeScript 的高级类型系统，包括泛型、条件类型、映射类型等高级特性的实际应用。',
+            content: 'TypeScript 的类型系统非常强大，本文将重点介绍一些高级类型的使用场景和最佳实践...',
+            markdown: '# TypeScript 高级类型实战\n\nTypeScript 的类型系统非常强大，本文将重点介绍一些高级类型的使用场景和最佳实践...',
+            createTime: '2024-03-16T14:20:00',
             views: 189,
             comments: 8,
             category: 'tech',
             tags: ['TypeScript', '前端', 'JavaScript'],
-            cover: 'https://picsum.photos/800/400?random=2',
+            cover: 'https://picsum.photos/800/400',
             status: 'published'
         },
         {
             id: '3',
             title: 'Node.js 性能优化指南',
-            summary: '分享 Node.js 应用性能优化的实用技巧，包括内存管理、事件循环、异步编程等方面的优化建议。',
-            content: 'Node.js 的性能优化是一个复杂的话题，涉及到多个方面。本文将介绍一些实用的性能优化技巧，帮助开发者提升 Node.js 应用的性能...',
-            createTime: '2024-03-05T09:15:00',
-            views: 145,
+            summary: '分享 Node.js 应用性能优化的实用技巧，包括内存管理、异步操作优化、缓存策略等。',
+            content: 'Node.js 应用的性能优化是一个复杂的话题，本文将分享一些实用的优化技巧...',
+            markdown: '# Node.js 性能优化指南\n\nNode.js 应用的性能优化是一个复杂的话题，本文将分享一些实用的优化技巧...',
+            createTime: '2024-03-17T09:15:00',
+            views: 156,
             comments: 6,
             category: 'tech',
             tags: ['Node.js', '后端', '性能优化'],
-            cover: 'https://picsum.photos/800/400?random=3',
-            status: 'pending'
+            cover: 'https://picsum.photos/800/400',
+            status: 'published'
         },
         {
             id: '4',
             title: '前端工程化实践指南',
             summary: '从零开始构建现代化前端工程化体系，包括构建工具、代码规范、自动化测试等关键环节的实践分享。',
             content: '...',
+            markdown: '',
             createTime: '2024-02-28T16:45:00',
             views: 321,
             comments: 15,
@@ -832,6 +939,7 @@ onMounted(() => {
             title: '微服务架构设计模式',
             summary: '深入分析微服务架构中的常见设计模式，包括服务发现、负载均衡、熔断降级等核心概念。',
             content: '...',
+            markdown: '',
             createTime: '2024-02-20T11:30:00',
             views: 178,
             comments: 9,
@@ -844,6 +952,7 @@ onMounted(() => {
             title: 'Docker 容器化部署实战',
             summary: '手把手教你使用 Docker 进行应用容器化部署，包括镜像构建、网络配置、数据持久化等实战技巧。',
             content: '...',
+            markdown: '',
             createTime: '2024-02-15T09:20:00',
             views: 234,
             comments: 11,
@@ -856,6 +965,7 @@ onMounted(() => {
             title: 'Git 高级使用技巧',
             summary: '分享 Git 的高级使用技巧，包括分支管理、版本回退、冲突解决等实用技能。',
             content: '...',
+            markdown: '',
             createTime: '2024-02-10T14:10:00',
             views: 167,
             comments: 7,
@@ -872,6 +982,7 @@ onMounted(() => {
             title: 'React Hooks 使用技巧',
             summary: '总结 React Hooks 的使用技巧和常见问题解决方案，帮助开发者更好地使用 React Hooks。',
             content: 'React Hooks 是 React 16.8 引入的新特性，它让函数组件也能使用状态和其他 React 特性。本文将分享一些实用的 Hooks 使用技巧...',
+            markdown: '# React Hooks 使用技巧\n\nReact Hooks 是 React 16.8 引入的新特性，它让函数组件也能使用状态和其他 React 特性。本文将分享一些实用的 Hooks 使用技巧...',
             createTime: '2024-03-18T16:45:00',
             updateTime: '2024-03-18T17:30:00',
             views: 0,
@@ -885,8 +996,9 @@ onMounted(() => {
             title: '微服务架构设计实践',
             summary: '分享微服务架构的设计原则和实践经验，包括服务拆分、通信机制、数据一致性等关键问题。',
             content: '微服务架构已经成为现代应用开发的主流架构模式。本文将分享微服务架构的设计原则和实践经验，帮助开发者更好地理解和应用微服务架构...',
-            createTime: '2024-03-17T11:20:00',
-            updateTime: '2024-03-17T15:40:00',
+            markdown: '# 微服务架构设计实践\n\n微服务架构已经成为现代应用开发的主流架构模式。本文将分享微服务架构的设计原则和实践经验，帮助开发者更好地理解和应用微服务架构...',
+            createTime: '2024-03-19T11:20:00',
+            updateTime: '2024-03-19T15:40:00',
             views: 0,
             comments: 0,
             category: 'tech',
@@ -898,6 +1010,7 @@ onMounted(() => {
             title: 'Webpack 5 配置优化',
             summary: '深入分析 Webpack 5 的配置优化技巧，包括代码分割、缓存优化、构建速度提升等实用方法。',
             content: '...',
+            markdown: '',
             createTime: '2024-03-16T10:15:00',
             updateTime: '2024-03-16T14:30:00',
             views: 0,
@@ -911,6 +1024,7 @@ onMounted(() => {
             title: '前端性能监控方案',
             summary: '探讨前端性能监控的完整解决方案，包括性能指标采集、数据上报、可视化展示等关键环节。',
             content: '...',
+            markdown: '',
             createTime: '2024-03-15T09:40:00',
             updateTime: '2024-03-15T13:20:00',
             views: 0,
@@ -1512,6 +1626,326 @@ onMounted(() => {
 
     .el-form {
         padding: 0 1rem;
+    }
+}
+
+// 添加 Markdown 编辑器样式
+.markdown-editor {
+    height: 300px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    overflow: hidden;
+
+    :deep(.md-editor) {
+        height: 100%;
+    }
+}
+
+.article-dialog {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    min-height: 480px;
+    max-height: 92vh;
+    max-width: 90vw;
+    min-width: 320px;
+    width: 60vw;
+    box-sizing: border-box;
+    :deep(.el-dialog__body) {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 2.5vw 2.5vw 1.5vw 2.5vw;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f2 100%);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+    :deep(.el-form) {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .markdown-editor {
+        flex: 1 1 0;
+        min-height: 400px;
+        max-height: 600px;
+        border: 2px solid #b6d0e2;
+        border-radius: 8px;
+        background: #fafdff;
+        margin-top: 8px;
+        box-shadow: 0 2px 12px rgba(14, 165, 233, 0.08);
+        display: flex;
+        flex-direction: column;
+        :deep(.md-editor) {
+            flex: 1 1 0;
+            height: 100%;
+            border-radius: 8px;
+        }
+    }
+    :deep(.el-dialog__header) {
+        padding: 2vw 2.5vw 0 2.5vw;
+        background: linear-gradient(90deg, #0ea5e9 0%, #0369a1 100%);
+        color: #fff;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        .el-dialog__title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+    }
+    .dialog-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1.5rem;
+        padding: 1vw 2.5vw 0.5vw 2.5vw;
+        background: transparent;
+        .el-button {
+            min-width: 90px;
+            font-size: 1.08rem;
+            border-radius: 24px;
+            padding: 0.7rem 2.2rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .article-dialog {
+        width: 96vw;
+        min-width: 0;
+        max-width: 100vw;
+        height: 92vh;
+        min-height: 320px;
+        :deep(.el-dialog__body), :deep(.el-dialog__header), .dialog-footer {
+            padding-left: 2vw;
+            padding-right: 2vw;
+        }
+    }
+}
+
+// 文章抽屉样式
+.article-drawer {
+    :deep(.el-drawer__header) {
+        margin-bottom: 0;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(90deg, #0ea5e9 0%, #0369a1 100%);
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    :deep(.el-drawer__body) {
+        padding: 0;
+        height: 100%;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .drawer-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: #f8fafc;
+        max-width: 100%;
+        margin: 0;
+        width: 100%;
+    }
+
+    .article-form {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 0 0 2rem 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-height: 0;
+
+        .form-header {
+            margin-bottom: 1.5rem;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+
+            .el-form-item {
+                flex: 1;
+                margin-bottom: 0;
+            }
+        }
+
+        .markdown-form-item {
+            flex: 1;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+
+            :deep(.el-form-item__content) {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+            }
+        }
+    }
+
+    .markdown-editor {
+        flex: 1;
+        min-height: 300px;
+        max-height: 500px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+
+        :deep(.md-editor) {
+            flex: 1;
+            min-height: 300px;
+            border: none;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .drawer-footer {
+        padding: 1rem 2rem;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        width: 100%;
+
+        .el-button {
+            min-width: 100px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+}
+
+// 响应式调整
+@media screen and (max-width: 768px) {
+    .article-drawer {
+        .article-form {
+            padding: 0;
+
+            .form-header,
+            .markdown-form-item,
+            .drawer-footer {
+                min-width: 100%;
+                max-width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .markdown-form-item {
+                min-height: 400px;
+            }
+        }
+
+        .markdown-editor {
+            min-height: 400px;
+            min-width: 100%;
+            :deep(.md-editor) {
+                min-height: 400px;
+            }
+        }
+
+        .drawer-footer {
+            padding: 1rem;
+            flex-wrap: wrap;
+
+            .el-button {
+                flex: 1;
+                min-width: 80px;
+                padding: 0.6rem 1.5rem;
+            }
+        }
+    }
+}
+
+// 添加封面图片上传样式
+.cover-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .cover-uploader {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: border-color 0.3s;
+        width: 300px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            border-color: #409eff;
+        }
+
+        .cover-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 300px;
+            height: 200px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .cover-tip {
+        font-size: 12px;
+        color: #909399;
     }
 }
 </style>
