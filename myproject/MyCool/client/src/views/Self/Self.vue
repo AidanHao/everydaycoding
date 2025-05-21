@@ -501,15 +501,43 @@ const editArticle = (article: Article) => {
 }
 
 // 删除文章
-const deleteArticle = (article: Article) => {
-    // 调用删除API
-    ElMessage.success('删除成功')
+const deleteArticle = async (article: Article) => {
+    try {
+        const response = await axios.post('/deleteArticle', {
+            articleId: article.id
+        });
+
+        if (response.data.code === '8000') {
+            ElMessage.success('删除成功');
+            // 刷新文章列表
+            getUserArticles();
+        } else {
+            ElMessage.error(response.data.msg || '删除失败');
+        }
+    } catch (error) {
+        console.error('删除文章失败:', error);
+        ElMessage.error('删除失败，请稍后重试');
+    }
 }
 
 // 删除草稿
-const deleteDraft = (draft: Article) => {
-    // 调用删除API
-    ElMessage.success('删除成功')
+const deleteDraft = async (draft: Article) => {
+    try {
+        const response = await axios.post('/deleteArticle', {
+            articleId: draft.id
+        });
+
+        if (response.data.code === '8000') {
+            ElMessage.success('删除成功');
+            // 刷新文章列表
+            getUserArticles();
+        } else {
+            ElMessage.error(response.data.msg || '删除失败');
+        }
+    } catch (error) {
+        console.error('删除草稿失败:', error);
+        ElMessage.error('删除失败，请稍后重试');
+    }
 }
 
 // 保存文章

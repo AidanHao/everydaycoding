@@ -59,10 +59,9 @@ const draftArticle = async(userId, title, content, articleLabel, articleType, ar
             // 创建新草稿
             articleId = await getAvailableArticleId();
             const viewCount = 0;
-            const publishTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const status = 0;
 
-            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)`;
             result = await sqlServer.query(_sql, [
                 articleId, 
                 userId, 
@@ -70,7 +69,6 @@ const draftArticle = async(userId, title, content, articleLabel, articleType, ar
                 content, 
                 status, 
                 viewCount, 
-                publishTime, 
                 articleLabel, 
                 articleType, 
                 articleDesc, 
