@@ -987,9 +987,9 @@ const getArticleStatus = (status: string): 'published' | 'draft' | 'pending' | '
         case '1':
             return 'pending';
         case '2':
-            return 'published';
-        case '3':
             return 'rejected';
+        case '3':
+            return 'published';
         default:
             return 'draft';
     }
