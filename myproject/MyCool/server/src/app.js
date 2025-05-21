@@ -13,10 +13,13 @@ app.use(cors())//cors是函数体，要调用
 
 //获取模块
 const user = require('./routes/user');
+const article = require('./routes/article');
 
 
 //必须.routes调用,允许所有请求方法 调用routes里面的内容
 app.use(user.routes(), user.allowedMethods());
+app.use(article.routes(), article.allowedMethods());
+
 
 
 // 启动服务器

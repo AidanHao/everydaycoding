@@ -114,7 +114,7 @@ const handleTransition = () => {
 
 const handleRegister = async () => {
   if (passWord.value !== confirmPassword.value) {
-    ElMessage({
+    ElMessage.error({
       message: '两次输入密码不一致，请重新输入',
       showClose: true,
       type: 'success',

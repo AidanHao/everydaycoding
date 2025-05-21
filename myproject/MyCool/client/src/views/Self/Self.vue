@@ -160,6 +160,7 @@
             :with-header="true"
             :destroy-on-close="true"
             class="article-drawer"
+            @close="handleDrawerClose"
         >
             <div class="drawer-content">
                 <el-form :model="newArticle" label-width="80px" class="article-form">
@@ -179,6 +180,7 @@
                                     :show-file-list="false"
                                     :on-change="handleCoverChange"
                                     accept="image/*"
+                                    :http-request="() => {}"
                                 >
                                     <img v-if="newArticle.cover" :src="newArticle.cover" class="cover-image" />
                                     <el-icon v-else class="cover-uploader-icon"><Plus /></el-icon>
@@ -324,7 +326,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
 import ArticleCard from '@/components/ArticleCard.vue'
 import axios from '../../api'
 import { MdEditor } from 'md-editor-v3'
@@ -531,17 +533,38 @@ const publishArticle = async () => {
         return
     }
 
+    // 显示加载状态
+    const loadingInstance = ElLoading.service({
+        lock: true,
+        text: '正在发布文章...',
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
+
     try {
-        // 这里应该调用后端API发布文章
-        // const response = await axios.post('/articles/publish', {
-        //     ...newArticle.value,
-        //     content: newArticle.value.markdown // 使用 markdown 内容
-        // })
-        
-        ElMessage.success('发布成功')
-        newArticleDialogVisible.value = false
+        const response = await axios.post('/publishArticle', {
+            title: newArticle.value.title,
+            content: newArticle.value.markdown,
+            articleLabel: newArticle.value.tags?.join(',') || '',
+            articleType: newArticle.value.category || '',
+            articleDesc: newArticle.value.summary || '',
+            coverImg: newArticle.value.cover || ''
+        });
+
+        if (response.data.code === '8000') {
+            newArticleDialogVisible.value = false;
+            // 清空表单
+            clearArticleForm()
+            // 刷新文章列表
+            // TODO: 调用获取文章列表的接口
+        } else {
+            ElMessage.error(response.data.msg || '发布失败');
+        }
     } catch (error) {
-        ElMessage.error('发布失败')
+        console.error('发布文章失败:', error);
+        ElMessage.error('发布失败，请稍后重试');
+    } finally {
+        // 确保在任何情况下都关闭 loading
+        loadingInstance.close();
     }
 }
 
@@ -871,6 +894,25 @@ const handleMarkdownImageUpload = async (files: FileList, callback: (urls: strin
     }
     callback(urls);
 };
+
+// 清空表单
+const clearArticleForm = () => {
+    newArticle.value = {
+        title: '',
+        summary: '',
+        content: '',
+        markdown: '',
+        category: '',
+        tags: [],
+        cover: ''
+    }
+}
+
+// 处理抽屉关闭
+const handleDrawerClose = () => {
+    clearArticleForm()
+    newArticleDialogVisible.value = false
+}
 
 onMounted(() => {
     // 检查登录状态
@@ -1741,8 +1783,8 @@ onMounted(() => {
 
     :deep(.el-drawer__body) {
         padding: 0;
-        height: 100%;
-        overflow: visible;
+        height: calc(100vh - 60px);
+        overflow: hidden;
         display: flex;
         flex-direction: column;
     }
@@ -1755,23 +1797,29 @@ onMounted(() => {
         max-width: 100%;
         margin: 0;
         width: 100%;
+        overflow: hidden;
     }
 
     .article-form {
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: 0 0 2rem 0;
+        padding: 2rem;
         overflow-y: auto;
         overflow-x: hidden;
         min-height: 0;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
 
         .form-header {
             margin-bottom: 1.5rem;
-            max-width: 100%;
-            margin-left: 0;
-            margin-right: 0;
             width: 100%;
+
+            .el-form-item {
+                margin-bottom: 1.5rem;
+            }
         }
 
         .form-row {
@@ -1790,10 +1838,7 @@ onMounted(() => {
             margin-bottom: 0;
             display: flex;
             flex-direction: column;
-            min-height: 600px;
-            max-width: 100%;
-            margin-left: 0;
-            margin-right: 0;
+            min-height: 400px;
             width: 100%;
 
             :deep(.el-form-item__content) {
@@ -1808,7 +1853,6 @@ onMounted(() => {
     .markdown-editor {
         flex: 1;
         min-height: 300px;
-        max-height: 500px;
         border: 1px solid #e2e8f0;
         border-radius: 8px;
         background: #fff;
@@ -1835,10 +1879,8 @@ onMounted(() => {
         position: sticky;
         bottom: 0;
         z-index: 10;
-        max-width: 100%;
-            margin-left: 0;
-            margin-right: 0;
         width: 100%;
+        box-sizing: border-box;
 
         .el-button {
             min-width: 100px;
@@ -1856,35 +1898,42 @@ onMounted(() => {
 }
 
 // 响应式调整
+@media screen and (max-width: 1200px) {
+    .article-drawer {
+        .article-form {
+            padding: 1.5rem;
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     .article-drawer {
         .article-form {
-            padding: 0;
+            padding: 1rem;
 
-            .form-header,
-            .markdown-form-item,
-            .drawer-footer {
-                min-width: 100%;
-                max-width: 100%;
-                margin-left: 0;
-                margin-right: 0;
+            .form-header {
+                margin-bottom: 1rem;
+
+                .el-form-item {
+                    margin-bottom: 1rem;
+                }
             }
 
             .form-row {
                 flex-direction: column;
                 gap: 1rem;
+                margin-bottom: 1rem;
             }
 
             .markdown-form-item {
-                min-height: 400px;
+                min-height: 250px;
             }
         }
 
         .markdown-editor {
-            min-height: 400px;
-            min-width: 100%;
+            min-height: 250px;
             :deep(.md-editor) {
-                min-height: 400px;
+                min-height: 250px;
             }
         }
 
@@ -1915,7 +1964,8 @@ onMounted(() => {
         position: relative;
         overflow: hidden;
         transition: border-color 0.3s;
-        width: 300px;
+        width: 100%;
+        max-width: 300px;
         height: 200px;
         display: flex;
         justify-content: center;
@@ -1928,8 +1978,8 @@ onMounted(() => {
         .cover-uploader-icon {
             font-size: 28px;
             color: #8c939d;
-            width: 300px;
-            height: 200px;
+            width: 100%;
+            height: 100%;
             text-align: center;
             display: flex;
             justify-content: center;
@@ -1940,6 +1990,14 @@ onMounted(() => {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        :deep(.el-upload) {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 

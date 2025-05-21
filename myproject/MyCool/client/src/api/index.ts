@@ -51,6 +51,7 @@ instance.interceptors.response.use(
         // 处理业务状态码
         switch (data.code) {
             case '8000':
+                // ElMessage.success(data.msg || '请求成功')
                 return response
             case '8004':
                 // 未授权或 token 失效
