@@ -66,9 +66,14 @@
             v-model="newComment"
             type="textarea"
             :rows="3"
-            placeholder="写下你的评论..."
+            :placeholder="replyTo ? `回复 @${replyTo.username}` : '写下你的评论...'"
           />
-          <el-button type="primary" @click="submitComment">发表评论</el-button>
+          <div class="comment-actions">
+            <el-button v-if="replyTo" @click="cancelReply">取消回复</el-button>
+            <el-button type="primary" @click="submitComment">
+              {{ replyTo ? '回复' : '发表评论' }}
+            </el-button>
+          </div>
         </div>
 
         <div class="comment-list">
@@ -90,6 +95,30 @@
                   回复
                 </el-button>
               </div>
+              
+              <!-- 回复列表 -->
+              <div v-if="comment.replies && comment.replies.length" class="replies-list">
+                <div v-for="reply in comment.replies" :key="reply.id" class="reply-item">
+                  <el-avatar :size="32" :src="reply.avatar" />
+                  <div class="reply-content">
+                    <div class="reply-header">
+                      <span class="username">{{ reply.username }}</span>
+                      <span class="time">{{ reply.time }}</span>
+                    </div>
+                    <p class="text">{{ reply.content }}</p>
+                    <div class="reply-actions">
+                      <el-button type="text" size="small" @click="handleCommentLike(reply)">
+                        <el-icon><Star /></el-icon>
+                        {{ reply.likes }}
+                      </el-button>
+                      <el-button type="text" size="small" @click="handleReply(comment)">
+                        <el-icon><ChatDotRound /></el-icon>
+                        回复
+                      </el-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -110,6 +139,8 @@ interface Comment {
   time: string
   content: string
   likes: number
+  replies?: Comment[]
+  parentId?: number
 }
 
 interface Post {
@@ -127,6 +158,7 @@ interface Post {
 const route = useRoute()
 const router = useRouter()
 const newComment = ref('')
+const replyTo = ref<{ id: number; username: string } | null>(null)
 
 // 模拟获取帖子数据
 const post = ref<Post>({
@@ -148,7 +180,18 @@ const post = ref<Post>({
       avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       time: '5分钟前',
       content: '我也想去！',
-      likes: 5
+      likes: 5,
+      replies: [
+        {
+          id: 3,
+          username: '张三',
+          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          time: '2分钟前',
+          content: '好啊，一起吧！',
+          likes: 2,
+          parentId: 1
+        }
+      ]
     },
     {
       id: 2,
@@ -156,7 +199,8 @@ const post = ref<Post>({
       avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       time: '3分钟前',
       content: '公园的樱花开了，特别美！',
-      likes: 3
+      likes: 3,
+      replies: []
     }
   ]
 })
@@ -179,22 +223,46 @@ const handleCommentLike = (comment: Comment) => {
 }
 
 const handleReply = (comment: Comment) => {
+  replyTo.value = { id: comment.id, username: comment.username }
   newComment.value = `@${comment.username} `
 }
 
 const submitComment = () => {
   if (newComment.value.trim()) {
-    post.value.commentList.unshift({
+    const commentData = {
       id: Date.now(),
       username: '当前用户',
       avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       time: '刚刚',
       content: newComment.value,
       likes: 0
-    })
+    }
+
+    if (replyTo.value) {
+      // 添加回复
+      const parentComment = post.value.commentList.find(c => c.id === replyTo.value?.id)
+      if (parentComment) {
+        if (!parentComment.replies) {
+          parentComment.replies = []
+        }
+        commentData.parentId = replyTo.value.id
+        parentComment.replies.push(commentData)
+      }
+      replyTo.value = null
+    } else {
+      // 添加新评论
+      commentData.replies = []
+      post.value.commentList.unshift(commentData)
+    }
+    
     post.value.comments++
     newComment.value = ''
   }
+}
+
+const cancelReply = () => {
+  replyTo.value = null
+  newComment.value = ''
 }
 
 onMounted(() => {
@@ -405,24 +473,56 @@ onMounted(() => {
           margin-bottom: 16px;
 
           :deep(.el-textarea__inner) {
-            padding: 12px;
+            padding: 16px;
             font-size: 15px;
             line-height: 1.6;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid #e2e8f0;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #f8fafc;
+            resize: none;
+
+            &:focus {
+              border-color: #3b82f6;
+              box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
           }
         }
 
-        .el-button {
-          padding: 10px 24px;
-          height: auto;
-          font-size: 15px;
-          border-radius: 10px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          background: #3b82f6;
-          border: none;
+        .comment-actions {
+          display: flex;
+          justify-content: flex-end;
+          gap: 12px;
+
+          .el-button {
+            padding: 10px 24px;
+            height: auto;
+            font-size: 15px;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &--primary {
+              background: #3b82f6;
+              border: none;
+              box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+
+              &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+              }
+            }
+
+            &:not(.el-button--primary) {
+              background: #f1f5f9;
+              border: none;
+              color: #64748b;
+
+              &:hover {
+                background: #e2e8f0;
+                color: #334155;
+              }
+            }
+          }
         }
       }
 
@@ -430,21 +530,28 @@ onMounted(() => {
         .comment-item {
           display: flex;
           gap: 16px;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
           padding: 20px;
-          border-radius: 10px;
+          border-radius: 12px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           border: 1px solid transparent;
+          background: #fff;
 
           &:hover {
             background: #f8fafc;
             transform: translateX(4px);
             border-color: #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
           }
 
           .el-avatar {
             border: 2px solid #fff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: scale(1.05);
+            }
           }
 
           .comment-content {
@@ -452,12 +559,19 @@ onMounted(() => {
 
             .comment-header {
               margin-bottom: 8px;
+              display: flex;
+              align-items: center;
+              gap: 8px;
 
               .username {
                 font-weight: 600;
                 color: #1e293b;
-                margin-right: 8px;
                 font-size: 15px;
+                transition: color 0.2s;
+
+                &:hover {
+                  color: #3b82f6;
+                }
               }
 
               .time {
@@ -478,15 +592,128 @@ onMounted(() => {
               gap: 16px;
 
               .el-button {
-                padding: 0;
+                padding: 6px 12px;
                 height: auto;
                 font-size: 13px;
                 color: #64748b;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 6px;
+
+                &:hover {
+                  color: #3b82f6;
+                  background: rgba(59, 130, 246, 0.1);
+                  transform: translateY(-1px);
+                }
 
                 .el-icon {
                   margin-right: 4px;
                   font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .replies-list {
+        margin-top: 16px;
+        margin-left: 56px;
+        padding-left: 16px;
+        border-left: 2px solid #e2e8f0;
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: -2px;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: linear-gradient(to bottom, #e2e8f0, #f1f5f9);
+        }
+
+        .reply-item {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 16px;
+          padding: 16px;
+          border-radius: 10px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid transparent;
+          background: #fff;
+
+          &:hover {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+          }
+
+          .el-avatar {
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+
+          .reply-content {
+            flex: 1;
+
+            .reply-header {
+              margin-bottom: 6px;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+
+              .username {
+                font-weight: 600;
+                color: #1e293b;
+                margin-right: 8px;
+                font-size: 14px;
+                transition: color 0.2s;
+
+                &:hover {
+                  color: #3b82f6;
+                }
+              }
+
+              .time {
+                font-size: 12px;
+                color: #64748b;
+              }
+            }
+
+            .text {
+              margin: 0 0 8px 0;
+              font-size: 14px;
+              line-height: 1.5;
+              color: #334155;
+            }
+
+            .reply-actions {
+              display: flex;
+              gap: 12px;
+
+              .el-button {
+                padding: 4px 10px;
+                height: auto;
+                font-size: 12px;
+                color: #64748b;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-radius: 6px;
+
+                &:hover {
+                  color: #3b82f6;
+                  background: rgba(59, 130, 246, 0.1);
+                  transform: translateY(-1px);
+                }
+
+                .el-icon {
+                  margin-right: 4px;
+                  font-size: 12px;
                 }
               }
             }

@@ -2,27 +2,51 @@
     <div class="Self">
         <div class="Self_User">
             <div class="Self_User_main">
-                <div class="Self_User_main_avatar">
-                <img :src="userInfo.avatar || defaultAvatar" class="avatar" alt="用户头像">
-                </div>
-                <div class="Self_User_main_info">
-                    <h2>{{ userInfo.username }}</h2>
-                    <p class="role-tag" :class="userInfo.role">{{ userInfo.role === 'admin' ? '管理员' : '普通用户' }}</p>
-                </div>
-                <div class="Self_User_main_stats">
-                <div class="stat-item">
-                    <span class="number">{{ userInfo.articleCount || 0 }}</span>
-                    <span class="label">文章数</span>
-                </div>
-                <div class="stat-item">
-                    <span class="number">{{ userInfo.followers || 0 }}</span>
-                    <span class="label">关注者</span>
-                </div>
-                <div class="stat-item">
-                    <span class="number">{{ userInfo.following || 0 }}</span>
-                    <span class="label">关注中</span>
-                </div>
-                </div>
+                <template v-if="isLoggedIn">
+                    <div class="Self_User_main_avatar">
+                        <img :src="userInfo.avatar || defaultAvatar" class="avatar" alt="用户头像">
+                    </div>
+                    <div class="Self_User_main_info">
+                        <h2>{{ userInfo.nickName }}</h2>
+                        <p class="role-tag" :class="getUserRoleClass(userInfo.userPower)">
+                            {{ getUserRoleText(userInfo.userPower) }}
+                        </p>
+                    </div>
+                    <div class="logout-section">
+                        <el-button type="primary" size="small" @click="showEditProfileDialog" class="edit-profile-button">
+                            编辑资料
+                        </el-button>
+                        <el-button type="danger" size="small" @click="handleLogout" class="logout-button">
+                            退出登录
+                        </el-button>
+                    </div>
+                    <div class="Self_User_main_stats">
+                        <div class="stat-item">
+                            <span class="number">{{ userInfo.articleCount || 0 }}</span>
+                            <span class="label">文章数</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="number">{{ userInfo.followers || 0 }}</span>
+                            <span class="label">关注者</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="number">{{ userInfo.following || 0 }}</span>
+                            <span class="label">关注中</span>
+                        </div>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="Self_User_main_not_login">
+                        <div class="not-login-icon">
+                            <i class="el-icon-user"></i>
+                        </div>
+                        <h2>您还未登录</h2>
+                        <p class="login-tip">登录后可以发布文章、管理内容</p>
+                        <el-button type="primary" size="large" @click="goToLogin" class="login-button">
+                            立即登录
+                        </el-button>
+                    </div>
+                </template>
             </div>
             <div class="Self_User_animation">
                 <svg class="Self_User_animation_waves" xmlns="http://www.w3.org/2000/svg"
@@ -42,12 +66,12 @@
             </div>
         </div>
 
-        <div class="Self_Content">
+        <div class="Self_Content" v-if="isLoggedIn">
         <div class="action-buttons">
             <el-button type="primary" @click="showNewArticleDialog">发布新文章</el-button>
             <el-button type="success" @click="showDraftList">草稿箱</el-button>
             <el-button type="info" @click="showArticleList">我的文章</el-button>
-            <el-button v-if="userInfo.role === 'admin'" type="warning" @click="goToAdmin">管理后台</el-button>
+            <el-button v-if="userInfo.userPower === 1" type="warning" @click="goToAdmin">管理后台</el-button>
         </div>
 
         <div class="article-list">
@@ -189,6 +213,85 @@
                 </span>
             </template>
         </el-dialog>
+
+        <!-- 编辑个人信息对话框 -->
+        <el-dialog
+            v-model="editProfileDialogVisible"
+            title="编辑个人信息"
+            width="500px"
+            :before-close="handleClose"
+        >
+            <el-tabs v-model="activeProfileTab">
+                <el-tab-pane label="基本信息" name="basic">
+                    <el-form :model="editProfile" label-width="80px" :rules="profileRules" ref="profileFormRef">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input v-model="editProfile.username" placeholder="请输入用户名"></el-input>
+                        </el-form-item>
+                        <el-form-item label="头像" prop="avatar">
+                            <el-input v-model="editProfile.avatar" placeholder="请输入头像URL">
+                                <template #append>
+                                    <el-button @click="previewAvatar">预览</el-button>
+                                </template>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="个人简介" prop="bio">
+                            <el-input
+                                v-model="editProfile.bio"
+                                type="textarea"
+                                :rows="3"
+                                placeholder="请输入个人简介"
+                            />
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane label="修改密码" name="password">
+                    <el-form :model="passwordForm" label-width="100px" :rules="passwordRules" ref="passwordFormRef">
+                        <el-form-item label="当前密码" prop="currentPassword">
+                            <el-input 
+                                v-model="passwordForm.currentPassword" 
+                                type="password" 
+                                placeholder="请输入当前密码"
+                                show-password
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item label="新密码" prop="newPassword">
+                            <el-input 
+                                v-model="passwordForm.newPassword" 
+                                type="password" 
+                                placeholder="请输入新密码"
+                                show-password
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认新密码" prop="confirmPassword">
+                            <el-input 
+                                v-model="passwordForm.confirmPassword" 
+                                type="password" 
+                                placeholder="请再次输入新密码"
+                                show-password
+                            ></el-input>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+            </el-tabs>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="editProfileDialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="handleSave">保存</el-button>
+                </span>
+            </template>
+        </el-dialog>
+
+        <!-- 头像预览对话框 -->
+        <el-dialog
+            v-model="avatarPreviewVisible"
+            title="头像预览"
+            width="300px"
+            align-center
+        >
+            <div class="avatar-preview">
+                <img :src="editProfile.avatar || defaultAvatar" alt="头像预览" class="preview-image">
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -197,6 +300,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ArticleCard from '@/components/ArticleCard.vue'
+import axios from '../../api'
 
 // 使用在线默认头像
 const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
@@ -219,21 +323,36 @@ interface Article {
 
 // 定义用户信息接口
 interface UserInfo {
+    userId: string
     username: string
+    nickName: string
     avatar: string
-    role: 'admin' | 'user'
+    userPower: number // 0: 普通用户, 1: 管理员, 2: 超级管理员
     articleCount: number
     followers: number
     following: number
+    bio?: string
+}
+
+// 定义用户Token接口
+interface UserToken {
+    jsonToken: string
+    nickName: string
+    userId: string
+    rememberMe: boolean
+    passWord: string
+    userName: string
 }
 
 const router = useRouter()
 
 // 用户信息
 const userInfo = ref<UserInfo>({
-    username: '用户名',
+    userId: '',
+    username: '',
+    nickName: '',
     avatar: '',
-    role: 'user',
+    userPower: 0,
     articleCount: 0,
     followers: 0,
     following: 0
@@ -397,16 +516,262 @@ const handleDraftCurrentChange = (val: number) => {
     currentDraftPage.value = val
 }
 
-onMounted(() => {
-    // 模拟用户信息
-    userInfo.value = {
-        username: '小王同志',
-        avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-        role: 'admin',
-        articleCount: 25,
-        followers: 256,
-        following: 89
+// 添加登录状态控制
+const isLoggedIn = ref(false)
+
+// 获取用户角色文本
+const getUserRoleText = (userPower: number) => {
+    switch (userPower) {
+        case 0:
+            return '普通用户'
+        case 1:
+            return '管理员'
+        case 2:
+            return '超级管理员'
+        default:
+            return '普通用户'
     }
+}
+
+// 获取用户角色样式类
+const getUserRoleClass = (userPower: number) => {
+    switch (userPower) {
+        case 0:
+            return 'user'
+        case 1:
+            return 'admin'
+        case 2:
+            return 'super-admin'
+        default:
+            return 'user'
+    }
+}
+
+// 检查用户登录状态
+const checkLoginStatus = async () => {
+    const userTokenStr = localStorage.getItem('userToken')
+    if (userTokenStr) {
+        try {
+            const userToken: UserToken = JSON.parse(userTokenStr)
+            isLoggedIn.value = true
+            
+            // 获取用户信息
+            try {
+                const response = await axios.get('/getUserInfo')
+                
+                console.log(response)
+                const result = response.data
+                if (result.code === '8000') {
+                    userInfo.value = {
+                        userId: result.data.userId,
+                        username: result.data.userName,
+                        nickName: result.data.nickName,
+                        avatar: defaultAvatar,
+                        userPower: result.data.userPower,
+                        articleCount: 0,
+                        followers: 0,
+                        following: 0
+                    }
+                } else {
+                    throw new Error(result.msg)
+                }
+            } catch (error) {
+                console.error('获取用户信息失败:', error)
+                ElMessage.error('获取用户信息失败')
+            }
+        } catch (error) {
+            console.error('解析用户Token失败:', error)
+            isLoggedIn.value = false
+        }
+    } else {
+        isLoggedIn.value = false
+    }
+}
+
+// 前往登录页面
+const goToLogin = () => {
+    router.push('/login')
+}
+
+// 处理退出登录
+const handleLogout = () => {
+    ElMessageBox.confirm(
+        '确定要退出登录吗？',
+        '提示',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    ).then(() => {
+        // 清除 localStorage 中的用户信息
+        localStorage.removeItem('userToken')
+        // 重置用户状态
+        isLoggedIn.value = false
+        userInfo.value = {
+            userId: '',
+            username: '',
+            nickName: '',
+            avatar: '',
+            userPower: 0,
+            articleCount: 0,
+            followers: 0,
+            following: 0
+        }
+        ElMessage.success('退出登录成功')
+        // 跳转到登录页面
+        router.push('/login')
+    }).catch(() => {
+        // 取消退出
+    })
+}
+
+// 编辑个人信息相关
+const editProfileDialogVisible = ref(false)
+const avatarPreviewVisible = ref(false)
+const profileFormRef = ref()
+const passwordFormRef = ref()
+const activeProfileTab = ref('basic')
+
+const editProfile = ref({
+    username: '',
+    avatar: '',
+    bio: ''
+})
+
+const passwordForm = ref({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+})
+
+const profileRules = {
+    username: [
+        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+    ],
+    avatar: [
+        { pattern: /^https?:\/\/.+/, message: '请输入有效的图片URL', trigger: 'blur' }
+    ],
+    bio: [
+        { max: 200, message: '不能超过200个字符', trigger: 'blur' }
+    ]
+}
+
+const passwordRules = {
+    currentPassword: [
+        { required: true, message: '请输入当前密码', trigger: 'blur' },
+        { min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+    ],
+    newPassword: [
+        { required: true, message: '请输入新密码', trigger: 'blur' },
+        { min: 6, message: '密码长度不能小于6位', trigger: 'blur' },
+        { 
+            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+            message: '密码必须包含大小写字母和数字',
+            trigger: 'blur'
+        }
+    ],
+    confirmPassword: [
+        { required: true, message: '请再次输入新密码', trigger: 'blur' },
+        {
+            validator: (rule: any, value: string, callback: Function) => {
+                if (value !== passwordForm.value.newPassword) {
+                    callback(new Error('两次输入的密码不一致'))
+                } else {
+                    callback()
+                }
+            },
+            trigger: 'blur'
+        }
+    ]
+}
+
+// 显示编辑个人信息对话框
+const showEditProfileDialog = () => {
+    editProfile.value = {
+        username: userInfo.value.username,
+        avatar: userInfo.value.avatar,
+        bio: userInfo.value.bio || ''
+    }
+    passwordForm.value = {
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    }
+    activeProfileTab.value = 'basic'
+    editProfileDialogVisible.value = true
+}
+
+// 预览头像
+const previewAvatar = () => {
+    if (editProfile.value.avatar) {
+        avatarPreviewVisible.value = true
+    } else {
+        ElMessage.warning('请先输入头像URL')
+    }
+}
+
+// 处理保存
+const handleSave = async () => {
+    if (activeProfileTab.value === 'basic') {
+        await saveProfile()
+    } else {
+        await changePassword()
+    }
+}
+
+// 保存个人信息
+const saveProfile = async () => {
+    if (!profileFormRef.value) return
+    
+    await profileFormRef.value.validate((valid: boolean) => {
+        if (valid) {
+            // 这里应该调用后端API保存个人信息
+            userInfo.value = {
+                ...userInfo.value,
+                username: editProfile.value.username,
+                avatar: editProfile.value.avatar,
+                bio: editProfile.value.bio
+            }
+            ElMessage.success('保存成功')
+            editProfileDialogVisible.value = false
+        }
+    })
+}
+
+// 修改密码
+const changePassword = async () => {
+    if (!passwordFormRef.value) return
+
+    await passwordFormRef.value.validate(async (valid: boolean) => {
+        if (valid) {
+            try {
+                // 这里应该调用后端API修改密码
+                // const response = await api.changePassword({
+                //     currentPassword: passwordForm.value.currentPassword,
+                //     newPassword: passwordForm.value.newPassword
+                // })
+                
+                ElMessage.success('密码修改成功')
+                editProfileDialogVisible.value = false
+                
+                // 清空密码表单
+                passwordForm.value = {
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: ''
+                }
+            } catch (error) {
+                ElMessage.error('密码修改失败，请检查当前密码是否正确')
+            }
+        }
+    })
+}
+
+onMounted(() => {
+    // 检查登录状态
+    checkLoginStatus()
 
     // 模拟已发布文章
     publishedArticles.value = [
@@ -599,7 +964,7 @@ onMounted(() => {
 
             .Self_User_main_info {
                 text-align: center;
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 width: 100%;
                 max-width: 500px;
 
@@ -625,6 +990,87 @@ onMounted(() => {
                     &.user {
                         background: #f0f9eb;
                         color: #67c23a;
+                    }
+
+                    &.super-admin {
+                        background: #fef0f0;
+                        color: #f56c6c;
+                    }
+                }
+            }
+
+            .logout-section {
+                margin-bottom: 2rem;
+                text-align: center;
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+
+                .edit-profile-button {
+                    border-radius: 1.5rem;
+                    padding: 0.4rem 1.2rem;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                    background: linear-gradient(135deg, #409eff, #2c5cff);
+                    border: none;
+                    color: white;
+                    box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    &::before {
+                        content: '';
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E%3C/svg%3E") no-repeat center center;
+                        background-size: contain;
+                    }
+
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+                        background: linear-gradient(135deg, #66b1ff, #409eff);
+                    }
+
+                    &:active {
+                        transform: translateY(0);
+                        box-shadow: 0 2px 6px rgba(64, 158, 255, 0.2);
+                    }
+                }
+
+                .logout-button {
+                    border-radius: 1.5rem;
+                    padding: 0.4rem 1.2rem;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                    background: linear-gradient(135deg, #ff4d4f, #cf1322);
+                    border: none;
+                    color: white;
+                    box-shadow: 0 2px 8px rgba(255, 77, 79, 0.2);
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    &::before {
+                        content: '';
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5zm16 7l-4-4v3H9v2h8v3l4-4z'/%3E%3C/svg%3E") no-repeat center center;
+                        background-size: contain;
+                    }
+
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(255, 77, 79, 0.3);
+                        background: linear-gradient(135deg, #ff7875, #d9363e);
+                    }
+
+                    &:active {
+                        transform: translateY(0);
+                        box-shadow: 0 2px 6px rgba(255, 77, 79, 0.2);
                     }
                 }
             }
@@ -655,6 +1101,59 @@ onMounted(() => {
                         font-size: 1rem;
                         color: #606266;
                         margin-top: 0.4rem;
+                    }
+                }
+            }
+
+            .Self_User_main_not_login {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 2rem;
+
+                .not-login-icon {
+                    width: 8rem;
+                    height: 8rem;
+                    background: rgba(255, 255, 255, 0.2);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1.5rem;
+                    animation: pulse 2s infinite;
+
+                    i {
+                        font-size: 4rem;
+                        color: #fff;
+                    }
+                }
+
+                h2 {
+                    font-size: 2rem;
+                    color: #333;
+                    margin-bottom: 1rem;
+                }
+
+                .login-tip {
+                    font-size: 1.1rem;
+                    color: #666;
+                    margin-bottom: 2rem;
+                }
+
+                .login-button {
+                    padding: 0.8rem 2.5rem;
+                    font-size: 1.1rem;
+                    border-radius: 2rem;
+                    background: linear-gradient(135deg, #0ea5e9, #0369a1);
+                    border: none;
+                    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
                     }
                 }
             }
@@ -815,6 +1314,23 @@ onMounted(() => {
     }
 }
 
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+    }
+    
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
 // 响应式设计
 @media screen and (max-width: 1366px) {
     .Self {
@@ -962,6 +1478,40 @@ onMounted(() => {
     :deep(.el-dialog) {
         width: 90% !important;
         margin: 5vh auto !important;
+    }
+}
+
+.avatar-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    .preview-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+:deep(.el-dialog) {
+    .el-tabs__nav-wrap {
+        margin-bottom: 1.5rem;
+    }
+
+    .el-tabs__item {
+        font-size: 1rem;
+        padding: 0 1.5rem;
+        
+        &.is-active {
+            color: #409eff;
+        }
+    }
+
+    .el-form {
+        padding: 0 1rem;
     }
 }
 </style>

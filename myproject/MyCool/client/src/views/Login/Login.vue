@@ -88,9 +88,9 @@ const showPassword = ref(false)
 
 // 组件加载时检查localStorage中的用户信息
 onMounted(() => {
-  const userInfo = localStorage.getItem('userToken')
-  if (userInfo) {
-    const parsedUserInfo = JSON.parse(userInfo)
+  const accountInfo = localStorage.getItem('accountInfo')
+  if (accountInfo) {
+    const parsedUserInfo = JSON.parse(accountInfo)
     if (parsedUserInfo.rememberMe) {
       userName.value = parsedUserInfo.userName || ''
       passWord.value = parsedUserInfo.passWord || ''
@@ -147,6 +147,7 @@ const handleLogin = async () => {
       ...response?.data?.data,
       rememberMe: rememberMe.value,
     }
+    let accountInfo = {}
     if (rememberMe.value) {
       userInfo = {
         ...response?.data?.data,
@@ -154,6 +155,12 @@ const handleLogin = async () => {
         passWord: passWord.value,
         userName: userName.value,
       }
+      accountInfo = {
+        rememberMe: rememberMe.value,
+        userName: userName.value,
+        passWord: passWord.value
+      }
+      
     } else {
       userInfo = {
         ...response?.data?.data,
@@ -162,6 +169,7 @@ const handleLogin = async () => {
       }
     }
     localStorage.setItem('userToken', JSON.stringify(userInfo))
+    localStorage.setItem('accountInfo', JSON.stringify(accountInfo))
     
     // ElMessage({
     //   message: '登录成功',

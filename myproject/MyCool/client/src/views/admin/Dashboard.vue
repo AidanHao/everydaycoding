@@ -178,17 +178,17 @@ import {
 
 // 统计数据
 const totalStats = ref({
-  visits: 123456,
-  users: 7890,
-  articles: 3456,
-  comments: 12345
+  visits: 1234,
+  users: 789,
+  articles: 345,
+  comments: 1234
 })
 
 const todayStats = ref({
-  visits: 1234,
-  users: 123,
-  articles: 45,
-  comments: 234
+  visits: 8,
+  users: 3,
+  articles: 2,
+  comments: 12
 })
 
 // 时间范围选择
@@ -197,65 +197,65 @@ const userTimeRange = ref('week')
 
 // 访问趋势数据
 const visitTrendData = ref([
-  { date: '2024-03-14', visits: 1234, users: 234 },
-  { date: '2024-03-15', visits: 2345, users: 345 },
-  { date: '2024-03-16', visits: 3456, users: 456 },
-  { date: '2024-03-17', visits: 4567, users: 567 },
-  { date: '2024-03-18', visits: 5678, users: 678 },
-  { date: '2024-03-19', visits: 6789, users: 789 },
-  { date: '2024-03-20', visits: 7890, users: 890 }
+  { date: '05-14', visits: 12, users: 5 },
+  { date: '05-15', visits: 8, users: 3 },
+  { date: '05-16', visits: 15, users: 7 },
+  { date: '05-17', visits: 9, users: 4 },
+  { date: '05-18', visits: 11, users: 6 },
+  { date: '05-19', visits: 7, users: 3 },
+  { date: '05-20', visits: 8, users: 4 }
 ])
 
 // 用户增长数据
 const userGrowthData = ref([
-  { date: '2024-03-14', newUsers: 123, activeUsers: 2345 },
-  { date: '2024-03-15', newUsers: 234, activeUsers: 3456 },
-  { date: '2024-03-16', newUsers: 345, activeUsers: 4567 },
-  { date: '2024-03-17', newUsers: 456, activeUsers: 5678 },
-  { date: '2024-03-18', newUsers: 567, activeUsers: 6789 },
-  { date: '2024-03-19', newUsers: 678, activeUsers: 7890 },
-  { date: '2024-03-20', newUsers: 789, activeUsers: 8901 }
+  { date: '05-14', newUsers: 3, activeUsers: 15 },
+  { date: '05-15', newUsers: 2, activeUsers: 12 },
+  { date: '05-16', newUsers: 4, activeUsers: 18 },
+  { date: '05-17', newUsers: 1, activeUsers: 10 },
+  { date: '05-18', newUsers: 3, activeUsers: 14 },
+  { date: '05-19', newUsers: 2, activeUsers: 11 },
+  { date: '05-20', newUsers: 3, activeUsers: 13 }
 ])
 
 // 热门文章
 const hotArticles = ref([
   {
     title: 'Vue3 组合式 API 最佳实践',
-    views: 2567,
-    comments: 123,
-    likes: 456,
+    views: 256,
+    comments: 23,
+    likes: 45,
     author: '张三',
     category: '技术'
   },
   {
     title: 'TypeScript 类型系统深入解析',
-    views: 1890,
-    comments: 89,
-    likes: 234,
+    views: 189,
+    comments: 18,
+    likes: 34,
     author: '李四',
     category: '技术'
   },
   {
     title: 'Node.js 性能优化指南',
-    views: 1456,
-    comments: 67,
-    likes: 178,
+    views: 145,
+    comments: 15,
+    likes: 28,
     author: '王五',
     category: '技术'
   },
   {
     title: '前端工程化实践总结',
-    views: 1234,
-    comments: 56,
-    likes: 145,
+    views: 123,
+    comments: 12,
+    likes: 25,
     author: '赵六',
     category: '技术'
   },
   {
     title: '微服务架构设计模式',
-    views: 1123,
-    comments: 45,
-    likes: 123,
+    views: 112,
+    comments: 10,
+    likes: 23,
     author: '钱七',
     category: '架构'
   }
@@ -266,41 +266,41 @@ const activeUsers = ref([
   {
     username: '张三',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    articles: 25,
-    comments: 89,
-    likes: 234,
+    articles: 5,
+    comments: 12,
+    likes: 34,
     lastActive: '10分钟前'
   },
   {
     username: '李四',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    articles: 18,
-    comments: 56,
-    likes: 178,
+    articles: 3,
+    comments: 8,
+    likes: 25,
     lastActive: '30分钟前'
   },
   {
     username: '王五',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    articles: 12,
-    comments: 34,
-    likes: 123,
+    articles: 2,
+    comments: 6,
+    likes: 18,
     lastActive: '1小时前'
   },
   {
     username: '赵六',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    articles: 8,
-    comments: 23,
-    likes: 89,
+    articles: 1,
+    comments: 4,
+    likes: 12,
     lastActive: '2小时前'
   },
   {
     username: '钱七',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    articles: 5,
-    comments: 12,
-    likes: 45,
+    articles: 1,
+    comments: 3,
+    likes: 8,
     lastActive: '3小时前'
   }
 ])
@@ -309,35 +309,35 @@ const activeUsers = ref([
 const recentActivities = ref([
   {
     content: '用户 "张三" 发布了新文章《Vue3 最佳实践》',
-    time: '2024-03-20 10:30:00',
+    time: '今天 10:30',
     type: 'primary',
     user: '张三',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
   },
   {
     content: '用户 "李四" 注册成为新用户',
-    time: '2024-03-20 09:15:00',
+    time: '今天 09:15',
     type: 'success',
     user: '李四',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
   },
   {
     content: '文章《TypeScript 入门指南》被删除',
-    time: '2024-03-19 16:45:00',
+    time: '昨天 16:45',
     type: 'danger',
     user: '王五',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
   },
   {
     content: '系统更新完成',
-    time: '2024-03-19 14:20:00',
+    time: '昨天 14:20',
     type: 'info',
     user: '系统',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
   },
   {
     content: '用户 "赵六" 发表了评论',
-    time: '2024-03-19 11:30:00',
+    time: '昨天 11:30',
     type: 'warning',
     user: '赵六',
     avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'

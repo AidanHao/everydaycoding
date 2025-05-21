@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ArticleCenter from '../views/ArticleCenter/ArticleCenter.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,11 @@ const router = createRouter({
         path: '/article/:id',
         name: 'ArticleDetail',
         component: () => import('../views/Article/ArticleDetail.vue'),
+       },
+       {
+        path: '/article-center',
+        name: 'ArticleCenter',
+        component: ArticleCenter
        }
       ]
     },

@@ -8,6 +8,7 @@
                         class="Entry-Container-Header-menu-detail"> 
                         <el-menu-item index="Home" :class="{ 'is-active': menuKey === 'Home' }">首页</el-menu-item>
                         <el-menu-item index="Community" :class="{ 'is-active': menuKey === 'Community' }">社区</el-menu-item>
+                        <el-menu-item index="/article-center" :class="{ 'is-active': menuKey === 'ArticleCenter' }">文章中心</el-menu-item>
                         <el-menu-item index="Self" :class="{ 'is-active': menuKey === 'Self' }">个人中心</el-menu-item>
 
                         <!-- <el-menu-item index="Public">公共聊天室 </el-menu-item> -->
@@ -48,10 +49,13 @@ const setMenuKey = () => {
         menuKey.value = 'Home';
     } else if (route.path === '/community') {
         menuKey.value = 'Community';
+    } else if (route.path === '/article-center') {
+        menuKey.value = 'ArticleCenter';
     } else if (route.path === '/self') {
         menuKey.value = 'Self';
     } else if (route.path.startsWith('/article/')) {
-        menuKey.value = 'Home';
+        // 从文章详情页返回时，保持在文章中心的激活状态
+        menuKey.value = 'ArticleCenter';
     }
 };
 
@@ -61,14 +65,18 @@ onMounted(() => {
 });
 
 // 监听路由变化，更新菜单激活状态
-watch(() => route.path, () => {
-    setMenuKey();
+watch(() => route.path, (newPath, oldPath) => {
+    // 如果是从文章详情页返回，且返回到根路径，则保持在文章中心
+    if (oldPath?.startsWith('/article/') && newPath === '/') {
+        menuKey.value = 'ArticleCenter';
+    } else {
+        setMenuKey();
+    }
 }, { immediate: true });
 
 const HandleMenuSelect = (key: string, keyPath: string[]) => {
     menuKey.value = key;
-    console.log(key, keyPath);
-}
+};
 
 </script>
 

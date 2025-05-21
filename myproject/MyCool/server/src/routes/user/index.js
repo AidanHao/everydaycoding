@@ -100,5 +100,39 @@ router.post("/register", async (ctx) => {
   }
 });
 
+//获取用户信息
+router.get("/getUserInfo", jwt.verify(), async (ctx) => {
+  try {
+    // 从 JWT 中间件中获取用户信息
+    const userInfo = ctx.state.user;
+    console.log(userInfo);
+    if (!userInfo) {
+      ctx.body = {
+        code: "8004",
+        data: null,
+        msg: "获取用户信息失败"
+      };
+      return;
+    }
+
+    ctx.body = {
+      code: "8000",
+      data: {
+        userId: userInfo.userId,
+        nickName: userInfo.nickName,
+        userName: userInfo.userName,
+        userPower: userInfo.userPower
+      },
+      msg: "获取用户信息成功"
+    };
+  } catch (err) {
+    ctx.body = {
+      code: "8005",
+      data: err,
+      msg: "服务器异常"
+    };
+  }
+});
+
 //common js 规范 抛出 node里面要这样用
 module.exports = router;
