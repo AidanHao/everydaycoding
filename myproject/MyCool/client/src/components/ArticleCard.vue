@@ -1,5 +1,5 @@
 <template>
-    <div class="ArticleCard">
+    <div class="ArticleCard" @click="handleCardClick">
         <div class="ArticleCard_cover" v-if="props.hasCover">
             <el-image style="width: 100%; height: 100%" :src="props.cover" fit="cover" loading="lazy">
                 <template #error>
@@ -88,7 +88,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['edit', 'delete', 'preview', 'review'])
+const emit = defineEmits(['edit', 'delete', 'preview', 'review', 'click'])
 
 const formatDate = (date: string | undefined) => {
     if (!date) return '未知时间'
@@ -119,7 +119,8 @@ const getStatusText = (status: string) => {
     return statusMap[status] || '未知'
 }
 
-const handleEdit = () => {
+const handleEdit = (event: Event) => {
+    event.stopPropagation()
     emit('edit', props)
 }
 
@@ -131,7 +132,8 @@ const handleReview = () => {
     emit('review', props)
 }
 
-const handleDelete = () => {
+const handleDelete = (event: Event) => {
+    event.stopPropagation()
     ElMessageBox.confirm(
         '确定要删除这篇文章吗？',
         '警告',
@@ -143,6 +145,10 @@ const handleDelete = () => {
     ).then(() => {
         emit('delete', props)
     })
+}
+
+const handleCardClick = () => {
+    emit('click', props.id)
 }
 </script>
 

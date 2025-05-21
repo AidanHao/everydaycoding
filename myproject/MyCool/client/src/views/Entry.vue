@@ -38,39 +38,36 @@ import { ref, computed, watch, onMounted } from 'vue';
 
 const route = useRoute();
 const menuKey = ref('Home');
+const previousPath = ref(''); // 添加一个变量来记录上一个非文章详情页的路径
 
 const isArticleDetail = computed(() => {
     return route.path.startsWith('/article/');
 });
 
-// 设置初始菜单激活状态
-const setMenuKey = () => {
-    if (route.path === '/') {
-        menuKey.value = 'Home';
-    } else if (route.path === '/community') {
-        menuKey.value = 'Community';
-    } else if (route.path === '/article-center') {
-        menuKey.value = 'ArticleCenter';
-    } else if (route.path === '/self') {
-        menuKey.value = 'Self';
-    } else if (route.path.startsWith('/article/')) {
-        // 从文章详情页返回时，保持在文章中心的激活状态
-        menuKey.value = 'ArticleCenter';
-    }
-};
-
-// 组件挂载时设置初始值
-onMounted(() => {
-    setMenuKey();
-});
-
 // 监听路由变化，更新菜单激活状态
 watch(() => route.path, (newPath, oldPath) => {
-    // 如果是从文章详情页返回，且返回到根路径，则保持在文章中心
-    if (oldPath?.startsWith('/article/') && newPath === '/') {
-        menuKey.value = 'ArticleCenter';
+    // 如果是从文章详情页返回，根据返回的路径设置激活状态
+    if (oldPath?.startsWith('/article/')) {
+        if (newPath === '/') {
+            menuKey.value = 'Home';
+        } else if (newPath === '/community') {
+            menuKey.value = 'Community';
+        } else if (newPath === '/article-center') {
+            menuKey.value = 'ArticleCenter';
+        } else if (newPath === '/self') {
+            menuKey.value = 'Self';
+        }
     } else {
-        setMenuKey();
+        // 非文章详情页的路径变化，直接设置对应的激活状态
+        if (newPath === '/') {
+            menuKey.value = 'Home';
+        } else if (newPath === '/community') {
+            menuKey.value = 'Community';
+        } else if (newPath === '/article-center') {
+            menuKey.value = 'ArticleCenter';
+        } else if (newPath === '/self') {
+            menuKey.value = 'Self';
+        }
     }
 }, { immediate: true });
 

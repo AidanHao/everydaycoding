@@ -27,8 +27,8 @@ const getAvailableArticleId = async () => {
     return articleId;
 }
 
-// 发布文章或更新文章状态
-const publishArticle = async(userId, title, content, articleLabel, articleType, articleDesc, coverImg, articleId = null) => {
+// 插入新草稿数据或更新现有草稿
+const draftArticle = async(userId, title, content, articleLabel, articleType, articleDesc, coverImg, articleId = null) => {
     try {
         let result;
         
@@ -41,7 +41,7 @@ const publishArticle = async(userId, title, content, articleLabel, articleType, 
                 articleType = ?, 
                 articleDesc = ?, 
                 coverImg = ?,
-                status = 1,
+                status = 0,
                 publishTime = NOW()
                 WHERE articleId = ? AND userId = ?`;
             
@@ -56,16 +56,21 @@ const publishArticle = async(userId, title, content, articleLabel, articleType, 
                 userId
             ]);
         } else {
-            // 创建新文章
+            // 创建新草稿
             articleId = await getAvailableArticleId();
-            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)`;
+            const viewCount = 0;
+            const publishTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const status = 0;
+
+            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
             result = await sqlServer.query(_sql, [
-                articleId,
+                articleId, 
                 userId, 
                 title, 
                 content, 
-                1, // status = 1 表示待审核
-                0, // viewCount = 0
+                status, 
+                viewCount, 
+                publishTime, 
                 articleLabel, 
                 articleType, 
                 articleDesc, 
@@ -75,13 +80,13 @@ const publishArticle = async(userId, title, content, articleLabel, articleType, 
         
         return result;
     } catch (error) {
-        console.error('发布文章失败:', error);
+        console.error('保存草稿失败:', error);
         throw error;
     }
 }
 
 module.exports = {
-    publishArticle,
+    draftArticle,
     checkArticleIdExists,
     generateArticleId
 }

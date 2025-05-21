@@ -71,14 +71,21 @@
             <el-button type="primary" @click="showNewArticleDialog">发布新文章</el-button>
             <el-button type="success" @click="showDraftList">草稿箱</el-button>
             <el-button type="info" @click="showArticleList">我的文章</el-button>
-            <el-button v-if="userInfo.userPower === 1" type="warning" @click="goToAdmin">管理后台</el-button>
+            <el-button v-if="userInfo.userPower === 1 || userInfo.userPower === 2" type="warning" @click="goToAdmin">管理后台</el-button>
         </div>
 
         <div class="article-list">
             <el-tabs v-model="activeTab">
                 <el-tab-pane label="已发布" name="published">
-                    <div v-if="publishedArticles.length === 0" class="empty-tip">
-                        暂无已发布的文章
+                    <div v-if="publishedArticles.length === 0" class="empty-state">
+                        <div class="empty-icon">
+                            <i class="el-icon-document"></i>
+                        </div>
+                        <h3>暂无已发布的文章</h3>
+                        <p>点击"发布新文章"按钮开始创作吧！</p>
+                        <el-button type="primary" @click="showNewArticleDialog" class="create-button">
+                            发布新文章
+                        </el-button>
                     </div>
                     <div v-else class="article-items">
                             <ArticleCard
@@ -96,8 +103,10 @@
                                 :tags="article.tags"
                                 :hasCover="!!article.cover"
                                 :cover="article.cover"
+                                :status="article.status"
                                 @edit="editArticle"
                                 @delete="deleteArticle"
+                                @click="goToArticle(article.id)"
                             />
                             <div class="pagination-container">
                                 <el-pagination
@@ -113,8 +122,15 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="草稿箱" name="drafts">
-                    <div v-if="draftArticles.length === 0" class="empty-tip">
-                        暂无草稿
+                    <div v-if="draftArticles.length === 0" class="empty-state">
+                        <div class="empty-icon">
+                            <i class="el-icon-notebook-2"></i>
+                        </div>
+                        <h3>暂无草稿</h3>
+                        <p>开始写作并保存为草稿吧！</p>
+                        <el-button type="primary" @click="showNewArticleDialog" class="create-button">
+                            创建草稿
+                        </el-button>
                     </div>
                     <div v-else class="article-items">
                             <ArticleCard
@@ -132,6 +148,7 @@
                                 :tags="article.tags"
                                 :hasCover="!!article.cover"
                                 :cover="article.cover"
+                                :status="article.status"
                                 @edit="editArticle"
                                 @delete="deleteDraft"
                             />
@@ -236,7 +253,7 @@
                 </el-form>
                 <div class="drawer-footer">
                     <el-button @click="newArticleDialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="saveArticle">保存</el-button>
+                    <el-button type="primary" @click="saveArticle">保存为草稿</el-button>
                     <el-button type="success" @click="publishArticle">发布</el-button>
                 </div>
             </div>
@@ -409,13 +426,21 @@ const newArticle = ref<Partial<Article>>({
 const categories = ref([
     { value: 'tech', label: '技术' },
     { value: 'life', label: '生活' },
-    { value: 'travel', label: '旅行' }
+    { value: 'travel', label: '旅行' },
+    { value: 'other', label: '其他' }
 ])
 
 const tagOptions = ref([
     { value: 'vue', label: 'Vue' },
     { value: 'react', label: 'React' },
-    { value: 'node', label: 'Node.js' }
+    { value: 'node', label: 'Node.js' },
+    { value: 'javascript', label: 'JavaScript' },
+    { value: 'typescript', label: 'TypeScript' },
+    { value: 'css', label: 'CSS' },
+    { value: 'html', label: 'HTML' },
+    { value: 'design', label: '设计' },
+    { value: 'algorithm', label: '算法' },
+    { value: 'database', label: '数据库' }
 ])
 
 // 分页相关数据
@@ -461,40 +486,30 @@ const showArticleList = () => {
 
 // 编辑文章
 const editArticle = (article: Article) => {
-    newArticle.value = { ...article }
+    newArticle.value = {
+        id: article.id,
+        title: article.title,
+        summary: article.summary,
+        content: article.content,
+        markdown: article.markdown || article.content,
+        category: article.category,
+        tags: article.tags,
+        cover: article.cover,
+        status: article.status
+    }
     newArticleDialogVisible.value = true
 }
 
 // 删除文章
 const deleteArticle = (article: Article) => {
-    ElMessageBox.confirm(
-        '确定要删除这篇文章吗？',
-        '警告',
-        {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning',
-        }
-    ).then(() => {
-        // 调用删除API
-        ElMessage.success('删除成功')
-    })
+    // 调用删除API
+    ElMessage.success('删除成功')
 }
 
 // 删除草稿
 const deleteDraft = (draft: Article) => {
-    ElMessageBox.confirm(
-        '确定要删除这个草稿吗？',
-        '警告',
-        {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning',
-        }
-    ).then(() => {
-        // 调用删除API
-        ElMessage.success('删除成功')
-    })
+    // 调用删除API
+    ElMessage.success('删除成功')
 }
 
 // 保存文章
@@ -509,16 +524,30 @@ const saveArticle = async () => {
     }
 
     try {
-        // 这里应该调用后端API保存文章
-        // const response = await axios.post('/articles', {
-        //     ...newArticle.value,
-        //     content: newArticle.value.markdown // 使用 markdown 内容
-        // })
-        
-        ElMessage.success('保存成功')
-        newArticleDialogVisible.value = false
+        const response = await axios.post('/draftArticle', {
+            articleId: newArticle.value.id,
+            title: newArticle.value.title,
+            content: newArticle.value.markdown,
+            articleLabel: newArticle.value.tags?.join(',') || '',
+            articleType: newArticle.value.category || '',
+            articleDesc: newArticle.value.summary || '',
+            coverImg: newArticle.value.cover || '',
+            status: '0'
+        });
+
+        if (response.data.code === '8000') {
+            ElMessage.success('保存为草稿成功');
+            newArticleDialogVisible.value = false;
+            // 清空表单
+            clearArticleForm();
+            // 刷新文章列表
+            getUserArticles();
+        } else {
+            ElMessage.error(response.data.msg || '保存失败');
+        }
     } catch (error) {
-        ElMessage.error('保存失败')
+        console.error('保存草稿失败:', error);
+        ElMessage.error('保存失败，请稍后重试');
     }
 }
 
@@ -542,20 +571,23 @@ const publishArticle = async () => {
 
     try {
         const response = await axios.post('/publishArticle', {
+            articleId: newArticle.value.id,
             title: newArticle.value.title,
             content: newArticle.value.markdown,
             articleLabel: newArticle.value.tags?.join(',') || '',
             articleType: newArticle.value.category || '',
             articleDesc: newArticle.value.summary || '',
-            coverImg: newArticle.value.cover || ''
+            coverImg: newArticle.value.cover || '',
+            status: '1'
         });
 
         if (response.data.code === '8000') {
+            ElMessage.success('发布成功，等待审核');
             newArticleDialogVisible.value = false;
             // 清空表单
-            clearArticleForm()
+            clearArticleForm();
             // 刷新文章列表
-            // TODO: 调用获取文章列表的接口
+            getUserArticles();
         } else {
             ElMessage.error(response.data.msg || '发布失败');
         }
@@ -877,9 +909,14 @@ const handleCoverChange = (file: any) => {
         return
     }
 
-    // 创建临时URL
-    const objectUrl = URL.createObjectURL(file.raw)
-    newArticle.value.cover = objectUrl
+    // 将图片转换为base64
+    const reader = new FileReader()
+    reader.readAsDataURL(file.raw)
+    reader.onload = (e) => {
+        if (e.target?.result) {
+            newArticle.value.cover = e.target.result as string
+        }
+    }
 }
 
 // 处理 Markdown 编辑器图片上传
@@ -914,168 +951,66 @@ const handleDrawerClose = () => {
     newArticleDialogVisible.value = false
 }
 
+// 获取文章状态
+const getArticleStatus = (status: string): 'published' | 'draft' | 'pending' | 'rejected' => {
+    switch (status) {
+        case '0':
+            return 'draft';
+        case '1':
+            return 'pending';
+        case '2':
+            return 'published';
+        case '3':
+            return 'rejected';
+        default:
+            return 'draft';
+    }
+}
+
+// 获取用户文章列表
+const getUserArticles = async () => {
+    try {
+        const response = await axios.post('/getUserArticles');
+        console.log('获取的文章', response)
+        if (response.data.code === '8000') {
+            // 将后端返回的文章数据转换为前端需要的格式
+            const allArticles = response.data.data.map((article: any) => ({
+                id: article.articleId,
+                title: article.title,
+                summary: article.articleDesc || '',
+                content: article.content,
+                markdown: article.content,
+                createTime: article.publishTime,
+                views: parseInt(article.viewCount) || 0,
+                comments: 0, // 暂时设为0，后续可以添加评论数
+                category: article.articleType || '',
+                tags: article.articleLabel ? article.articleLabel.split(',') : [],
+                cover: article.coverImg || '',
+                status: getArticleStatus(article.status)
+            }));
+
+            // 分离草稿和已发布文章
+            publishedArticles.value = allArticles.filter((article: Article) => article.status !== 'draft');
+            draftArticles.value = allArticles.filter((article: Article) => article.status === 'draft');
+        } else {
+            ElMessage.error(response.data.msg || '获取文章列表失败');
+        }
+    } catch (error) {
+        console.error('获取文章列表失败:', error);
+        ElMessage.error('获取文章列表失败，请稍后重试');
+    }
+}
+
+// 前往文章页面
+const goToArticle = (id: string) => {
+    router.push(`/article/${id}`)
+}
+
 onMounted(() => {
     // 检查登录状态
     checkLoginStatus()
-
-    // 模拟已发布文章
-    publishedArticles.value = [
-        {
-            id: '1',
-            title: 'Vue3 组合式 API 最佳实践',
-            summary: '本文详细介绍了 Vue3 组合式 API 的使用方法和最佳实践，包括响应式系统、生命周期钩子、组件通信等内容。',
-            content: 'Vue3 的组合式 API 是 Vue 3 中最重要的新特性之一。它提供了一种更灵活、更可复用的方式来组织组件代码。本文将深入探讨组合式 API 的核心概念和使用方法...',
-            markdown: '# Vue3 组合式 API 最佳实践\n\nVue3 的组合式 API 是 Vue 3 中最重要的新特性之一。它提供了一种更灵活、更可复用的方式来组织组件代码。本文将深入探讨组合式 API 的核心概念和使用方法...',
-            createTime: '2024-03-15T10:30:00',
-            views: 256,
-            comments: 12,
-            category: 'tech',
-            tags: ['Vue', '前端', 'JavaScript'],
-            cover: 'https://picsum.photos/800/400',
-            status: 'published'
-        },
-        {
-            id: '2',
-            title: 'TypeScript 高级类型实战',
-            summary: '深入探讨 TypeScript 的高级类型系统，包括泛型、条件类型、映射类型等高级特性的实际应用。',
-            content: 'TypeScript 的类型系统非常强大，本文将重点介绍一些高级类型的使用场景和最佳实践...',
-            markdown: '# TypeScript 高级类型实战\n\nTypeScript 的类型系统非常强大，本文将重点介绍一些高级类型的使用场景和最佳实践...',
-            createTime: '2024-03-16T14:20:00',
-            views: 189,
-            comments: 8,
-            category: 'tech',
-            tags: ['TypeScript', '前端', 'JavaScript'],
-            cover: 'https://picsum.photos/800/400',
-            status: 'published'
-        },
-        {
-            id: '3',
-            title: 'Node.js 性能优化指南',
-            summary: '分享 Node.js 应用性能优化的实用技巧，包括内存管理、异步操作优化、缓存策略等。',
-            content: 'Node.js 应用的性能优化是一个复杂的话题，本文将分享一些实用的优化技巧...',
-            markdown: '# Node.js 性能优化指南\n\nNode.js 应用的性能优化是一个复杂的话题，本文将分享一些实用的优化技巧...',
-            createTime: '2024-03-17T09:15:00',
-            views: 156,
-            comments: 6,
-            category: 'tech',
-            tags: ['Node.js', '后端', '性能优化'],
-            cover: 'https://picsum.photos/800/400',
-            status: 'published'
-        },
-        {
-            id: '4',
-            title: '前端工程化实践指南',
-            summary: '从零开始构建现代化前端工程化体系，包括构建工具、代码规范、自动化测试等关键环节的实践分享。',
-            content: '...',
-            markdown: '',
-            createTime: '2024-02-28T16:45:00',
-            views: 321,
-            comments: 15,
-            category: 'tech',
-            tags: ['前端', '工程化', 'DevOps'],
-            cover: 'https://picsum.photos/800/400?random=4',
-            status: 'published'
-        },
-        {
-            id: '5',
-            title: '微服务架构设计模式',
-            summary: '深入分析微服务架构中的常见设计模式，包括服务发现、负载均衡、熔断降级等核心概念。',
-            content: '...',
-            markdown: '',
-            createTime: '2024-02-20T11:30:00',
-            views: 178,
-            comments: 9,
-            category: 'tech',
-            tags: ['微服务', '架构', '设计模式'],
-            status: 'published'
-        },
-        {
-            id: '6',
-            title: 'Docker 容器化部署实战',
-            summary: '手把手教你使用 Docker 进行应用容器化部署，包括镜像构建、网络配置、数据持久化等实战技巧。',
-            content: '...',
-            markdown: '',
-            createTime: '2024-02-15T09:20:00',
-            views: 234,
-            comments: 11,
-            category: 'tech',
-            tags: ['Docker', 'DevOps', '部署'],
-            status: 'published'
-        },
-        {
-            id: '7',
-            title: 'Git 高级使用技巧',
-            summary: '分享 Git 的高级使用技巧，包括分支管理、版本回退、冲突解决等实用技能。',
-            content: '...',
-            markdown: '',
-            createTime: '2024-02-10T14:10:00',
-            views: 167,
-            comments: 7,
-            category: 'tech',
-            tags: ['Git', '版本控制', '开发工具'],
-            status: 'published'
-        }
-    ]
-
-    // 模拟草稿文章
-    draftArticles.value = [
-        {
-            id: 'd1',
-            title: 'React Hooks 使用技巧',
-            summary: '总结 React Hooks 的使用技巧和常见问题解决方案，帮助开发者更好地使用 React Hooks。',
-            content: 'React Hooks 是 React 16.8 引入的新特性，它让函数组件也能使用状态和其他 React 特性。本文将分享一些实用的 Hooks 使用技巧...',
-            markdown: '# React Hooks 使用技巧\n\nReact Hooks 是 React 16.8 引入的新特性，它让函数组件也能使用状态和其他 React 特性。本文将分享一些实用的 Hooks 使用技巧...',
-            createTime: '2024-03-18T16:45:00',
-            updateTime: '2024-03-18T17:30:00',
-            views: 0,
-            comments: 0,
-            category: 'tech',
-            tags: ['React', '前端', 'JavaScript'],
-            status: 'draft'
-        },
-        {
-            id: 'd2',
-            title: '微服务架构设计实践',
-            summary: '分享微服务架构的设计原则和实践经验，包括服务拆分、通信机制、数据一致性等关键问题。',
-            content: '微服务架构已经成为现代应用开发的主流架构模式。本文将分享微服务架构的设计原则和实践经验，帮助开发者更好地理解和应用微服务架构...',
-            markdown: '# 微服务架构设计实践\n\n微服务架构已经成为现代应用开发的主流架构模式。本文将分享微服务架构的设计原则和实践经验，帮助开发者更好地理解和应用微服务架构...',
-            createTime: '2024-03-19T11:20:00',
-            updateTime: '2024-03-19T15:40:00',
-            views: 0,
-            comments: 0,
-            category: 'tech',
-            tags: ['微服务', '架构', '后端'],
-            status: 'draft'
-        },
-        {
-            id: 'd3',
-            title: 'Webpack 5 配置优化',
-            summary: '深入分析 Webpack 5 的配置优化技巧，包括代码分割、缓存优化、构建速度提升等实用方法。',
-            content: '...',
-            markdown: '',
-            createTime: '2024-03-16T10:15:00',
-            updateTime: '2024-03-16T14:30:00',
-            views: 0,
-            comments: 0,
-            category: 'tech',
-            tags: ['Webpack', '构建工具', '优化'],
-            status: 'draft'
-        },
-        {
-            id: 'd4',
-            title: '前端性能监控方案',
-            summary: '探讨前端性能监控的完整解决方案，包括性能指标采集、数据上报、可视化展示等关键环节。',
-            content: '...',
-            markdown: '',
-            createTime: '2024-03-15T09:40:00',
-            updateTime: '2024-03-15T13:20:00',
-            views: 0,
-            comments: 0,
-            category: 'tech',
-            tags: ['性能优化', '监控', '前端'],
-            status: 'draft'
-        }
-    ]
+    // 获取用户文章列表
+    getUserArticles()
 })
 </script>
 
@@ -1431,6 +1366,69 @@ onMounted(() => {
                 }
             }
 
+            .empty-state {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 4rem 2rem;
+                text-align: center;
+                background: #f8fafc;
+                border-radius: 12px;
+                margin: 2rem 0;
+
+                .empty-icon {
+                    width: 80px;
+                    height: 80px;
+                    background: linear-gradient(135deg, #e3e9f2 0%, #c3cfe2 100%);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 1.5rem;
+                    animation: float 3s ease-in-out infinite;
+
+                    i {
+                        font-size: 40px;
+                        color: #64748b;
+                    }
+                }
+
+                h3 {
+                    font-size: 1.5rem;
+                    color: #334155;
+                    margin-bottom: 0.8rem;
+                    font-weight: 600;
+                }
+
+                p {
+                    font-size: 1rem;
+                    color: #64748b;
+                    margin-bottom: 1.5rem;
+                }
+
+                .create-button {
+                    padding: 0.8rem 2rem;
+                    font-size: 1rem;
+                    border-radius: 8px;
+                    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+                    border: none;
+                    color: white;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3);
+                    }
+
+                    &:active {
+                        transform: translateY(0);
+                        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+                    }
+                }
+            }
+
             .article-items {
                 display: flex;
                 flex-direction: column;
@@ -1484,6 +1482,18 @@ onMounted(() => {
     100% {
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
     }
 }
 
