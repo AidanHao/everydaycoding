@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "md-editor-v3": "^5.5.1"
+    "md-editor-v3": "^5.5.1",
+    "vue-infinite-loading": "^3.0.0-alpha.0-0"
   }
 }

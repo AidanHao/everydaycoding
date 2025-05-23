@@ -220,11 +220,7 @@ router.get("/getRecommendedArticles", async (ctx) => {
         
         ctx.body = {
             code: "8000",
-            data: {
-                list: result,
-                page: parseInt(page),
-                pageSize: parseInt(pageSize)
-            },
+            data: result,
             msg: "获取推荐文章成功"
         };
     } catch (error) {
@@ -247,11 +243,7 @@ router.get("/getLatestArticles", async (ctx) => {
         
         ctx.body = {
             code: "8000",
-            data: {
-                list: result,
-                page: parseInt(page),
-                pageSize: parseInt(pageSize)
-            },
+            data: result,
             msg: "获取最新文章成功"
         };
     } catch (error) {

@@ -98,15 +98,28 @@
                                     </div>
                                 </div>
                             </template>
-                            <!-- 加载状态 -->
-                            <div v-if="loading" class="loading-more">
-                                <el-icon class="is-loading"><Loading /></el-icon>
-                                加载中...
-                            </div>
-                            <!-- 无更多数据提示 -->
-                            <div v-if="!hasMore && recommendedArticles.length > 0" class="no-more">
-                                没有更多文章了
-                            </div>
+                            <infinite-loading
+                                v-if="!isSearchMode"
+                                @infinite="loadMoreRecommended"
+                                :identifier="infiniteId"
+                            >
+                                <template #spinner>
+                                    <div class="loading-more">
+                                        <el-icon class="is-loading"><Loading /></el-icon>
+                                        加载中...
+                                    </div>
+                                </template>
+                                <template #complete>
+                                    <div class="no-more" v-if="recommendedArticles.length > 0">
+                                        没有更多文章了
+                                    </div>
+                                </template>
+                                <template #error>
+                                    <div class="error-message">
+                                        加载失败，请重试
+                                    </div>
+                                </template>
+                            </infinite-loading>
                         </el-tab-pane>
                         <el-tab-pane label="最新" name="latest">
                             <template v-for="article in latestArticles" :key="article.articleId">
@@ -139,15 +152,28 @@
                                     </div>
                                 </div>
                             </template>
-                            <!-- 加载状态 -->
-                            <div v-if="latestLoading" class="loading-more">
-                                <el-icon class="is-loading"><Loading /></el-icon>
-                                加载中...
-                            </div>
-                            <!-- 无更多数据提示 -->
-                            <div v-if="!latestHasMore && latestArticles.length > 0" class="no-more">
-                                没有更多文章了
-                            </div>
+                            <infinite-loading
+                                v-if="!isSearchMode"
+                                @infinite="loadMoreLatest"
+                                :identifier="infiniteId"
+                            >
+                                <template #spinner>
+                                    <div class="loading-more">
+                                        <el-icon class="is-loading"><Loading /></el-icon>
+                                        加载中...
+                                    </div>
+                                </template>
+                                <template #complete>
+                                    <div class="no-more" v-if="latestArticles.length > 0">
+                                        没有更多文章了
+                                    </div>
+                                </template>
+                                <template #error>
+                                    <div class="error-message">
+                                        加载失败，请重试
+                                    </div>
+                                </template>
+                            </infinite-loading>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -164,6 +190,7 @@ import SearchResults from './components/SearchResults.vue';
 import type { Article } from '@/types/article';
 import { ElMessage } from 'element-plus';
 import axios from '../../api'
+import InfiniteLoading from 'vue-infinite-loading';
 import { throttle } from 'lodash-es';
 
 const router = useRouter();
@@ -197,6 +224,9 @@ const latestArticles = ref<Article[]>([]);
 const latestCurrentPage = ref(1);
 const latestLoading = ref(false);
 const latestHasMore = ref(true);
+
+// 添加 infiniteId 用于强制重新加载
+const infiniteId = ref(0);
 
 // 搜索结果计算属性：根据搜索条件过滤文章
 const searchResults = computed(() => {
@@ -290,193 +320,115 @@ const resetFilters = () => {
     isSearchMode.value = false; // 退出搜索模式
 };
 
-// 监听滚动事件
-const handleScroll = () => {
-    // 获取滚动容器的信息
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    const distance = scrollHeight - scrollTop - clientHeight;
-
-    console.log('Scroll Event:', {
-        scrollTop,
-        scrollHeight,
-        clientHeight,
-        distance,
-        activeTab: activeTab.value,
-        loading: loading.value,
-        hasMore: hasMore.value,
-        latestLoading: latestLoading.value,
-        latestHasMore: latestHasMore.value
-    });
-
-    // 当滚动到底部时立即加载更多
-    if (distance <= 200) { // 提前200px触发加载
-        console.log('Should trigger load more');
-        
-        if (activeTab.value === 'recommended' && !loading.value && hasMore.value) {
-            console.log('Loading more recommended articles');
-            fetchRecommendedArticles(true);
-        } else if (activeTab.value === 'latest' && !latestLoading.value && latestHasMore.value) {
-            console.log('Loading more latest articles');
-            fetchLatestArticles(true);
-        } else {
-            console.log('Load more conditions not met:', {
-                activeTab: activeTab.value,
-                loading: loading.value,
-                hasMore: hasMore.value,
-                latestLoading: latestLoading.value,
-                latestHasMore: latestHasMore.value
-            });
-        }
-    }
-};
-
-// 获取推荐文章数据
-const fetchRecommendedArticles = async (isLoadMore = false) => {
+// 修改加载更多推荐文章的方法
+const loadMoreRecommended = async ($state: any) => {
     if (loading.value || !hasMore.value) {
-        console.log('Cannot load more recommended articles:', {
-            loading: loading.value,
-            hasMore: hasMore.value
-        });
+        $state.complete();
         return;
     }
     
     try {
         loading.value = true;
-        console.log('Fetching recommended articles:', {
-            page: currentPage.value,
-            pageSize: pageSize.value,
-            isLoadMore
-        });
-
-        const response = await axios.get('/getRecommendedArticles', {
-            params: {
-                page: currentPage.value,
-                pageSize: pageSize.value
-            }
-        });
+        const response = await axios.get(`/getRecommendedArticles?page=${currentPage.value}&pageSize=${pageSize.value}`);
 
         if (response.data.code === '8000') {
-            const { list } = response.data.data;
-            console.log('Received recommended articles:', {
-                count: list.length,
-                isLoadMore
-            });
+            const { list, total } = response.data.data;
             
-            if (isLoadMore) {
+            if (list.length > 0) {
+                // 检查是否已经加载完所有数据
+                if (recommendedArticles.value.length >= total) {
+                    hasMore.value = false;
+                    $state.complete();
+                    return;
+                }
+                
+                // 添加新数据
                 recommendedArticles.value = [...recommendedArticles.value, ...list];
-            } else {
-                recommendedArticles.value = list;
-                currentPage.value = 1;
-            }
-            
-            hasMore.value = list.length === pageSize.value;
-            if (hasMore.value) {
                 currentPage.value++;
+                $state.loaded();
+            } else {
+                hasMore.value = false;
+                $state.complete();
             }
-
-            console.log('Updated recommended articles state:', {
-                totalArticles: recommendedArticles.value.length,
-                hasMore: hasMore.value,
-                currentPage: currentPage.value
-            });
         } else {
+            $state.error();
             ElMessage.error(response.data.msg || '获取推荐文章失败');
         }
     } catch (error) {
         console.error('获取推荐文章失败:', error);
+        $state.error();
         ElMessage.error('获取推荐文章失败');
     } finally {
         loading.value = false;
     }
 };
 
-// 获取最新文章数据
-const fetchLatestArticles = async (isLoadMore = false) => {
+// 修改加载更多最新文章的方法
+const loadMoreLatest = async ($state: any) => {
     if (latestLoading.value || !latestHasMore.value) {
-        console.log('Cannot load more latest articles:', {
-            loading: latestLoading.value,
-            hasMore: latestHasMore.value
-        });
+        $state.complete();
         return;
     }
     
     try {
         latestLoading.value = true;
-        console.log('Fetching latest articles:', {
-            page: latestCurrentPage.value,
-            pageSize: pageSize.value,
-            isLoadMore
-        });
-
-        const response = await axios.get('/getLatestArticles', {
-            params: {
-                page: latestCurrentPage.value,
-                pageSize: pageSize.value
-            }
-        });
+        const response = await axios.get(`/getLatestArticles?page=${latestCurrentPage.value}&pageSize=${pageSize.value}`);
 
         if (response.data.code === '8000') {
-            const { list } = response.data.data;
-            console.log('Received latest articles:', {
-                count: list.length,
-                isLoadMore
-            });
+            const { list, total } = response.data.data;
             
-            if (isLoadMore) {
+            if (list.length > 0) {
+                // 检查是否已经加载完所有数据
+                if (latestArticles.value.length >= total) {
+                    latestHasMore.value = false;
+                    $state.complete();
+                    return;
+                }
+                
+                // 添加新数据
                 latestArticles.value = [...latestArticles.value, ...list];
-            } else {
-                latestArticles.value = list;
-                latestCurrentPage.value = 1;
-            }
-            
-            latestHasMore.value = list.length === pageSize.value;
-            if (latestHasMore.value) {
                 latestCurrentPage.value++;
+                $state.loaded();
+            } else {
+                latestHasMore.value = false;
+                $state.complete();
             }
-
-            console.log('Updated latest articles state:', {
-                totalArticles: latestArticles.value.length,
-                hasMore: latestHasMore.value,
-                currentPage: latestCurrentPage.value
-            });
         } else {
+            $state.error();
             ElMessage.error(response.data.msg || '获取最新文章失败');
         }
     } catch (error) {
         console.error('获取最新文章失败:', error);
+        $state.error();
         ElMessage.error('获取最新文章失败');
     } finally {
         latestLoading.value = false;
     }
 };
 
-// 监听标签页切换
+// 修改标签页切换处理
 const handleTabChange = (tab: string) => {
+    // 重置无限加载状态
+    infiniteId.value++;
+    
     if (tab === 'latest') {
-        if (latestArticles.value.length === 0) {
-            fetchLatestArticles();
-        }
+        latestCurrentPage.value = 1;
+        latestHasMore.value = true;
+        latestArticles.value = [];
     } else if (tab === 'recommended') {
-        if (recommendedArticles.value.length === 0) {
-            fetchRecommendedArticles();
-        }
+        currentPage.value = 1;
+        hasMore.value = true;
+        recommendedArticles.value = [];
     }
 };
 
-// 组件挂载时添加滚动监听
+// 组件挂载时初始化数据
 onMounted(() => {
     console.log('Component mounted, initializing data');
-    fetchRecommendedArticles();
-    window.addEventListener('scroll', handleScroll);
-    console.log('Scroll event listener added');
-});
-
-// 组件卸载时移除滚动监听
-onUnmounted(() => {
-    console.log('Component unmounting, removing scroll listener');
-    window.removeEventListener('scroll', handleScroll);
+    // 初始化推荐文章数据
+    currentPage.value = 1;
+    hasMore.value = true;
+    recommendedArticles.value = [];
 });
 </script>
 
@@ -778,5 +730,13 @@ onUnmounted(() => {
             }
         }
     }
+}
+
+.error-message {
+    text-align: center;
+    padding: 1rem 0;
+    color: #f56c6c;
+    font-size: 0.875rem;
+    margin-top: 1rem;
 }
 </style> 
