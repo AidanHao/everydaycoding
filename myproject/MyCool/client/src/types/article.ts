@@ -1,13 +1,26 @@
 export interface Article {
-    id: number;
+    articleId: number;
     title: string;
-    summary: string;
-    author: string;
-    category: string;
-    tags: string[];
-    updateTime: string;
+    articleDesc: string;
+    content: string;
+    articleLabel: string;
+    articleType: string;
+    coverImg: string;
+    publishTime: string;
     viewCount: number;
-    likes?: number;
-    coverImage?: string;
-    content?: string;
+    commentCount: number;
+    likeCount: number;
+    authorName: string;
+    authorAvatar: string;
+    hotScore: number;
+}
+
+export interface ArticleResponse {
+    code: string;
+    data: {
+        list: Article[];
+        page: number;
+        pageSize: number;
+    };
+    msg: string;
 } 

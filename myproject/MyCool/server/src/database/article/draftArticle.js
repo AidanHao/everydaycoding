@@ -61,7 +61,7 @@ const draftArticle = async(userId, title, content, articleLabel, articleType, ar
             const viewCount = 0;
             const status = 0;
 
-            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)`;
+            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg, likeCount, commentCount) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?)`;
             result = await sqlServer.query(_sql, [
                 articleId, 
                 userId, 
@@ -72,7 +72,9 @@ const draftArticle = async(userId, title, content, articleLabel, articleType, ar
                 articleLabel, 
                 articleType, 
                 articleDesc, 
-                coverImg
+                coverImg,
+                0, // likeCount = 0
+                0  // commentCount = 0
             ]);
         }
         

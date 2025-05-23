@@ -66,31 +66,31 @@
             <!-- 默认文章列表页面 -->
             <div v-else class="article-list">
                 <div class="article-tabs">
-                    <el-tabs v-model="activeTab" class="demo-tabs">
+                    <el-tabs v-model="activeTab" class="demo-tabs" @tab-change="handleTabChange">
                         <el-tab-pane label="推荐" name="recommended">
-                            <template v-for="article in recommendedArticles" :key="article.id">
+                            <template v-for="article in recommendedArticles" :key="article.articleId">
                                 <div class="article-card" @click="openArticle(article)">
                                     <div class="article-main">
                                         <div class="article-info">
                                             <h3 class="article-title">{{ article.title }}</h3>
-                                            <p class="article-summary">{{ article.summary }}</p>
+                                            <p class="article-summary">{{ article.articleDesc }}</p>
                                             <div class="article-meta">
-                                                <span class="article-author">{{ article.author }}</span>
-                                                <span class="article-date">{{ article.updateTime }}</span>
+                                                <span class="article-author">{{ article.authorName }}</span>
+                                                <span class="article-date">{{ formatDate(article.publishTime) }}</span>
                                                 <span class="article-views">
                                                     <el-icon><View /></el-icon>
                                                     {{ article.viewCount }}
                                                 </span>
                                                 <div class="article-tags">
-                                                    <span v-for="tag in article.tags" :key="tag" class="article-tag">
+                                                    <span v-for="tag in article.articleLabel?.split(',')" :key="tag" class="article-tag">
                                                         {{ tag }}
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="article-cover" v-if="article.coverImage">
+                                        <div class="article-cover" v-if="article.coverImg">
                                             <img 
-                                                :src="article.coverImage" 
+                                                :src="article.coverImg" 
                                                 :alt="article.title"
                                                 @error="handleImageError"
                                             >
@@ -98,31 +98,40 @@
                                     </div>
                                 </div>
                             </template>
+                            <!-- 加载状态 -->
+                            <div v-if="loading" class="loading-more">
+                                <el-icon class="is-loading"><Loading /></el-icon>
+                                加载中...
+                            </div>
+                            <!-- 无更多数据提示 -->
+                            <div v-if="!hasMore && recommendedArticles.length > 0" class="no-more">
+                                没有更多文章了
+                            </div>
                         </el-tab-pane>
                         <el-tab-pane label="最新" name="latest">
-                            <template v-for="article in latestArticles" :key="article.id">
+                            <template v-for="article in latestArticles" :key="article.articleId">
                                 <div class="article-card" @click="openArticle(article)">
                                     <div class="article-main">
                                         <div class="article-info">
                                             <h3 class="article-title">{{ article.title }}</h3>
-                                            <p class="article-summary">{{ article.summary }}</p>
+                                            <p class="article-summary">{{ article.articleDesc }}</p>
                                             <div class="article-meta">
-                                                <span class="article-author">{{ article.author }}</span>
-                                                <span class="article-date">{{ article.updateTime }}</span>
+                                                <span class="article-author">{{ article.authorName }}</span>
+                                                <span class="article-date">{{ formatDate(article.publishTime) }}</span>
                                                 <span class="article-views">
                                                     <el-icon><View /></el-icon>
                                                     {{ article.viewCount }}
                                                 </span>
                                                 <div class="article-tags">
-                                                    <span v-for="tag in article.tags" :key="tag" class="article-tag">
+                                                    <span v-for="tag in article.articleLabel?.split(',')" :key="tag" class="article-tag">
                                                         {{ tag }}
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="article-cover" v-if="article.coverImage">
+                                        <div class="article-cover" v-if="article.coverImg">
                                             <img 
-                                                :src="article.coverImage" 
+                                                :src="article.coverImg" 
                                                 :alt="article.title"
                                                 @error="handleImageError"
                                             >
@@ -130,6 +139,15 @@
                                     </div>
                                 </div>
                             </template>
+                            <!-- 加载状态 -->
+                            <div v-if="latestLoading" class="loading-more">
+                                <el-icon class="is-loading"><Loading /></el-icon>
+                                加载中...
+                            </div>
+                            <!-- 无更多数据提示 -->
+                            <div v-if="!latestHasMore && latestArticles.length > 0" class="no-more">
+                                没有更多文章了
+                            </div>
                         </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -139,13 +157,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Search, View } from '@element-plus/icons-vue';
+import { Search, View, Loading } from '@element-plus/icons-vue';
 import SearchResults from './components/SearchResults.vue';
 import type { Article } from '@/types/article';
+import { ElMessage } from 'element-plus';
+import axios from '../../api'
+import { throttle } from 'lodash-es';
 
 const router = useRouter();
+
+// 格式化日期函数
+const formatDate = (dateStr: string) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 // 搜索相关的响应式状态
 const searchQuery = ref(''); // 搜索关键词
 const selectedCategory = ref(''); // 选中的分类
@@ -153,133 +185,42 @@ const selectedTag = ref(''); // 选中的标签
 const activeTab = ref('recommended'); // 当前激活的标签页
 const isSearchMode = ref(false); // 是否处于搜索模式
 
-// 热门推荐文章数据
-const recommendedArticles = [
-    {
-        id: 1,
-        title: 'Cursor 最强竞争对手来了，专治复杂大项目，免费一个月',
-        summary: 'Augment Agent 发布后，国内的白嫖体现在清一色都是上图的画风 😏 到处都是"再见 Cursor..."',
-        author: '硅基新手村',
-        category: '后端',
-        tags: ['AI', 'Cursor', '工具'],
-        updateTime: '2024-03-20 10:30',
-        viewCount: 852,
-        likes: 325,
-        coverImage: 'https://picsum.photos/300/200?random=1'
-    },
-    {
-        id: 2,
-        title: '纯CSS实现Soul星球',
-        summary: '起因 最近看到阿里云有朋友用three.js实现了一个soul星球效果，觉得很有意思，想用CSS复刻一下...',
-        author: '苏武难飞',
-        category: '前端',
-        tags: ['CSS', 'HTML', '动画'],
-        updateTime: '2024-03-19 15:45',
-        viewCount: 6500,
-        likes: 162,
-        coverImage: 'https://picsum.photos/300/200?random=2'
-    },
-    {
-        id: 3,
-        title: '我很好奇客户会用得惯这个组件吗',
-        summary: '我们是公司是搞内网安全的，会收集日常电脑操作行为数据，基于前期设置的预警策略，对收集的数据进行分析...',
-        author: '岁月可贯',
-        category: '前端',
-        tags: ['Vue.js', 'JavaScript', '组件'],
-        updateTime: '2024-03-18 09:20',
-        viewCount: 15000,
-        likes: 224,
-        coverImage: 'https://picsum.photos/300/200?random=3'
-    },
-    {
-        id: 4,
-        title: '从零开始搭建一个企业级前端工程',
-        summary: '本文将介绍如何从零开始搭建一个现代化的企业级前端工程，包括技术选型、架构设计、工程化配置等...',
-        author: '技术探索者',
-        category: '前端',
-        tags: ['工程化', 'Vue3', 'TypeScript'],
-        updateTime: '2024-03-17 16:10',
-        viewCount: 12800,
-        likes: 438,
-        coverImage: 'https://picsum.photos/300/200?random=4'
-    }
-];
+// 推荐文章相关状态
+const recommendedArticles = ref<Article[]>([]);
+const currentPage = ref(1);
+const pageSize = ref(5); // 与后端默认值保持一致
+const loading = ref(false);
+const hasMore = ref(true);
 
-// 最新文章数据
-const latestArticles = [
-    {
-        id: 101,
-        title: '这只是一罐过期了七年的红牛......',
-        summary: '临近假期，今天眼睛乱晃时，偶然在我的办公桌角落上发现一罐红牛，看到的那一瞬间，我...',
-        author: '小流苏生',
-        category: '生活',
-        tags: ['随笔', '生活', '职场'],
-        updateTime: '2024-03-21 09:15',
-        viewCount: 580,
-        likes: 10,
-        coverImage: 'https://picsum.photos/300/200?random=5'
-    },
-    {
-        id: 102,
-        title: 'Vue3+TypeScript完整项目实战',
-        summary: '本文将带领大家使用Vue3和TypeScript从零开始构建一个完整的项目，包含常见的功能实现和性能优化...',
-        author: '前端达人',
-        category: '前端',
-        tags: ['Vue3', 'TypeScript', '实战'],
-        updateTime: '2024-03-21 08:30',
-        viewCount: 245,
-        likes: 15,
-        coverImage: 'https://picsum.photos/300/200?random=6'
-    },
-    {
-        id: 103,
-        title: '从一线回武汉的真实感受',
-        summary: '从北京回武汉差不多六年了，感慨颇多，谈谈真实感受。1 IT 公司 我们先把 IT 公司做一个分类理理：从卖中来看...',
-        author: '勇于Java实战',
-        category: '生活',
-        tags: ['经验分享', '职场', 'IT'],
-        updateTime: '2024-03-21 07:45',
-        viewCount: 8900,
-        likes: 60,
-        coverImage: 'https://picsum.photos/300/200?random=7'
-    },
-    {
-        id: 104,
-        title: '关于尤雨溪的新公司，你需要知道的',
-        summary: '最近，Vue.js的作者尤雨溪宣布成立新公司，这对前端开发者来说是一个重要的消息...',
-        author: '技术新知',
-        category: '资讯',
-        tags: ['Vue', '前端', '资讯'],
-        updateTime: '2024-03-21 06:20',
-        viewCount: 3200,
-        likes: 128,
-        coverImage: 'https://picsum.photos/300/200?random=8'
-    }
-];
+// 最新文章相关状态
+const latestArticles = ref<Article[]>([]);
+const latestCurrentPage = ref(1);
+const latestLoading = ref(false);
+const latestHasMore = ref(true);
 
 // 搜索结果计算属性：根据搜索条件过滤文章
 const searchResults = computed(() => {
     // 合并推荐文章和最新文章作为搜索源
-    let result = [...recommendedArticles, ...latestArticles];
+    let result = [...recommendedArticles.value];
     // 根据搜索关键词过滤
     if (searchQuery.value) {
         const query = searchQuery.value.toLowerCase();
         result = result.filter(article => 
             article.title.toLowerCase().includes(query) || // 匹配标题
-            article.summary.toLowerCase().includes(query) || // 匹配摘要
-            article.tags.some(tag => tag.toLowerCase().includes(query)) // 匹配标签
+            article.articleDesc.toLowerCase().includes(query) || // 匹配摘要
+            article.articleLabel.split(',').some(tag => tag.toLowerCase().includes(query)) // 匹配标签
         );
     }
     // 根据选中的分类过滤
     if (selectedCategory.value) {
         result = result.filter(article => 
-            article.category.toLowerCase() === selectedCategory.value.toLowerCase()
+            article.articleType.toLowerCase() === selectedCategory.value.toLowerCase()
         );
     }
     // 根据选中的标签过滤
     if (selectedTag.value) {
         result = result.filter(article => 
-            article.tags.some(tag => tag.toLowerCase() === selectedTag.value.toLowerCase())
+            article.articleLabel.split(',').some(tag => tag.toLowerCase() === selectedTag.value.toLowerCase())
         );
     }
     return result;
@@ -330,7 +271,7 @@ const handleTagChange = () => {
 };
 
 const openArticle = (article: Article) => {
-    router.push(`/article/${article.id}`);
+    router.push(`/article/${article.articleId}`);
 };
 
 // 默认图片处理
@@ -348,6 +289,195 @@ const resetFilters = () => {
     selectedTag.value = ''; // 清空选中的标签
     isSearchMode.value = false; // 退出搜索模式
 };
+
+// 监听滚动事件
+const handleScroll = () => {
+    // 获取滚动容器的信息
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    const distance = scrollHeight - scrollTop - clientHeight;
+
+    console.log('Scroll Event:', {
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+        distance,
+        activeTab: activeTab.value,
+        loading: loading.value,
+        hasMore: hasMore.value,
+        latestLoading: latestLoading.value,
+        latestHasMore: latestHasMore.value
+    });
+
+    // 当滚动到底部时立即加载更多
+    if (distance <= 200) { // 提前200px触发加载
+        console.log('Should trigger load more');
+        
+        if (activeTab.value === 'recommended' && !loading.value && hasMore.value) {
+            console.log('Loading more recommended articles');
+            fetchRecommendedArticles(true);
+        } else if (activeTab.value === 'latest' && !latestLoading.value && latestHasMore.value) {
+            console.log('Loading more latest articles');
+            fetchLatestArticles(true);
+        } else {
+            console.log('Load more conditions not met:', {
+                activeTab: activeTab.value,
+                loading: loading.value,
+                hasMore: hasMore.value,
+                latestLoading: latestLoading.value,
+                latestHasMore: latestHasMore.value
+            });
+        }
+    }
+};
+
+// 获取推荐文章数据
+const fetchRecommendedArticles = async (isLoadMore = false) => {
+    if (loading.value || !hasMore.value) {
+        console.log('Cannot load more recommended articles:', {
+            loading: loading.value,
+            hasMore: hasMore.value
+        });
+        return;
+    }
+    
+    try {
+        loading.value = true;
+        console.log('Fetching recommended articles:', {
+            page: currentPage.value,
+            pageSize: pageSize.value,
+            isLoadMore
+        });
+
+        const response = await axios.get('/getRecommendedArticles', {
+            params: {
+                page: currentPage.value,
+                pageSize: pageSize.value
+            }
+        });
+
+        if (response.data.code === '8000') {
+            const { list } = response.data.data;
+            console.log('Received recommended articles:', {
+                count: list.length,
+                isLoadMore
+            });
+            
+            if (isLoadMore) {
+                recommendedArticles.value = [...recommendedArticles.value, ...list];
+            } else {
+                recommendedArticles.value = list;
+                currentPage.value = 1;
+            }
+            
+            hasMore.value = list.length === pageSize.value;
+            if (hasMore.value) {
+                currentPage.value++;
+            }
+
+            console.log('Updated recommended articles state:', {
+                totalArticles: recommendedArticles.value.length,
+                hasMore: hasMore.value,
+                currentPage: currentPage.value
+            });
+        } else {
+            ElMessage.error(response.data.msg || '获取推荐文章失败');
+        }
+    } catch (error) {
+        console.error('获取推荐文章失败:', error);
+        ElMessage.error('获取推荐文章失败');
+    } finally {
+        loading.value = false;
+    }
+};
+
+// 获取最新文章数据
+const fetchLatestArticles = async (isLoadMore = false) => {
+    if (latestLoading.value || !latestHasMore.value) {
+        console.log('Cannot load more latest articles:', {
+            loading: latestLoading.value,
+            hasMore: latestHasMore.value
+        });
+        return;
+    }
+    
+    try {
+        latestLoading.value = true;
+        console.log('Fetching latest articles:', {
+            page: latestCurrentPage.value,
+            pageSize: pageSize.value,
+            isLoadMore
+        });
+
+        const response = await axios.get('/getLatestArticles', {
+            params: {
+                page: latestCurrentPage.value,
+                pageSize: pageSize.value
+            }
+        });
+
+        if (response.data.code === '8000') {
+            const { list } = response.data.data;
+            console.log('Received latest articles:', {
+                count: list.length,
+                isLoadMore
+            });
+            
+            if (isLoadMore) {
+                latestArticles.value = [...latestArticles.value, ...list];
+            } else {
+                latestArticles.value = list;
+                latestCurrentPage.value = 1;
+            }
+            
+            latestHasMore.value = list.length === pageSize.value;
+            if (latestHasMore.value) {
+                latestCurrentPage.value++;
+            }
+
+            console.log('Updated latest articles state:', {
+                totalArticles: latestArticles.value.length,
+                hasMore: latestHasMore.value,
+                currentPage: latestCurrentPage.value
+            });
+        } else {
+            ElMessage.error(response.data.msg || '获取最新文章失败');
+        }
+    } catch (error) {
+        console.error('获取最新文章失败:', error);
+        ElMessage.error('获取最新文章失败');
+    } finally {
+        latestLoading.value = false;
+    }
+};
+
+// 监听标签页切换
+const handleTabChange = (tab: string) => {
+    if (tab === 'latest') {
+        if (latestArticles.value.length === 0) {
+            fetchLatestArticles();
+        }
+    } else if (tab === 'recommended') {
+        if (recommendedArticles.value.length === 0) {
+            fetchRecommendedArticles();
+        }
+    }
+};
+
+// 组件挂载时添加滚动监听
+onMounted(() => {
+    console.log('Component mounted, initializing data');
+    fetchRecommendedArticles();
+    window.addEventListener('scroll', handleScroll);
+    console.log('Scroll event listener added');
+});
+
+// 组件卸载时移除滚动监听
+onUnmounted(() => {
+    console.log('Component unmounting, removing scroll listener');
+    window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <style lang="less" scoped>
@@ -355,9 +485,12 @@ const resetFilters = () => {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    margin-top: 4rem;
+    margin-top: 0;
     background-color: #f5f7fa;
     position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 
     &::before {
         content: '';
@@ -372,22 +505,25 @@ const resetFilters = () => {
 
     .article-center-header {
         flex-shrink: 0;
-        padding: 2rem 2.5rem;
+        padding: 1rem 2.5rem;
         background-color: #fff;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         z-index: 1;
         position: sticky;
         top: 4rem;
         border-bottom: 1px solid #ebeef5;
-        // margin-bottom: 1rem;
+        width: 100%;
+        box-sizing: border-box;
         
         .search-container {
             display: flex;
             gap: 1.5rem;
             align-items: center;
-            max-width: 1400px;
+            width: 100%;
+            max-width: 1600px;
             margin: 0 auto;
             flex-wrap: wrap;
+            box-sizing: border-box;
 
             @media (max-width: 768px) {
                 flex-direction: column;
@@ -502,39 +638,31 @@ const resetFilters = () => {
         background-color: #f5f7fa;
         position: relative;
         z-index: 0;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: calc(100vh - 8rem); // 减去头部和搜索栏的高度
 
         .article-list {
-            max-width: 1400px;
+            width: 100%;
+            max-width: 1600px;
             margin: 0 auto;
             padding-top: 1rem;
+            box-sizing: border-box;
+            min-height: 100%; // 确保内容区域至少占满剩余空间
 
             .article-tabs {
                 :deep(.el-tabs__header) {
                     margin-bottom: 2rem;
                     position: sticky;
-                    top: 8rem;
+                    top: 8.5rem;
                     background-color: #f5f7fa;
                     z-index: 1;
                     padding: 1rem 0;
+                    width: 100%;
                 }
 
-                :deep(.el-tabs__nav-wrap::after) {
-                    height: 1px;
-                    background-color: #ebeef5;
-                }
-
-                :deep(.el-tabs__active-bar) {
-                    height: 2px;
-                    border-radius: 1px;
-                }
-
-                :deep(.el-tabs__item) {
-                    font-size: 1rem;
-                    padding: 0 2rem;
-
-                    &.is-active {
-                        font-weight: 500;
-                    }
+                :deep(.el-tabs__content) {
+                    min-height: 200px; // 确保内容区域有最小高度
                 }
             }
 
@@ -546,6 +674,11 @@ const resetFilters = () => {
                 border: 1px solid #ebeef5;
                 transition: all 0.3s ease;
                 cursor: pointer;
+                width: 100%;
+                max-width: 1400px;
+                margin-left: auto;
+                margin-right: auto;
+                box-sizing: border-box;
 
                 &:hover {
                     transform: translateY(-2px);
@@ -628,6 +761,19 @@ const resetFilters = () => {
                             object-fit: cover;
                         }
                     }
+                }
+            }
+
+            .loading-more,
+            .no-more {
+                text-align: center;
+                padding: 1rem 0;
+                color: #909399;
+                font-size: 0.875rem;
+                margin-top: 1rem;
+                
+                .el-icon {
+                    margin-right: 0.5rem;
                 }
             }
         }

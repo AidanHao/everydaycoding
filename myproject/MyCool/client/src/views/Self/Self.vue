@@ -851,12 +851,7 @@ const passwordRules = {
     ],
     newPassword: [
         { required: true, message: '请输入新密码', trigger: 'blur' },
-        { min: 6, message: '密码长度不能小于6位', trigger: 'blur' },
-        { 
-            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
-            message: '密码必须包含大小写字母和数字',
-            trigger: 'blur'
-        }
+        { min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
     ],
     confirmPassword: [
         { required: true, message: '请再次输入新密码', trigger: 'blur' },
@@ -963,26 +958,47 @@ const changePassword = async () => {
     await passwordFormRef.value.validate(async (valid: boolean) => {
         if (valid) {
             try {
-                // 这里应该调用后端API修改密码
-                // const response = await api.changePassword({
-                //     currentPassword: passwordForm.value.currentPassword,
-                //     newPassword: passwordForm.value.newPassword
-                // })
-                
-                ElMessage.success('密码修改成功')
-                editProfileDialogVisible.value = false
-                
-                // 清空密码表单
-                passwordForm.value = {
-                    currentPassword: '',
-                    newPassword: '',
-                    confirmPassword: ''
+                const response = await axios.post('/changePassword', {
+                    oldPassword: passwordForm.value.currentPassword,
+                    newPassword: passwordForm.value.newPassword
+                });
+
+                if (response.data.code === '8000') {
+                    ElMessage.success('密码修改成功，请重新登录');
+                    editProfileDialogVisible.value = false;
+                    
+                    // 清空密码表单
+                    passwordForm.value = {
+                        currentPassword: '',
+                        newPassword: '',
+                        confirmPassword: ''
+                    };
+
+                    // 清除登录信息
+                    localStorage.removeItem('userToken');
+                    isLoggedIn.value = false;
+                    userInfo.value = {
+                        userId: '',
+                        username: '',
+                        nickName: '',
+                        avatar: '',
+                        userPower: 0,
+                        articleCount: 0,
+                        followers: 0,
+                        following: 0
+                    };
+
+                    // 跳转到登录页面
+                    router.push('/login');
+                } else {
+                    ElMessage.error(response.data.msg || '密码修改失败');
                 }
             } catch (error) {
-                ElMessage.error('密码修改失败，请检查当前密码是否正确')
+                console.error('修改密码失败:', error);
+                // ElMessage.error('密码修改失败，请稍后重试');
             }
         }
-    })
+    });
 }
 
 // Add image compression function

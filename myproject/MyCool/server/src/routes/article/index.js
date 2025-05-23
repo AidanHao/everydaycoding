@@ -8,6 +8,8 @@ const { publishArticle } = require("../../database/article/publishArticle");
 const { getUserArticle } = require("../../database/article/getUserArticle");
 const { draftArticle } = require("../../database/article/draftArticle");
 const { deleteArticle } = require("../../database/article/deleteArticle");
+const { getRecommendedArticles } = require("../../database/article/recommonedArticle");
+const { getLatestArticles } = require("../../database/article/latestArticle");
 
 let sessionData = {};
 
@@ -206,6 +208,60 @@ router.post("/deleteArticle", jwt.verify(), async (ctx) => {
     };
 
   }
+});
+
+//获取推荐文章
+router.get("/getRecommendedArticles", async (ctx) => {
+    try {
+        const { page = 1, pageSize = 5 } = ctx.query;
+        
+        // 调用获取推荐文章方法
+        const result = await getRecommendedArticles(parseInt(page), parseInt(pageSize));
+        
+        ctx.body = {
+            code: "8000",
+            data: {
+                list: result,
+                page: parseInt(page),
+                pageSize: parseInt(pageSize)
+            },
+            msg: "获取推荐文章成功"
+        };
+    } catch (error) {
+        console.error("获取推荐文章失败:", error);
+        ctx.body = {
+            code: "8006",
+            data: null,
+            msg: "获取推荐文章失败"
+        };
+    }
+});
+
+//获取最新文章
+router.get("/getLatestArticles", async (ctx) => {
+    try {
+        const { page = 1, pageSize = 5 } = ctx.query;
+        
+        // 调用获取最新文章方法
+        const result = await getLatestArticles(parseInt(page), parseInt(pageSize));
+        
+        ctx.body = {
+            code: "8000",
+            data: {
+                list: result,
+                page: parseInt(page),
+                pageSize: parseInt(pageSize)
+            },
+            msg: "获取最新文章成功"
+        };
+    } catch (error) {
+        console.error("获取最新文章失败:", error);
+        ctx.body = {
+            code: "8006",
+            data: null,
+            msg: "获取最新文章失败"
+        };
+    }
 });
 
 //common js 规范 抛出 node里面要这样用

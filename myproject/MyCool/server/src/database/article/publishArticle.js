@@ -57,7 +57,7 @@ const publishArticle = async(userId, title, content, articleLabel, articleType, 
         } else {
             // 创建新文章
             articleId = await getAvailableArticleId();
-            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)`;
+            const _sql = `INSERT INTO article (articleId, userId, title, content, status, viewCount, publishTime, articleLabel, articleType, articleDesc, coverImg, likeCount, commentCount) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?)`;
             result = await sqlServer.query(_sql, [
                 articleId,
                 userId, 
@@ -68,7 +68,9 @@ const publishArticle = async(userId, title, content, articleLabel, articleType, 
                 articleLabel, 
                 articleType, 
                 articleDesc, 
-                coverImg
+                coverImg,
+                0, // likeCount = 0
+                0  // commentCount = 0
             ]);
         }
         

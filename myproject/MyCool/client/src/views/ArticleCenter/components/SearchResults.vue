@@ -2,14 +2,6 @@
     <div class="search-results">
         <div class="search-header">
             <div class="header-top">
-                <el-button 
-                    class="back-button" 
-                    @click="$emit('clear-filters')"
-                    type="default"
-                    :icon="ArrowLeft"
-                >
-                    返回推荐
-                </el-button>
                 <div class="search-info">
                     <span class="result-count">找到 {{ articles.length }} 个结果</span>
                     <span class="search-query" v-if="query">搜索："{{ query }}"</span>
@@ -31,38 +23,48 @@
                     标签：{{ tag }}
                 </el-tag>
             </div>
-            <div class="sort-options">
-                <el-radio-group v-model="sortType" size="large">
-                    <el-radio-button label="relevance">综合排序</el-radio-button>
-                    <el-radio-button label="latest">最新</el-radio-button>
-                    <el-radio-button label="hot">最热</el-radio-button>
-                </el-radio-group>
+            <div class="header-actions">
+                <el-button 
+                    class="back-button" 
+                    @click="$emit('clear-filters')"
+                    type="default"
+                    :icon="ArrowLeft"
+                >
+                    返回推荐
+                </el-button>
+                <div class="sort-options">
+                    <el-radio-group v-model="sortType" size="large">
+                        <el-radio-button label="relevance">综合排序</el-radio-button>
+                        <el-radio-button label="latest">最新</el-radio-button>
+                        <el-radio-button label="hot">最热</el-radio-button>
+                    </el-radio-group>
+                </div>
             </div>
         </div>
 
         <div class="results-list">
-            <div v-for="article in sortedArticles" :key="article.id" class="result-item">
-                <div class="result-content" @click="$emit('select-article', article)">
-                    <div class="result-main">
-                        <h3 class="result-title">{{ article.title }}</h3>
-                        <p class="result-summary">{{ article.summary }}</p>
-                        <div class="result-meta">
-                            <span class="result-author">{{ article.author }}</span>
-                            <span class="result-date">{{ article.updateTime }}</span>
-                            <span class="result-views">
+            <div v-for="article in sortedArticles" :key="article.articleId" class="article-card" @click="$emit('select-article', article)">
+                <div class="article-main">
+                    <div class="article-info">
+                        <h3 class="article-title">{{ article.title }}</h3>
+                        <p class="article-summary">{{ article.articleDesc }}</p>
+                        <div class="article-meta">
+                            <span class="article-author">{{ article.authorName }}</span>
+                            <span class="article-date">{{ article.publishTime }}</span>
+                            <span class="article-views">
                                 <el-icon><View /></el-icon>
                                 {{ article.viewCount }}
                             </span>
-                            <div class="result-tags">
-                                <span v-for="tag in article.tags" :key="tag" class="result-tag">
+                            <div class="article-tags">
+                                <span v-for="tag in article.articleLabel?.split(',')" :key="tag" class="article-tag">
                                     {{ tag }}
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div class="result-cover" v-if="article.coverImage">
+                    <div class="article-cover" v-if="article.coverImg">
                         <img 
-                            :src="article.coverImage" 
+                            :src="article.coverImg" 
                             :alt="article.title"
                             @error="handleImageError"
                         >
@@ -114,7 +116,7 @@ const sortedArticles = computed(() => {
         case 'latest':
             // 按更新时间排序，最新的在前面
             return articles.sort((a, b) => 
-                new Date(b.updateTime).getTime() - new Date(a.updateTime).getTime()
+                new Date(b.publishTime).getTime() - new Date(a.publishTime).getTime()
             );
         case 'hot':
             // 按浏览量排序，最高的在前面
@@ -126,8 +128,8 @@ const sortedArticles = computed(() => {
                 const timeWeight = 0.6; // 时间权重
                 const viewWeight = 0.4; // 浏览量权重
                 
-                const timeA = new Date(a.updateTime).getTime();
-                const timeB = new Date(b.updateTime).getTime();
+                const timeA = new Date(a.publishTime).getTime();
+                const timeB = new Date(b.publishTime).getTime();
                 const maxTime = Math.max(timeA, timeB);
                 const minTime = Math.min(timeA, timeB);
                 const timeRange = maxTime - minTime || 1;
@@ -172,38 +174,23 @@ const handleImageError = (e: Event) => {
 
 <style lang="less" scoped>
 .search-results {
-    padding: 2rem;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1rem 0;
+    box-sizing: border-box;
 
     .search-header {
+        background: #fff;
+        border-radius: 8px;
+        padding: 1.5rem;
         margin-bottom: 2rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         
         .header-top {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
-            gap: 1.5rem;
-
-            .back-button {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                padding: 0.5rem 1rem;
-                font-size: 0.875rem;
-                border-radius: 8px;
-                border: 1px solid #dcdfe6;
-                color: #606266;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    color: #409EFF;
-                    border-color: #409EFF;
-                    background-color: rgba(64, 158, 255, 0.1);
-                }
-
-                :deep(.el-icon) {
-                    font-size: 1rem;
-                }
-            }
 
             .search-info {
                 .result-count {
@@ -233,57 +220,89 @@ const handleImageError = (e: Event) => {
             }
         }
 
-        .sort-options {
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-top: 1px solid #ebeef5;
             padding-top: 1rem;
-            
-            :deep(.el-radio-group) {
-                .el-radio-button__inner {
-                    border: none;
-                    background: transparent;
-                    color: #606266;
-                    padding: 0.5rem 1.5rem;
-                    font-size: 0.875rem;
-                    
-                    &:hover {
-                        color: #409EFF;
-                    }
-                }
-                
-                .el-radio-button__original-radio:checked + .el-radio-button__inner {
-                    background: transparent;
+
+            .back-button {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+                border-radius: 8px;
+                border: 1px solid #dcdfe6;
+                color: #606266;
+                transition: all 0.3s ease;
+
+                &:hover {
                     color: #409EFF;
-                    font-weight: 500;
-                    box-shadow: none;
+                    border-color: #409EFF;
+                    background-color: rgba(64, 158, 255, 0.1);
+                }
+
+                :deep(.el-icon) {
+                    font-size: 1rem;
+                }
+            }
+
+            .sort-options {
+                :deep(.el-radio-group) {
+                    .el-radio-button__inner {
+                        border: none;
+                        background: transparent;
+                        color: #606266;
+                        padding: 0.5rem 1.5rem;
+                        font-size: 0.875rem;
+                        
+                        &:hover {
+                            color: #409EFF;
+                        }
+                    }
+                    
+                    .el-radio-button__original-radio:checked + .el-radio-button__inner {
+                        background: transparent;
+                        color: #409EFF;
+                        font-weight: 500;
+                        box-shadow: none;
+                    }
                 }
             }
         }
     }
 
     .results-list {
-        .result-item {
+        .article-card {
             background: #fff;
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
             border: 1px solid #ebeef5;
             transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
 
             &:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             }
 
-            .result-content {
+            .article-main {
                 display: flex;
                 gap: 1.5rem;
-                cursor: pointer;
 
-                .result-main {
+                .article-info {
                     flex: 1;
                     min-width: 0;
 
-                    .result-title {
+                    .article-title {
                         font-size: 1.125rem;
                         font-weight: 500;
                         color: #1a1a1a;
@@ -295,7 +314,7 @@ const handleImageError = (e: Event) => {
                         }
                     }
 
-                    .result-summary {
+                    .article-summary {
                         font-size: 0.875rem;
                         color: #666;
                         margin: 0 0 1rem;
@@ -306,7 +325,7 @@ const handleImageError = (e: Event) => {
                         overflow: hidden;
                     }
 
-                    .result-meta {
+                    .article-meta {
                         display: flex;
                         align-items: center;
                         gap: 1rem;
@@ -314,18 +333,18 @@ const handleImageError = (e: Event) => {
                         color: #8590a6;
                         flex-wrap: wrap;
 
-                        .result-views {
+                        .article-views {
                             display: flex;
                             align-items: center;
                             gap: 0.25rem;
                         }
 
-                        .result-tags {
+                        .article-tags {
                             margin-left: auto;
                             display: flex;
                             gap: 0.5rem;
 
-                            .result-tag {
+                            .article-tag {
                                 color: #8590a6;
                                 padding: 0 0.5rem;
                                 height: 1.5rem;
@@ -337,7 +356,7 @@ const handleImageError = (e: Event) => {
                     }
                 }
 
-                .result-cover {
+                .article-cover {
                     width: 120px;
                     height: 80px;
                     border-radius: 4px;
@@ -358,6 +377,9 @@ const handleImageError = (e: Event) => {
     .no-results {
         padding: 4rem 0;
         text-align: center;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     }
 }
 </style> 

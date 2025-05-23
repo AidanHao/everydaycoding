@@ -6,6 +6,7 @@ const jwt = require("../../utils/jwt");
 const { userFind, userRegister } = require("../../database/user/register");
 const { editUserInfo } = require("../../database/user/editUserInfo");
 const { getUserInfo } = require("../../database/user/getUserInfo");
+const { changePassword } = require("../../database/user/changePassWorld");
 
 let sessionData = {};
 
@@ -198,6 +199,67 @@ router.post("/editUserInfo", jwt.verify(), async (ctx) => {
         code: "8004",
         data: null,
         msg: "更新用户信息失败"
+      };
+    }
+  } catch (err) {
+    ctx.body = {
+      code: "8005",
+      data: err,
+      msg: "服务器异常"
+    };
+  }
+});
+
+//修改密码接口
+router.post("/changePassword", jwt.verify(), async (ctx) => {
+  try {
+    // 从 JWT 中间件中获取用户基本信息
+    const userInfo = ctx.state.user;
+    if (!userInfo || !userInfo.userId) {
+      ctx.body = {
+        code: "8004",
+        data: null,
+        msg: "用户未登录或登录已过期"
+      };
+      return;
+    }
+
+    const { oldPassword, newPassword } = ctx.request.body;
+    
+    // 验证数据
+    if (!oldPassword || !newPassword) {
+      ctx.body = {
+        code: "8001",
+        data: null,
+        msg: "旧密码和新密码不能为空"
+      };
+      return;
+    }
+
+    // 验证新密码不能与旧密码相同
+    if (oldPassword === newPassword) {
+      ctx.body = {
+        code: "8001",
+        data: null,
+        msg: "新密码不能与旧密码相同"
+      };
+      return;
+    }
+
+    // 修改密码
+    const result = await changePassword(userInfo.userId, oldPassword, newPassword);
+    
+    if (result.success) {
+      ctx.body = {
+        code: "8000",
+        data: null,
+        msg: result.message
+      };
+    } else {
+      ctx.body = {
+        code: "8004",
+        data: null,
+        msg: result.message
       };
     }
   } catch (err) {
