@@ -146,11 +146,12 @@ import SearchResults from './components/SearchResults.vue';
 import type { Article } from '@/types/article';
 
 const router = useRouter();
-const searchQuery = ref('');
-const selectedCategory = ref('');
-const selectedTag = ref('');
-const activeTab = ref('recommended');
-const isSearchMode = ref(false);
+// 搜索相关的响应式状态
+const searchQuery = ref(''); // 搜索关键词
+const selectedCategory = ref(''); // 选中的分类
+const selectedTag = ref(''); // 选中的标签
+const activeTab = ref('recommended'); // 当前激活的标签页
+const isSearchMode = ref(false); // 是否处于搜索模式
 
 // 热门推荐文章数据
 const recommendedArticles = [
@@ -256,31 +257,31 @@ const latestArticles = [
     }
 ];
 
-// 搜索结果
+// 搜索结果计算属性：根据搜索条件过滤文章
 const searchResults = computed(() => {
+    // 合并推荐文章和最新文章作为搜索源
     let result = [...recommendedArticles, ...latestArticles];
-
+    // 根据搜索关键词过滤
     if (searchQuery.value) {
         const query = searchQuery.value.toLowerCase();
         result = result.filter(article => 
-            article.title.toLowerCase().includes(query) ||
-            article.summary.toLowerCase().includes(query) ||
-            article.tags.some(tag => tag.toLowerCase().includes(query))
+            article.title.toLowerCase().includes(query) || // 匹配标题
+            article.summary.toLowerCase().includes(query) || // 匹配摘要
+            article.tags.some(tag => tag.toLowerCase().includes(query)) // 匹配标签
         );
     }
-
+    // 根据选中的分类过滤
     if (selectedCategory.value) {
         result = result.filter(article => 
             article.category.toLowerCase() === selectedCategory.value.toLowerCase()
         );
     }
-
+    // 根据选中的标签过滤
     if (selectedTag.value) {
         result = result.filter(article => 
             article.tags.some(tag => tag.toLowerCase() === selectedTag.value.toLowerCase())
         );
     }
-
     return result;
 });
 
@@ -304,19 +305,25 @@ const tags = [
     { value: 'tools', label: '工具' }
 ];
 
+// 处理搜索按钮点击事件
 const handleSearch = () => {
+    // 当有搜索关键词、选中分类或标签时，进入搜索模式
     if (searchQuery.value || selectedCategory.value || selectedTag.value) {
         isSearchMode.value = true;
     }
 };
 
+// 处理分类选择变化事件
 const handleCategoryChange = () => {
+    // 当选中分类时，进入搜索模式
     if (selectedCategory.value) {
         isSearchMode.value = true;
     }
 };
 
+// 处理标签选择变化事件
 const handleTagChange = () => {
+    // 当选中标签时，进入搜索模式
     if (selectedTag.value) {
         isSearchMode.value = true;
     }
@@ -334,12 +341,12 @@ const handleImageError = (e: Event) => {
     img.src = defaultImage;
 };
 
-// 重置筛选条件
+// 重置所有筛选条件
 const resetFilters = () => {
-    searchQuery.value = '';
-    selectedCategory.value = '';
-    selectedTag.value = '';
-    isSearchMode.value = false;
+    searchQuery.value = ''; // 清空搜索关键词
+    selectedCategory.value = ''; // 清空选中的分类
+    selectedTag.value = ''; // 清空选中的标签
+    isSearchMode.value = false; // 退出搜索模式
 };
 </script>
 

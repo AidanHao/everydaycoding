@@ -164,7 +164,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import {
   ArrowUp,
@@ -508,6 +508,99 @@ const initUserChart = () => {
   userChart.setOption(option)
 }
 
+// 轮询定时器
+let pollingTimer: number | null = null
+
+// 获取最新数据的方法
+const fetchLatestData = async () => {
+  try {
+    // TODO: 替换为实际的API调用
+    // const response = await fetch('/api/dashboard/stats')
+    // const data = await response.json()
+    
+    // 模拟API调用，实际项目中应该替换为真实的API调用
+    const mockData = {
+      totalStats: {
+        visits: Math.floor(Math.random() * 2000) + 1000,
+        users: Math.floor(Math.random() * 1000) + 500,
+        articles: Math.floor(Math.random() * 500) + 200,
+        comments: Math.floor(Math.random() * 1500) + 1000
+      },
+      todayStats: {
+        visits: Math.floor(Math.random() * 20) - 10,
+        users: Math.floor(Math.random() * 10) - 5,
+        articles: Math.floor(Math.random() * 5) - 2,
+        comments: Math.floor(Math.random() * 20) - 10
+      }
+    }
+
+    // 更新统计数据
+    totalStats.value = mockData.totalStats
+    todayStats.value = mockData.todayStats
+
+    // 更新图表数据
+    updateChartData()
+  } catch (error) {
+    console.error('获取数据失败:', error)
+  }
+}
+
+// 更新图表数据
+const updateChartData = () => {
+  // 更新访问趋势图表
+  if (visitChart) {
+    visitChart.setOption({
+      xAxis: {
+        data: visitTrendData.value.map(item => item.date)
+      },
+      series: [
+        {
+          data: visitTrendData.value.map(item => item.visits)
+        },
+        {
+          data: visitTrendData.value.map(item => item.users)
+        }
+      ]
+    })
+  }
+
+  // 更新用户增长图表
+  if (userChart) {
+    userChart.setOption({
+      xAxis: {
+        data: userGrowthData.value.map(item => item.date)
+      },
+      series: [
+        {
+          data: userGrowthData.value.map(item => item.newUsers)
+        },
+        {
+          data: userGrowthData.value.map(item => item.activeUsers)
+        }
+      ]
+    })
+  }
+}
+
+// 开始轮询
+const startPolling = () => {
+  // 立即执行一次
+  fetchLatestData()
+  
+  // 设置定时器，每30秒更新一次数据
+  pollingTimer = window.setInterval(() => {
+    fetchLatestData()
+  }, 30000)
+}
+
+// 停止轮询
+const stopPolling = () => {
+  if (pollingTimer) {
+    clearInterval(pollingTimer)
+    pollingTimer = null
+  }
+}
+
 // 监听时间范围变化
 watch([visitTimeRange, userTimeRange], () => {
   // 这里可以根据时间范围重新获取数据
@@ -554,6 +647,15 @@ window.addEventListener('resize', () => {
 onMounted(() => {
   initVisitChart()
   initUserChart()
+  startPolling() // 启动轮询
+})
+
+// 组件卸载时清理轮询定时器
+onUnmounted(() => {
+  stopPolling()
+  // 清理图表实例
+  visitChart?.dispose()
+  userChart?.dispose()
 })
 </script>
 

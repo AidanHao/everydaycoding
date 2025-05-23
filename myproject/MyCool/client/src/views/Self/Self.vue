@@ -269,15 +269,25 @@
             <el-tabs v-model="activeProfileTab">
                 <el-tab-pane label="基本信息" name="basic">
                     <el-form :model="editProfile" label-width="80px" :rules="profileRules" ref="profileFormRef">
-                        <el-form-item label="用户名" prop="username">
-                            <el-input v-model="editProfile.username" placeholder="请输入用户名"></el-input>
+                        <el-form-item label="昵称" prop="nickName">
+                            <el-input v-model="editProfile.nickName" placeholder="请输入昵称"></el-input>
                         </el-form-item>
                         <el-form-item label="头像" prop="avatar">
-                            <el-input v-model="editProfile.avatar" placeholder="请输入头像URL">
-                                <template #append>
-                                    <el-button @click="previewAvatar">预览</el-button>
-                                </template>
-                            </el-input>
+                            <div class="avatar-upload">
+                                <el-upload
+                                    class="avatar-uploader"
+                                    action="#"
+                                    :auto-upload="false"
+                                    :show-file-list="false"
+                                    :on-change="handleAvatarChange"
+                                    accept="image/*"
+                                    :http-request="() => {}"
+                                >
+                                    <img v-if="editProfile.avatar" :src="editProfile.avatar" class="avatar-preview-image" />
+                                    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                                </el-upload>
+                                <div class="avatar-tip">点击上传头像图片</div>
+                            </div>
                         </el-form-item>
                         <el-form-item label="个人简介" prop="bio">
                             <el-input
@@ -704,37 +714,57 @@ const checkLoginStatus = async () => {
         try {
             const userToken: UserToken = JSON.parse(userTokenStr)
             isLoggedIn.value = true
-            
             // 获取用户信息
-            try {
-                const response = await axios.get('/getUserInfo')
-                
-                console.log(response)
-                const result = response.data
-                if (result.code === '8000') {
-                    userInfo.value = {
-                        userId: result.data.userId,
-                        username: result.data.userName,
-                        nickName: result.data.nickName,
-                        avatar: defaultAvatar,
-                        userPower: result.data.userPower,
-                        articleCount: 0,
-                        followers: 0,
-                        following: 0
-                    }
-                } else {
-                    throw new Error(result.msg)
-                }
-            } catch (error) {
-                console.error('获取用户信息失败:', error)
-                ElMessage.error('获取用户信息失败')
-            }
+            await getUserInfo()
         } catch (error) {
             console.error('解析用户Token失败:', error)
             isLoggedIn.value = false
+            // 清除无效的token
+            localStorage.removeItem('userToken')
         }
     } else {
         isLoggedIn.value = false
+    }
+}
+
+// 获取用户信息
+const getUserInfo = async () => {
+    try {
+        const response = await axios.get('/getUserInfo', {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        })
+        const result = response.data
+        if (result.code === '8000') {
+            userInfo.value = {
+                userId: result.data.userId,
+                username: result.data.userName,
+                nickName: result.data.nickName,
+                avatar: result.data.avatar || defaultAvatar,
+                userPower: result.data.userPower,
+                articleCount: result.data.articleCount || 0,
+                followers: result.data.followers || 0,
+                following: result.data.following || 0,
+                bio: result.data.desc || ''
+            }
+            // 更新本地存储的用户信息
+            const userTokenStr = localStorage.getItem('userToken')
+            if (userTokenStr) {
+                const userToken: UserToken = JSON.parse(userTokenStr)
+                userToken.nickName = result.data.nickName
+                localStorage.setItem('userToken', JSON.stringify(userToken))
+            }
+        } else {
+            throw new Error(result.msg)
+        }
+    } catch (error) {
+        console.error('获取用户信息失败:', error)
+        ElMessage.error('获取用户信息失败')
+        // 如果获取用户信息失败，可能是token过期，清除登录状态
+        isLoggedIn.value = false
+        localStorage.removeItem('userToken')
     }
 }
 
@@ -783,8 +813,14 @@ const profileFormRef = ref()
 const passwordFormRef = ref()
 const activeProfileTab = ref('basic')
 
-const editProfile = ref({
-    username: '',
+interface EditProfile {
+    nickName: string
+    avatar: string
+    bio: string
+}
+
+const editProfile = ref<EditProfile>({
+    nickName: '',
     avatar: '',
     bio: ''
 })
@@ -801,7 +837,7 @@ const profileRules = {
         { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
     ],
     avatar: [
-        { pattern: /^https?:\/\/.+/, message: '请输入有效的图片URL', trigger: 'blur' }
+        { required: false, message: '请上传头像', trigger: 'change' }
     ],
     bio: [
         { max: 200, message: '不能超过200个字符', trigger: 'blur' }
@@ -839,11 +875,13 @@ const passwordRules = {
 
 // 显示编辑个人信息对话框
 const showEditProfileDialog = () => {
+    // 使用当前用户信息初始化编辑表单
     editProfile.value = {
-        username: userInfo.value.username,
-        avatar: userInfo.value.avatar,
+        nickName: userInfo.value.nickName,
+        avatar: userInfo.value.avatar || defaultAvatar,
         bio: userInfo.value.bio || ''
     }
+    // 重置密码表单
     passwordForm.value = {
         currentPassword: '',
         newPassword: '',
@@ -875,17 +913,45 @@ const handleSave = async () => {
 const saveProfile = async () => {
     if (!profileFormRef.value) return
     
-    await profileFormRef.value.validate((valid: boolean) => {
+    await profileFormRef.value.validate(async (valid: boolean) => {
         if (valid) {
-            // 这里应该调用后端API保存个人信息
-            userInfo.value = {
-                ...userInfo.value,
-                username: editProfile.value.username,
-                avatar: editProfile.value.avatar,
-                bio: editProfile.value.bio
+            try {
+                // 如果头像没有改变，使用默认头像
+                const avatarToSave = editProfile.value.avatar === defaultAvatar ? '' : editProfile.value.avatar;
+                
+                const response = await axios.post('/editUserInfo', {
+                    nickName: editProfile.value.nickName,
+                    avatar: avatarToSave,
+                    desc: editProfile.value.bio
+                });
+
+                if (response.data.code === '8000') {
+                    // 更新本地用户信息
+                    userInfo.value = {
+                        ...userInfo.value,
+                        nickName: editProfile.value.nickName,
+                        avatar: avatarToSave || defaultAvatar,
+                        bio: editProfile.value.bio
+                    }
+
+                    // 更新本地存储的 token
+                    const userTokenStr = localStorage.getItem('userToken')
+                    if (userTokenStr) {
+                        const userToken: UserToken = JSON.parse(userTokenStr)
+                        userToken.jsonToken = response.data.data.jsonToken
+                        userToken.nickName = editProfile.value.nickName
+                        localStorage.setItem('userToken', JSON.stringify(userToken))
+                    }
+
+                    ElMessage.success('保存成功')
+                    editProfileDialogVisible.value = false
+                } else {
+                    ElMessage.error(response.data.msg || '保存失败')
+                }
+            } catch (error) {
+                console.error('保存个人信息失败:', error)
+                ElMessage.error('保存失败，请稍后重试')
             }
-            ElMessage.success('保存成功')
-            editProfileDialogVisible.value = false
         }
     })
 }
@@ -919,31 +985,98 @@ const changePassword = async () => {
     })
 }
 
-// 处理封面图片上传
-const handleCoverChange = (file: any) => {
+// Add image compression function
+const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (e) => {
+            const img = new Image()
+            img.src = e.target?.result as string
+            img.onload = () => {
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+                
+                // Calculate new dimensions while maintaining aspect ratio
+                let width = img.width
+                let height = img.height
+                const maxSize = 800 // Maximum dimension
+                
+                if (width > height && width > maxSize) {
+                    height = Math.round((height * maxSize) / width)
+                    width = maxSize
+                } else if (height > maxSize) {
+                    width = Math.round((width * maxSize) / height)
+                    height = maxSize
+                }
+                
+                canvas.width = width
+                canvas.height = height
+                
+                // Draw and compress
+                ctx?.drawImage(img, 0, 0, width, height)
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7)
+                resolve(compressedBase64)
+            }
+            img.onerror = reject
+        }
+        reader.onerror = reject
+    })
+}
+
+// Update handleAvatarChange function
+const handleAvatarChange = async (file: any) => {
     if (!file) return
     
-    // 检查文件类型
+    // Check file type
     const isImage = file.raw.type.startsWith('image/')
     if (!isImage) {
         ElMessage.error('只能上传图片文件！')
         return
     }
     
-    // 检查文件大小（限制为2MB）
+    // Check file size (limit to 2MB)
     const isLt2M = file.raw.size / 1024 / 1024 < 2
     if (!isLt2M) {
         ElMessage.error('图片大小不能超过 2MB！')
         return
     }
 
-    // 将图片转换为base64
-    const reader = new FileReader()
-    reader.readAsDataURL(file.raw)
-    reader.onload = (e) => {
-        if (e.target?.result) {
-            newArticle.value.cover = e.target.result as string
-        }
+    try {
+        // Compress and convert to base64
+        const compressedBase64 = await compressImage(file.raw)
+        editProfile.value.avatar = compressedBase64
+    } catch (error) {
+        console.error('图片处理失败:', error)
+        ElMessage.error('图片处理失败，请重试')
+    }
+}
+
+// Update handleCoverChange function
+const handleCoverChange = async (file: any) => {
+    if (!file) return
+    
+    // Check file type
+    const isImage = file.raw.type.startsWith('image/')
+    if (!isImage) {
+        ElMessage.error('只能上传图片文件！')
+        return
+    }
+    
+    // Check file size (limit to 2MB)
+    const isLt2M = file.raw.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+        ElMessage.error('图片大小不能超过 2MB！')
+        return
+    }
+
+    try {
+        // Compress and convert to base64
+        const compressedBase64 = await compressImage(file.raw)
+        newArticle.value.cover = compressedBase64
+    } catch (error) {
+        console.error('图片处理失败:', error)
+        ElMessage.error('图片处理失败，请重试')
     }
 }
 
@@ -1034,11 +1167,20 @@ const goToArticle = (id: string) => {
     router.push(`/article/${id}`)
 }
 
+// 添加路由守卫来监听路由变化
 onMounted(() => {
     // 检查登录状态
     checkLoginStatus()
     // 获取用户文章列表
     getUserArticles()
+
+    // 添加路由变化监听
+    router.beforeEach(async (to, from, next) => {
+        if (to.path === '/self') {
+            await checkLoginStatus()
+        }
+        next()
+    })
 })
 </script>
 
@@ -2040,6 +2182,62 @@ onMounted(() => {
     }
 
     .cover-tip {
+        font-size: 12px;
+        color: #909399;
+    }
+}
+
+// 添加头像上传样式
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .avatar-uploader {
+        border: 1px dashed #d9d9d9;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: border-color 0.3s;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            border-color: #409eff;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        :deep(.el-upload) {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .avatar-tip {
         font-size: 12px;
         color: #909399;
     }

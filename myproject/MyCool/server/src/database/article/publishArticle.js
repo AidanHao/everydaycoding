@@ -31,7 +31,6 @@ const getAvailableArticleId = async () => {
 const publishArticle = async(userId, title, content, articleLabel, articleType, articleDesc, coverImg, articleId = null) => {
     try {
         let result;
-        
         if (articleId) {
             // 更新现有文章
             const _sql = `UPDATE article SET 
