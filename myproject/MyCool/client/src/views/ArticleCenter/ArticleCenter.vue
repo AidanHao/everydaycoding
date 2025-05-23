@@ -57,11 +57,36 @@
                 :query="searchQuery"
                 :category="selectedCategory"
                 :tag="selectedTag"
+                :total="searchTotal"
                 @select-article="openArticle"
-                @clear-category="selectedCategory = ''"
-                @clear-tag="selectedTag = ''"
+                @clear-category="() => {
+                    selectedCategory = '';
+                    handleSearch();
+                }"
+                @clear-tag="() => {
+                    selectedTag = '';
+                    handleSearch();
+                }"
                 @clear-filters="resetFilters"
-            />
+                @filter-change="handleSearch"
+            >
+                <template #loading>
+                    <div v-if="searchLoading" class="loading-more">
+                        <el-icon class="is-loading"><Loading /></el-icon>
+                        加载中...
+                    </div>
+                </template>
+                <template #complete>
+                    <div v-if="searchResults.length > 0 && searchResults.length >= searchTotal" class="no-more">
+                        没有更多文章了
+                    </div>
+                </template>
+                <template #error>
+                    <div class="error-message">
+                        加载失败，请重试
+                    </div>
+                </template>
+            </search-results>
             
             <!-- 默认文章列表页面 -->
             <div v-else class="article-list">
@@ -211,6 +236,11 @@ const selectedCategory = ref(''); // 选中的分类
 const selectedTag = ref(''); // 选中的标签
 const activeTab = ref('recommended'); // 当前激活的标签页
 const isSearchMode = ref(false); // 是否处于搜索模式
+const searchResults = ref<Article[]>([]); // 搜索结果
+const searchTotal = ref(0); // 搜索结果总数
+const searchPage = ref(1); // 当前页码
+const searchPageSize = ref(10); // 每页数量
+const searchLoading = ref(false); // 搜索加载状态
 
 // 推荐文章相关状态
 const recommendedArticles = ref<Article[]>([]);
@@ -229,7 +259,7 @@ const latestHasMore = ref(true);
 const infiniteId = ref(0);
 
 // 搜索结果计算属性：根据搜索条件过滤文章
-const searchResults = computed(() => {
+const searchResultsComputed = computed(() => {
     // 合并推荐文章和最新文章作为搜索源
     let result = [...recommendedArticles.value];
     // 根据搜索关键词过滤
@@ -277,26 +307,87 @@ const tags = [
 ];
 
 // 处理搜索按钮点击事件
-const handleSearch = () => {
-    // 当有搜索关键词、选中分类或标签时，进入搜索模式
-    if (searchQuery.value || selectedCategory.value || selectedTag.value) {
-        isSearchMode.value = true;
+const handleSearch = async () => {
+    if (!searchQuery.value && !selectedCategory.value && !selectedTag.value) {
+        isSearchMode.value = false;
+        searchLoading.value = false;
+        return;
+    }
+
+    try {
+        searchLoading.value = true;
+        searchPage.value = 1;
+        const response = await axios.get(`/searchArticles?keyword=${encodeURIComponent(searchQuery.value)}&type=${encodeURIComponent(selectedCategory.value)}&tag=${encodeURIComponent(selectedTag.value)}&page=${searchPage.value}&pageSize=${searchPageSize.value}`);
+
+        if (response.data.code === '8000') {
+            const { articles, total } = response.data.data;
+            searchResults.value = articles;
+            searchTotal.value = total;
+            isSearchMode.value = true;
+        } else {
+            ElMessage.error(response.data.msg || '搜索失败');
+            isSearchMode.value = false;
+        }
+    } catch (error) {
+        console.error('搜索失败:', error);
+        ElMessage.error('搜索失败');
+        isSearchMode.value = false;
+    } finally {
+        searchLoading.value = false;
     }
 };
 
 // 处理分类选择变化事件
-const handleCategoryChange = () => {
-    // 当选中分类时，进入搜索模式
+const handleCategoryChange = async () => {
     if (selectedCategory.value) {
-        isSearchMode.value = true;
+        try {
+            searchLoading.value = true;
+            searchPage.value = 1;
+            const response = await axios.get(`/searchArticles?keyword=${encodeURIComponent(searchQuery.value)}&type=${encodeURIComponent(selectedCategory.value)}&tag=${encodeURIComponent(selectedTag.value)}&page=${searchPage.value}&pageSize=${searchPageSize.value}`);
+
+            if (response.data.code === '8000') {
+                const { articles, total } = response.data.data;
+                searchResults.value = articles;
+                searchTotal.value = total;
+                isSearchMode.value = true;
+            } else {
+                ElMessage.error(response.data.msg || '搜索失败');
+                isSearchMode.value = false;
+            }
+        } catch (error) {
+            console.error('搜索失败:', error);
+            ElMessage.error('搜索失败');
+            isSearchMode.value = false;
+        } finally {
+            searchLoading.value = false;
+        }
     }
 };
 
 // 处理标签选择变化事件
-const handleTagChange = () => {
-    // 当选中标签时，进入搜索模式
+const handleTagChange = async () => {
     if (selectedTag.value) {
-        isSearchMode.value = true;
+        try {
+            searchLoading.value = true;
+            searchPage.value = 1;
+            const response = await axios.get(`/searchArticles?keyword=${encodeURIComponent(searchQuery.value)}&type=${encodeURIComponent(selectedCategory.value)}&tag=${encodeURIComponent(selectedTag.value)}&page=${searchPage.value}&pageSize=${searchPageSize.value}`);
+
+            if (response.data.code === '8000') {
+                const { articles, total } = response.data.data;
+                searchResults.value = articles;
+                searchTotal.value = total;
+                isSearchMode.value = true;
+            } else {
+                ElMessage.error(response.data.msg || '搜索失败');
+                isSearchMode.value = false;
+            }
+        } catch (error) {
+            console.error('搜索失败:', error);
+            ElMessage.error('搜索失败');
+            isSearchMode.value = false;
+        } finally {
+            searchLoading.value = false;
+        }
     }
 };
 
@@ -318,6 +409,9 @@ const resetFilters = () => {
     selectedCategory.value = ''; // 清空选中的分类
     selectedTag.value = ''; // 清空选中的标签
     isSearchMode.value = false; // 退出搜索模式
+    searchResults.value = []; // 清空搜索结果
+    searchTotal.value = 0; // 重置总数
+    searchPage.value = 1; // 重置页码
 };
 
 // 修改加载更多推荐文章的方法

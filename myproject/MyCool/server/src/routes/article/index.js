@@ -10,6 +10,7 @@ const { draftArticle } = require("../../database/article/draftArticle");
 const { deleteArticle } = require("../../database/article/deleteArticle");
 const { getRecommendedArticles } = require("../../database/article/recommonedArticle");
 const { getLatestArticles } = require("../../database/article/latestArticle");
+const { searchArticles } = require("../../database/article/searchArticle");
 
 let sessionData = {};
 
@@ -252,6 +253,42 @@ router.get("/getLatestArticles", async (ctx) => {
             code: "8006",
             data: null,
             msg: "获取最新文章失败"
+        };
+    }
+});
+
+//搜索文章
+router.get("/searchArticles", async (ctx) => {
+    try {
+        const {
+            keyword,
+            tag,
+            type,
+            userId,
+            page = 1,
+            pageSize = 10
+        } = ctx.query;
+
+        const result = await searchArticles({
+            keyword,
+            tag,
+            type,
+            userId,
+            page: parseInt(page),
+            pageSize: parseInt(pageSize)
+        });
+
+        ctx.body = {
+            code: "8000",
+            data: result,
+            msg: "搜索文章成功"
+        };
+    } catch (error) {
+        console.error("搜索文章失败:", error);
+        ctx.body = {
+            code: "8006",
+            data: null,
+            msg: "搜索文章失败"
         };
     }
 });

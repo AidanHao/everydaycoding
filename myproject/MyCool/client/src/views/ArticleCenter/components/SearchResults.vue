@@ -3,7 +3,7 @@
         <div class="search-header">
             <div class="header-top">
                 <div class="search-info">
-                    <span class="result-count">找到 {{ articles.length }} 个结果</span>
+                    <span class="result-count">找到 {{ total ?? 0 }} 个结果</span>
                     <span class="search-query" v-if="query">搜索："{{ query }}"</span>
                 </div>
             </div>
@@ -11,14 +11,20 @@
                 <el-tag 
                     v-if="category"
                     closable
-                    @close="$emit('clear-category')"
+                    @close="() => {
+                        emit('clear-category');
+                        emit('filter-change');
+                    }"
                 >
                     分类：{{ category }}
                 </el-tag>
                 <el-tag 
                     v-if="tag"
                     closable
-                    @close="$emit('clear-tag')"
+                    @close="() => {
+                        emit('clear-tag');
+                        emit('filter-change');
+                    }"
                 >
                     标签：{{ tag }}
                 </el-tag>
@@ -81,19 +87,37 @@
                 <el-button type="primary" @click="$emit('clear-filters')">清除筛选</el-button>
             </el-empty>
         </div>
+
+        <infinite-loading
+            v-if="articles.length > 0"
+            @infinite="$emit('load-more')"
+            :identifier="infiniteId"
+        >
+            <template #spinner>
+                <slot name="loading"></slot>
+            </template>
+            <template #complete>
+                <slot name="complete"></slot>
+            </template>
+            <template #error>
+                <slot name="error"></slot>
+            </template>
+        </infinite-loading>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { View, ArrowLeft } from '@element-plus/icons-vue';
 import type { Article } from '@/types/article';
+import InfiniteLoading from 'vue-infinite-loading';
 
 const props = defineProps<{
     articles: Article[];
     query?: string;
     category?: string;
     tag?: string;
+    total?: number;
 }>();
 
 const emit = defineEmits<{
@@ -101,9 +125,12 @@ const emit = defineEmits<{
     (e: 'clear-category'): void;
     (e: 'clear-tag'): void;
     (e: 'clear-filters'): void;
+    (e: 'load-more'): void;
+    (e: 'filter-change'): void;
 }>();
 
 const sortType = ref('relevance');
+const infiniteId = ref(0);
 
 const hasFilters = computed(() => {
     return !!props.category || !!props.tag;
@@ -178,6 +205,14 @@ const formatDate = (dateString: string) => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 };
+
+// 监听筛选条件变化
+watch(
+    () => [props.category, props.tag],
+    () => {
+        emit('filter-change');
+    }
+);
 </script>
 
 <style lang="less" scoped>
@@ -187,6 +222,7 @@ const formatDate = (dateString: string) => {
     margin: 0 auto;
     padding: 1rem 0;
     box-sizing: border-box;
+    margin-top: 4rem;
 
     .search-header {
         background: #fff;
