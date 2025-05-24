@@ -12,6 +12,7 @@ const { getRecommendedArticles } = require("../../database/article/recommonedArt
 const { getLatestArticles } = require("../../database/article/latestArticle");
 const { searchArticles } = require("../../database/article/searchArticle");
 const { getHomeArticle } = require("../../database/article/getHomeArticle");
+const { getArticleDetails } = require("../../database/article/getArticleDetails");
 
 let sessionData = {};
 
@@ -313,6 +314,46 @@ router.get("/getHomeArticles", async (ctx) => {
             code: "8006",
             data: null,
             msg: "获取首页文章失败"
+        };
+    }
+});
+
+//获取文章详情
+router.get("/getArticleDetails/:articleId", async (ctx) => {
+    try {
+        const { articleId } = ctx.params;
+        
+        if (!articleId) {
+            ctx.body = {
+                code: "8005",
+                data: null,
+                msg: "文章ID不能为空"
+            };
+            return;
+        }
+
+        const article = await getArticleDetails(articleId);
+        
+        if (!article) {
+            ctx.body = {
+                code: "8006",
+                data: null,
+                msg: "文章不存在"
+            };
+            return;
+        }
+
+        ctx.body = {
+            code: "8000",
+            data: article,
+            msg: "获取文章详情成功"
+        };
+    } catch (error) {
+        console.error("获取文章详情失败:", error);
+        ctx.body = {
+            code: "8006",
+            data: null,
+            msg: "获取文章详情失败"
         };
     }
 });

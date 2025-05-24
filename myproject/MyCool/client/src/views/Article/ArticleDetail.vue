@@ -26,15 +26,6 @@
                     </div>
                 </div>
             </div>
-            <div class="ArticleDetail_header_cover" v-if="article.cover">
-                <el-image :src="article.cover" fit="cover" loading="lazy">
-                    <template #error>
-                        <div class="image-slot">
-                            <el-icon><icon-picture /></el-icon>
-                        </div>
-                    </template>
-                </el-image>
-            </div>
         </div>
 
         <div class="ArticleDetail_content">
@@ -76,7 +67,9 @@
                 </div>
             </div>
             <div class="ArticleDetail_content_main">
-                <div class="content-text markdown-body" v-html="renderedContent"></div>
+                <div class="content-text">
+                    <MdPreview :modelValue="renderedContent" />
+                </div>
                 <div class="content-tags">
                     <el-tag v-for="tag in article.tags" :key="tag" class="tag">{{ tag }}</el-tag>
                 </div>
@@ -257,11 +250,11 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { User, Calendar, View, ChatDotRound, Star, Collection, Share, ArrowLeft } from '@element-plus/icons-vue'
-import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
+import { User, Calendar, View, ChatDotRound, Star, Collection, Share, ArrowLeft, Picture } from '@element-plus/icons-vue'
+import { MdPreview } from 'md-editor-v3'
+import 'md-editor-v3/lib/preview.css'
 import { ElMessage } from 'element-plus'
+import axios from '@/api'
 
 interface Article {
     id: string
@@ -275,6 +268,7 @@ interface Article {
     category: string
     tags: string[]
     cover?: string
+    coverImg?: string
     status: 'published' | 'draft' | 'pending' | 'rejected'
     thumbsUp?: number
     collection?: number
@@ -306,20 +300,6 @@ interface Comment {
 const route = useRoute()
 const router = useRouter()
 
-const md = new MarkdownIt({
-    html: true,
-    linkify: true,
-    typographer: true,
-    highlight: function (str: string, lang: string) {
-        if (lang && hljs.getLanguage(lang)) {
-            try {
-                return hljs.highlight(str, { language: lang }).value
-            } catch (__) {}
-        }
-        return ''
-    }
-})
-
 const article = ref<Article>({
     id: '',
     title: '',
@@ -346,7 +326,7 @@ const isLiked = ref(false)
 const isCollected = ref(false)
 
 const renderedContent = computed(() => {
-    return md.render(article.value.content)
+    return article.value.content
 })
 
 const formatDate = (date: string | undefined) => {
@@ -597,156 +577,44 @@ const handleReply = (comment: Comment, reply?: Comment) => {
 }
 
 // 获取文章详情的函数
-const fetchArticleDetail = (id: string) => {
-    // 模拟获取文章详情
-    article.value = {
-        id,
-        title: 'Vue 3 + TypeScript 实战：构建现代化的博客系统',
-        summary: '本文将详细介绍如何使用 Vue 3 和 TypeScript 构建一个功能完善的博客系统，包括文章管理、用户认证、评论系统等核心功能。',
-        content: `# Vue 3 + TypeScript 实战：构建现代化的博客系统
+const fetchArticleDetail = async (id: string) => {
+    try {
+        const response = await axios.get(`/getArticleDetails/${id}`);
+        
+        if (response.data.code === '8000' && response.data.data) {
+            const articleData = response.data.data;
+            article.value = {
+                id: articleData.articleId,
+                title: articleData.title,
+                summary: articleData.articleDesc || '',
+                content: articleData.content,
+                createTime: articleData.publishTime,
+                updateTime: articleData.updateTime,
+                views: articleData.viewCount,
+                comments: articleData.commentCount,
+                category: articleData.articleType,
+                tags: articleData.articleLabel ? articleData.articleLabel.split(',') : [],
+                coverImg: articleData.coverImg,
+                status: articleData.status === 1 ? 'published' : 'draft',
+                thumbsUp: articleData.likeCount,
+                collection: articleData.collectionCount,
+                author: articleData.username,
+                authorAvatar: articleData.avatar,
+                authorBio: articleData.bio || '暂无简介',
+                authorArticles: articleData.articleCount || 0,
+                authorFollowers: articleData.followerCount || 0
+            };
 
-在当今的 Web 开发领域，Vue 3 和 TypeScript 的组合已经成为构建现代化应用的首选方案。本文将带你从零开始，构建一个功能完善的博客系统。
-
-## 1. 项目初始化
-
-首先，我们需要创建一个新的 Vue 3 项目。使用 Vue CLI 可以快速搭建项目基础结构：
-
-\`\`\`bash
-npm create vue@latest my-blog
-cd my-blog
-npm install
-\`\`\`
-
-## 2. 技术栈选择
-
-我们将使用以下技术栈：
-
-- Vue 3 + TypeScript
-- Vue Router 4
-- Pinia 状态管理
-- Element Plus UI 组件库
-- Axios HTTP 客户端
-
-## 3. 项目结构设计
-
-良好的项目结构是成功的一半。我们采用以下目录结构：
-
-\`\`\`
-src/
-├── components/     # 通用组件
-├── views/         # 页面组件
-├── router/        # 路由配置
-├── store/         # 状态管理
-├── api/           # API 接口
-├── types/         # TypeScript 类型定义
-└── utils/         # 工具函数
-\`\`\`
-
-## 4. 核心功能实现
-
-### 4.1 用户认证
-
-使用 JWT 实现用户认证，包括登录、注册和权限控制：
-
-\`\`\`typescript
-// 登录接口
-export const login = (data: LoginData) => {
-    return axios.post('/api/auth/login', data)
-}
-\`\`\`
-
-### 4.2 文章管理
-
-实现文章的 CRUD 操作，包括富文本编辑器和图片上传：
-
-![文章编辑器示例](https://picsum.photos/800/400)
-
-### 4.3 评论系统
-
-构建实时评论系统，支持多级评论和表情包：
-
-> 用户A：这篇文章写得真好！
-> 
-> 用户B：感谢分享，学到了很多！
-
-## 5. 性能优化
-
-为了提升用户体验，我们需要关注以下性能优化点：
-
-- 路由懒加载
-- 组件按需加载
-- 图片懒加载
-- 数据缓存
-
-## 6. 部署上线
-
-最后，我们将项目部署到生产环境：
-
-\`\`\`bash
-npm run build
-# 部署到服务器
-scp -r dist/* user@server:/var/www/html
-\`\`\`
-
-## 总结
-
-通过本文的学习，你应该已经掌握了使用 Vue 3 和 TypeScript 构建现代化博客系统的基本方法。希望这些知识能帮助你在实际项目中取得成功！`,
-        createTime: '2024-03-15T10:30:00',
-        updateTime: '2024-03-15T14:45:00',
-        views: 1250,
-        comments: 36,
-        category: '前端开发',
-        tags: ['Vue3', 'TypeScript', '前端', '博客系统', '实战'],
-        cover: 'https://picsum.photos/800/400',
-        status: 'published',
-        thumbsUp: 89,
-        collection: 45,
-        author: '前端开发者',
-        authorAvatar: 'https://picsum.photos/200',
-        authorBio: '专注于前端技术开发，热爱分享技术经验。Vue、React、TypeScript 深度用户，开源项目贡献者。',
-        authorArticles: 28,
-        authorFollowers: 1560
-    }
-
-    // 模拟获取相关文章
-    relatedArticles.value = [
-        {
-            id: '2',
-            title: 'TypeScript 类型系统深入解析：从入门到精通',
-            createTime: '2024-03-10T14:20:00',
-            views: 1890,
-            cover: 'https://picsum.photos/300/200',
-            summary: '深入探讨 TypeScript 类型系统的核心概念和高级用法，帮助你写出更健壮的代码。'
-        },
-        {
-            id: '3',
-            title: 'Node.js 性能优化指南：让你的应用飞起来',
-            createTime: '2024-03-05T09:15:00',
-            views: 1450,
-            cover: 'https://picsum.photos/300/200',
-            summary: '从多个维度分析 Node.js 应用的性能瓶颈，并提供实用的优化方案。'
-        },
-        {
-            id: '4',
-            title: '前端工程化实践：从零搭建完整的开发环境',
-            createTime: '2024-02-28T16:30:00',
-            views: 2100,
-            cover: 'https://picsum.photos/300/200',
-            summary: '详细介绍如何搭建一个完整的前端开发环境，包括构建工具、代码规范、测试等。'
-        },
-        {
-            id: '5',
-            title: 'Vue 3 组合式 API 最佳实践',
-            createTime: '2024-02-20T11:45:00',
-            views: 1780,
-            cover: 'https://picsum.photos/300/200',
-            summary: '分享 Vue 3 组合式 API 的使用技巧和最佳实践，提升代码质量和开发效率。'
+            // 生成目录
+            setTimeout(generateToc, 100);
+        } else {
+            ElMessage.error(response.data.msg || '获取文章详情失败');
         }
-    ]
-
-    // 生成目录
-    setTimeout(generateToc, 100)
-}
+    } catch (error) {
+        console.error('获取文章详情失败:', error);
+        ElMessage.error('获取文章详情失败');
+    }
+};
 
 // 监听路由参数变化
 watch(() => route.params.id, (newId) => {
@@ -854,24 +722,6 @@ onMounted(() => {
                     .el-icon {
                         font-size: 1rem;
                     }
-                }
-            }
-        }
-
-        .ArticleDetail_header_cover {
-            width: 100%;
-            height: 360px;
-            border-radius: 0.8rem;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-            .el-image {
-                width: 100%;
-                height: 100%;
-                transition: transform 0.3s ease;
-
-                &:hover {
-                    transform: scale(1.02);
                 }
             }
         }
@@ -1273,70 +1123,175 @@ onMounted(() => {
 
             .markdown-body {
                 font-size: 1rem;
-                line-height: 1.7;
-                color: #334155;
+                line-height: 1.8;
+                color: #24292e;
+                padding: 1rem 0;
 
-                h1 { 
-                    font-size: 1.8rem;
-                    margin: 2rem 0 1.5rem;
-                    padding-bottom: 0.5rem;
-                    border-bottom: 2px solid rgba(14, 165, 233, 0.1);
+                :deep(.md-preview) {
+                    background: transparent;
+                    padding: 0;
                 }
-                h2 { 
-                    font-size: 1.6rem;
-                    margin: 1.8rem 0 1.3rem;
+
+                :deep(h1) { 
+                    font-size: 2em;
+                    margin: 1em 0 0.5em;
+                    padding-bottom: 0.3em;
+                    border-bottom: 1px solid #eaecef;
+                    color: #24292e;
+                    font-weight: 600;
                 }
-                h3 { 
-                    font-size: 1.4rem;
-                    margin: 1.6rem 0 1.1rem;
+                :deep(h2) { 
+                    font-size: 1.5em;
+                    margin: 1em 0 0.5em;
+                    padding-bottom: 0.3em;
+                    border-bottom: 1px solid #eaecef;
+                    color: #24292e;
+                    font-weight: 600;
                 }
-                p, ul, ol { 
+                :deep(h3) { 
+                    font-size: 1.25em;
+                    margin: 1em 0 0.5em;
+                    color: #24292e;
+                    font-weight: 600;
+                }
+                :deep(h4) {
+                    font-size: 1em;
+                    margin: 1em 0 0.5em;
+                    color: #24292e;
+                    font-weight: 600;
+                }
+                :deep(h5) {
+                    font-size: 0.875em;
+                    margin: 1em 0 0.5em;
+                    color: #24292e;
+                    font-weight: 600;
+                }
+                :deep(h6) {
+                    font-size: 0.85em;
+                    margin: 1em 0 0.5em;
+                    color: #24292e;
+                    font-weight: 600;
+                }
+                :deep(p) { 
                     font-size: 1rem;
-                    margin-bottom: 1rem;
-                    line-height: 1.7;
+                    margin: 0 0 16px;
+                    line-height: 1.8;
+                    color: #24292e;
                 }
-                pre { 
-                    font-size: 0.85rem;
-                    background: #f8fafc;
-                    padding: 1rem;
-                    border-radius: 0.6rem;
-                    margin: 1rem 0;
-                }
-                blockquote { 
+                :deep(ul), :deep(ol) { 
                     font-size: 1rem;
-                    border-left: 4px solid #0ea5e9;
-                    padding: 0.5rem 1rem;
-                    margin: 1rem 0;
-                    background: rgba(14, 165, 233, 0.05);
-                    border-radius: 0 0.4rem 0.4rem 0;
+                    margin: 0 0 16px;
+                    padding-left: 2em;
+                    line-height: 1.8;
+                    color: #24292e;
+
+                    li {
+                        margin: 0.25em 0;
+                    }
                 }
-                img {
-                    max-width: 100%;
-                    border-radius: 0.6rem;
-                    margin: 1rem 0;
-                }
-                code {
-                    background: rgba(14, 165, 233, 0.1);
-                    padding: 0.2rem 0.4rem;
-                    border-radius: 0.3rem;
+                :deep(pre) { 
                     font-size: 0.9rem;
-                    color: #0369a1;
+                    background: #f6f8fa;
+                    padding: 16px;
+                    border-radius: 6px;
+                    margin: 16px 0;
+                    overflow-x: auto;
+                    border: 1px solid #e1e4e8;
+
+                    code {
+                        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                        line-height: 1.45;
+                        font-size: 0.9em;
+                        color: #24292e;
+                    }
                 }
-                table {
+                :deep(blockquote) { 
+                    font-size: 1rem;
+                    border-left: 4px solid #dfe2e5;
+                    padding: 0 1em;
+                    margin: 0 0 16px;
+                    color: #6a737d;
+
+                    p {
+                        margin: 0;
+                    }
+                }
+                :deep(img) {
+                    max-width: 100%;
+                    box-sizing: border-box;
+                    margin: 16px 0;
+                    display: block;
+                }
+                :deep(code) {
+                    background: rgba(27, 31, 35, 0.05);
+                    padding: 0.2em 0.4em;
+                    border-radius: 3px;
+                    font-size: 0.9em;
+                    color: #24292e;
+                    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+                }
+                :deep(table) {
                     width: 100%;
                     border-collapse: collapse;
-                    margin: 1rem 0;
-                    font-size: 0.9rem;
+                    margin: 16px 0;
+                    font-size: 0.9em;
+                    border: 1px solid #dfe2e5;
 
                     th, td {
-                        padding: 0.8rem;
-                        border: 1px solid #e2e8f0;
+                        padding: 6px 13px;
+                        border: 1px solid #dfe2e5;
                     }
 
                     th {
-                        background: rgba(14, 165, 233, 0.1);
-                        color: #0369a1;
+                        background: #f6f8fa;
+                        color: #24292e;
+                        font-weight: 600;
                     }
+
+                    tr:nth-child(even) {
+                        background: #f6f8fa;
+                    }
+
+                    tr:hover {
+                        background: #f6f8fa;
+                    }
+                }
+                :deep(a) {
+                    color: #0366d6;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+                :deep(hr) {
+                    height: 0.25em;
+                    padding: 0;
+                    margin: 24px 0;
+                    background-color: #e1e4e8;
+                    border: 0;
+                }
+                :deep(del) {
+                    color: #6a737d;
+                }
+                :deep(strong) {
+                    font-weight: 600;
+                }
+                :deep(em) {
+                    font-style: italic;
+                }
+                :deep(kbd) {
+                    background-color: #fafbfc;
+                    border: 1px solid #d1d5da;
+                    border-bottom-color: #c6cbd1;
+                    border-radius: 3px;
+                    box-shadow: inset 0 -1px 0 #c6cbd1;
+                    color: #444d56;
+                    display: inline-block;
+                    font-size: 0.9em;
+                    line-height: 1;
+                    padding: 3px 5px;
+                    vertical-align: middle;
                 }
             }
 
@@ -1856,10 +1811,6 @@ onMounted(() => {
                         padding: 0.4rem 0.6rem;
                     }
                 }
-            }
-
-            .ArticleDetail_header_cover {
-                height: 260px;
             }
         }
 

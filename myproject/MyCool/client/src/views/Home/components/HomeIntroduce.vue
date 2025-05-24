@@ -24,7 +24,7 @@
     import TextCard from '@/components/TextCard.vue';
     import DateTimeCard from '@/components/DateTimeCard.vue';
     import { ref, onMounted } from 'vue';
-    import axios from 'axios';
+    import axios from '../../../api'
 
     interface Article {
         articleId: number;
