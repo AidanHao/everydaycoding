@@ -34,8 +34,7 @@
                     <h3>热门文章</h3>
                     <div class="hot-articles">
                         <div v-for="hot in hotArticles" :key="hot.id" 
-                             class="hot-item" 
-                             @click="goToArticle(hot.id)">
+                             class="hot-item">
                             <div class="hot-rank" :class="{ 'top-3': hot.rank <= 3 }">{{ hot.rank }}</div>
                             <div class="hot-content">
                                 <div class="hot-title">{{ hot.title }}</div>
@@ -51,8 +50,7 @@
                     <h3>最新文章</h3>
                     <div class="latest-articles">
                         <div v-for="latest in latestArticles" :key="latest.id" 
-                             class="latest-item" 
-                             @click="goToArticle(latest.id)">
+                             class="latest-item">
                             <div class="latest-cover" v-if="latest.cover">
                                 <el-image :src="latest.cover" fit="cover" />
                             </div>
@@ -107,8 +105,7 @@
                     <h3>相关文章</h3>
                     <div class="related-articles">
                         <div v-for="related in relatedArticles" :key="related.id" 
-                             class="related-item" 
-                             @click="goToArticle(related.id)">
+                             class="related-item">
                             <div class="related-cover" v-if="related.cover">
                                 <el-image :src="related.cover" fit="cover" />
                             </div>
@@ -332,15 +329,6 @@ const renderedContent = computed(() => {
 const formatDate = (date: string | undefined) => {
     if (!date) return '';
     return new Date(date).toLocaleDateString()
-}
-
-const goToArticle = (id: string | undefined) => {
-    if (typeof id === 'string') {
-        router.push({
-            path: `/article/${id}`,
-            query: { _t: Date.now() }
-        })
-    }
 }
 
 const handleLike = () => {
@@ -622,13 +610,6 @@ watch(() => route.params.id, (newId) => {
         fetchArticleDetail(newId)
     }
 }, { immediate: true })
-
-onMounted(() => {
-    const id = route.params.id
-    if (typeof id === 'string') {
-        fetchArticleDetail(id)
-    }
-})
 </script>
 
 <style lang="less" scoped>
@@ -773,15 +754,9 @@ onMounted(() => {
                         align-items: center;
                         padding: 0.8rem;
                         border-radius: 0.6rem;
-                        cursor: pointer;
                         transition: all 0.3s ease;
                         margin-bottom: 0.8rem;
                         background: rgba(14, 165, 233, 0.05);
-
-                        &:hover {
-                            background: rgba(14, 165, 233, 0.1);
-                            transform: translateX(4px);
-                        }
 
                         .hot-rank {
                             width: 24px;
@@ -831,30 +806,10 @@ onMounted(() => {
                         gap: 0.8rem;
                         padding: 0.8rem;
                         border-radius: 0.6rem;
-                        cursor: pointer;
                         transition: all 0.3s ease;
                         margin-bottom: 0.8rem;
                         background: rgba(14, 165, 233, 0.05);
                         border: 1px solid rgba(14, 165, 233, 0.1);
-
-                        &:hover {
-                            background: rgba(14, 165, 233, 0.1);
-                            transform: translateX(4px);
-                            border-color: rgba(14, 165, 233, 0.2);
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-                            .latest-cover {
-                                .el-image {
-                                    transform: scale(1.05);
-                                }
-                            }
-
-                            .latest-content {
-                                .latest-title {
-                                    color: #0369a1;
-                                }
-                            }
-                        }
 
                         .latest-cover {
                             width: 70px;
@@ -867,7 +822,6 @@ onMounted(() => {
                                 width: 100%;
                                 height: 100%;
                                 object-fit: cover;
-                                transition: all 0.3s ease;
                             }
                         }
 
@@ -885,12 +839,82 @@ onMounted(() => {
                                 -webkit-box-orient: vertical;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
-                                transition: all 0.3s ease;
                             }
 
                             .latest-meta {
                                 font-size: 0.8rem;
                                 color: #64748b;
+                            }
+                        }
+                    }
+                }
+
+                .related-articles {
+                    .related-item {
+                        display: flex;
+                        gap: 0.8rem;
+                        padding: 0.8rem;
+                        border-radius: 0.6rem;
+                        transition: all 0.3s ease;
+                        margin-bottom: 0.8rem;
+                        background: rgba(255, 255, 255, 0.9);
+                        border: 1px solid rgba(14, 165, 233, 0.1);
+                        position: relative;
+                        overflow: hidden;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        .related-cover {
+                            width: 70px;
+                            height: 50px;
+                            border-radius: 0.4rem;
+                            overflow: hidden;
+                            flex-shrink: 0;
+                            position: relative;
+
+                            .el-image {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
+
+                        .related-content {
+                            flex: 1;
+                            min-width: 0;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+
+                            .related-title {
+                                font-size: 0.9rem;
+                                color: #334155;
+                                margin-bottom: 0.4rem;
+                                line-height: 1.4;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+
+                            .related-meta {
+                                display: flex;
+                                gap: 0.8rem;
+                                font-size: 0.8rem;
+                                color: #64748b;
+
+                                .meta-item {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 0.3rem;
+
+                                    .el-icon {
+                                        font-size: 0.9rem;
+                                    }
+                                }
                             }
                         }
                     }
@@ -972,137 +996,6 @@ onMounted(() => {
                         &.toc-level-4 { padding-left: 3.2rem; }
                         &.toc-level-5 { padding-left: 4rem; }
                         &.toc-level-6 { padding-left: 4.8rem; }
-                    }
-                }
-
-                .related-articles {
-                    .related-item {
-                        display: flex;
-                        gap: 0.8rem;
-                        padding: 0.8rem;
-                        border-radius: 0.6rem;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                        margin-bottom: 0.8rem;
-                        background: rgba(255, 255, 255, 0.9);
-                        border: 1px solid rgba(14, 165, 233, 0.1);
-                        position: relative;
-                        overflow: hidden;
-
-                        &:last-child {
-                            margin-bottom: 0;
-                        }
-
-                        &:hover {
-                            background: rgba(255, 255, 255, 0.95);
-                            transform: translateX(4px);
-                            border-color: rgba(14, 165, 233, 0.2);
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-                            .related-cover {
-                                .el-image {
-                                    transform: scale(1.05);
-                                }
-
-                                &::after {
-                                    opacity: 0;
-                                }
-                            }
-
-                            .related-content {
-                                .related-title {
-                                    color: #0369a1;
-                                }
-
-                                .related-meta {
-                                    .meta-item {
-                                        color: #0ea5e9;
-                                    }
-                                }
-                            }
-
-                            &::before {
-                                opacity: 1;
-                            }
-                        }
-
-                        .related-cover {
-                            width: 70px;
-                            height: 50px;
-                            border-radius: 0.4rem;
-                            overflow: hidden;
-                            flex-shrink: 0;
-                            position: relative;
-
-                            &::after {
-                                content: '';
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                right: 0;
-                                bottom: 0;
-                                background: rgba(0, 0, 0, 0.1);
-                                transition: all 0.3s ease;
-                            }
-
-                            .el-image {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                                transition: all 0.3s ease;
-                            }
-                        }
-
-                        .related-content {
-                            flex: 1;
-                            min-width: 0;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-
-                            .related-title {
-                                font-size: 0.9rem;
-                                color: #334155;
-                                margin-bottom: 0.4rem;
-                                line-height: 1.4;
-                                display: -webkit-box;
-                                -webkit-line-clamp: 2;
-                                -webkit-box-orient: vertical;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                transition: all 0.3s ease;
-                            }
-
-                            .related-meta {
-                                display: flex;
-                                gap: 0.8rem;
-                                font-size: 0.8rem;
-                                color: #64748b;
-
-                                .meta-item {
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 0.3rem;
-                                    transition: all 0.3s ease;
-
-                                    .el-icon {
-                                        font-size: 0.9rem;
-                                    }
-                                }
-                            }
-                        }
-
-                        &::before {
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 3px;
-                            height: 100%;
-                            background: #0ea5e9;
-                            opacity: 0;
-                            transition: all 0.3s ease;
-                        }
                     }
                 }
             }
