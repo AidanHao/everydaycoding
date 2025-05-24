@@ -1102,8 +1102,14 @@ const handleMarkdownImageUpload = async (files: FileList, callback: (urls: strin
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file.type.startsWith('image/')) {
-            const objectUrl = URL.createObjectURL(file);
-            urls.push(objectUrl);
+            try {
+                // 使用之前定义的压缩图片函数
+                const base64 = await compressImage(file);
+                urls.push(base64);
+            } catch (error) {
+                console.error('图片处理失败:', error);
+                ElMessage.error('图片处理失败，请重试');
+            }
         }
     }
     callback(urls);

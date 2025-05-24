@@ -24,6 +24,7 @@ app.use(article.routes(), article.allowedMethods());
 
 // 启动服务器
 const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const HOST = '192.168.137.1';  // 监听所有网络接口
+app.listen(PORT, HOST, () => {
+  console.log(`Server is running on http://${HOST}:${PORT}`);
 }); 

@@ -55,12 +55,7 @@
     const getHomeArticles = async () => {
         try {
             console.log('开始获取首页文章...');
-            const response = await axios.get('http://localhost:3000/getHomeArticles', {
-                params: {
-                    page: 1,
-                    pageSize: 10
-                }
-            });
+            const response = await axios.get('/getHomeArticles?page=1&pageSize=10');
             
             console.log('API响应:', response.data);
             
