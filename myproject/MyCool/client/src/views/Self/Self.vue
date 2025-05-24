@@ -1186,9 +1186,12 @@ const goToArticle = (id: string) => {
 // 添加路由守卫来监听路由变化
 onMounted(() => {
     // 检查登录状态
-    checkLoginStatus()
-    // 获取用户文章列表
-    getUserArticles()
+    checkLoginStatus().then(() => {
+        // 只有在用户登录后才获取用户文章列表
+        if (isLoggedIn.value) {
+            getUserArticles()
+        }
+    })
 
     // 添加路由变化监听
     router.beforeEach(async (to, from, next) => {

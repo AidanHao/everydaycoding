@@ -11,6 +11,7 @@ const { deleteArticle } = require("../../database/article/deleteArticle");
 const { getRecommendedArticles } = require("../../database/article/recommonedArticle");
 const { getLatestArticles } = require("../../database/article/latestArticle");
 const { searchArticles } = require("../../database/article/searchArticle");
+const { getHomeArticle } = require("../../database/article/getHomeArticle");
 
 let sessionData = {};
 
@@ -289,6 +290,29 @@ router.get("/searchArticles", async (ctx) => {
             code: "8006",
             data: null,
             msg: "搜索文章失败"
+        };
+    }
+});
+
+//获取首页文章
+router.get("/getHomeArticles", async (ctx) => {
+    try {
+        const { page = 1, pageSize = 10 } = ctx.query;
+        
+        // 调用获取首页文章方法
+        const result = await getHomeArticle(parseInt(page), parseInt(pageSize));
+        
+        ctx.body = {
+            code: "8000",
+            data: result,
+            msg: "获取首页文章成功"
+        };
+    } catch (error) {
+        console.error("获取首页文章失败:", error);
+        ctx.body = {
+            code: "8006",
+            data: null,
+            msg: "获取首页文章失败"
         };
     }
 });
