@@ -11,7 +11,7 @@ interface ApiResponse<T = any> {
 
 // 封装axios将相应的功能封装好
 const instance: AxiosInstance = axios.create({
-    baseURL: 'http://192.168.137.1:3000',
+    baseURL: 'http://localhost:3000',
     timeout: 10000, // 添加超时时间
     headers: {
         'Content-Type': 'application/json'

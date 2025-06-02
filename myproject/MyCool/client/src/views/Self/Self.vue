@@ -761,10 +761,10 @@ const getUserInfo = async () => {
         }
     } catch (error) {
         console.error('获取用户信息失败:', error)
-        ElMessage.error('获取用户信息失败')
         // 如果获取用户信息失败，可能是token过期，清除登录状态
         isLoggedIn.value = false
         localStorage.removeItem('userToken')
+        // 不再显示错误消息，直接显示未登录界面
     }
 }
 
